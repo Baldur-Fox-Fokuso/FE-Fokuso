@@ -13,7 +13,6 @@ export default function Timer({ time }) {
 
 const styles = {
   container: {
-    flex: 0.3,
     justifyContent: "center",
     backgroundColor: "#F2F2F2",
     padding: 15,

@@ -9,7 +9,7 @@ import Home from "../screens/Home";
 import LandingPage from "../screens/Welcome";
 import SignUpScreen from "../screens/Signup";
 import Login from "../screens/Login";
-import BottomTabs from "../screens/components/Bottom-tab/Bottom-tab";
+import Dashboard from "../screens/Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,7 +67,7 @@ export default function MainStack() {
 
           <Stack.Screen
             name="Home"
-            component={BottomTabs}
+            component={Dashboard}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

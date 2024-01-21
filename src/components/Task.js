@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -12,7 +13,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import TaskCard from "../components/TaskCard";
+import TaskCard from "./TaskCard";
 
 const taskList = [
   {
@@ -61,7 +62,7 @@ export default function Task({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.task}>
-          <View style={{ width: "80%", backgroundColor: "red" }}>
+          <View style={{ width: "80%" }}>
             <FlatList
               data={task}
               renderItem={({ item, index }) => (

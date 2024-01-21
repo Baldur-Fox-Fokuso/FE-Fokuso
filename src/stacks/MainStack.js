@@ -4,12 +4,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useContext, useEffect } from "react";
 // import { AuthContext } from "../src/context/AuthContext";
 // import { getValueFor } from "../src/helpers/secureStore";
-import Session from "../screens/Session";
-import Task from "../components/Task";
+
 import Home from "../screens/Home";
 import LandingPage from "../screens/Welcome";
 import SignUpScreen from "../screens/Signup";
 import Login from "../screens/Login";
+import BottomTabs from "../screens/components/Bottom-tab/Bottom-tab";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,7 +48,7 @@ export default function MainStack() {
           /> */}
           
 
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Welcome"
             component={LandingPage}
             options={{ headerShown: false }}
@@ -63,11 +63,11 @@ export default function MainStack() {
             name="Login"
             component={Login}
             options={{ headerShown: false }}
-          />
+          /> */}
 
           <Stack.Screen
             name="Home"
-            component={Home}
+            component={BottomTabs}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

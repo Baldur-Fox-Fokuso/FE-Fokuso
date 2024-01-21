@@ -5,7 +5,7 @@ export default function TaskCard({ task }) {
     <TouchableOpacity>
       <View
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#000000",
           padding: 25,
           borderRadius: 15,
           flexDirection: "row",
@@ -15,7 +15,12 @@ export default function TaskCard({ task }) {
         }}
       >
         <View>
-          <Text>{task.name}</Text>
+          <Text
+          style={{
+            color : 'white',
+            fontSize : 15,
+            fontWeight : '800'
+          }} >{task.name}</Text>
         </View>
       </View>
     </TouchableOpacity>

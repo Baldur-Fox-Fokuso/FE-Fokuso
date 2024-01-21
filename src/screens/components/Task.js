@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -12,7 +13,7 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import TaskCard from "../components/TaskCard";
+import TaskCard from "./TaskCard";
 
 const taskList = [
   {
@@ -49,25 +50,20 @@ export default function Task({ navigation }) {
             Halo, User!
           </Text>
         </View>
-        <View style={styles.add}>
-          <TextInput
-            name="name"
-            value={newTask}
-            placeholder="useless placeholder"
-            onChangeText={setNewTask}
-          />
-          <TouchableOpacity style={styles.button} onPress={addTask}>
-            <Text>ADD TASK</Text>
-          </TouchableOpacity>
-        </View>
+
         <View style={styles.task}>
-          <View style={{ width: "80%", backgroundColor: "red" }}>
+          <View style={{ width: "80%" }}>
             <FlatList
               data={task}
               renderItem={({ item, index }) => (
                 <TaskCard key={index} task={item} />
               )}
             />
+          </View>
+          <View style={styles.add}>
+            <TouchableOpacity style={styles.button} onPress={addTask}>
+              <Text>ADD TASK</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -89,12 +85,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
     alignItems: "flex-start",
-    backgroundColor: "pink",
+    backgroundColor: "#ffffff",
     height: screenSize.height / 15,
   },
   task: {
-    flex: 4,
-    backgroundColor: "blue",
+    flex: 1,
+    backgroundColor: "#ffffff",
     justifyContent: "center",
     alignItems: "center",
   },

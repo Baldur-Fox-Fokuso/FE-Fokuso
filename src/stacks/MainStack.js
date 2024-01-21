@@ -4,8 +4,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useContext, useEffect } from "react";
 // import { AuthContext } from "../src/context/AuthContext";
 // import { getValueFor } from "../src/helpers/secureStore";
-import Session from "../pages/Session";
-import Task from "../pages/Task";
+
+import Home from "../screens/Home";
+import LandingPage from "../screens/Welcome";
+import SignUpScreen from "../screens/Signup";
+import Login from "../screens/Login";
+import Dashboard from "../screens/Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,14 +36,38 @@ export default function MainStack() {
         //     headerTintColor: "white",
         //   }}
         >
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Task"
             component={Task}
             options={{ headerShown: false }}
-          />
-          <Stack.Screen
+          /> */}
+          {/* <Stack.Screen
             name="Session"
             component={Session}
+            options={{ headerShown: false }}
+          /> */}
+          
+
+          {/* <Stack.Screen
+            name="Welcome"
+            component={LandingPage}
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="Signup"
+            component={SignUpScreen}
+            options={{ headerShown: false }}
+          />
+            <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          /> */}
+
+          <Stack.Screen
+            name="Home"
+            component={Dashboard}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

@@ -10,6 +10,11 @@ import LandingPage from "../screens/Welcome";
 import SignUpScreen from "../screens/Signup";
 import Login from "../screens/Login";
 import Dashboard from "../screens/Home";
+import Task from "../screens/components/Task";
+import Session from "../screens/Session";
+import Music from "../screens/components/music";
+import Notification from "../screens/components/notification";
+import Profile from "../screens/components/profile";
 
 const Stack = createNativeStackNavigator();
 
@@ -41,12 +46,17 @@ export default function MainStack() {
             component={Task}
             options={{ headerShown: false }}
           /> */}
+
+          <Stack.Screen name="Profile" component={Profile} />
+
+          {/* <Stack.Screen name="Music" component={Music} options={""} /> */}
+          {/* <Stack.Screen name="Notification" component={Music} options={""} /> */}
+
           {/* <Stack.Screen
             name="Session"
             component={Session}
             options={{ headerShown: false }}
           /> */}
-          
 
           {/* <Stack.Screen
             name="Welcome"
@@ -59,17 +69,17 @@ export default function MainStack() {
             component={SignUpScreen}
             options={{ headerShown: false }}
           />
-            <Stack.Screen
+          <Stack.Screen
             name="Login"
             component={Login}
             options={{ headerShown: false }}
           /> */}
 
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Home"
             component={Dashboard}
             options={{ headerShown: false }}
-          />
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </>

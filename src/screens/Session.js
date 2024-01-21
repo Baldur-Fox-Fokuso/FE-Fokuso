@@ -9,12 +9,13 @@ import {
   StatusBar,
 } from "react-native";
 
-import Timer from "../components/Timer";
-import Header from "../components/Header";
+import Timer from "./components/Timer";
+import Header from "./components/Header";
 
 export default function Session({ route }) {
-  const { name } = route.params;
-  console.log(name, "<<<<<<<<");
+  // console.log(route, "ini route");
+  const { name } = route;
+  // console.log(name, "<<<<<<<<");
   const options = ["Pomodoro", "Short Break", "Long Break"];
   const [isActive, setIsActive] = useState(false);
   const [isWorking, setIsWorking] = useState(true);

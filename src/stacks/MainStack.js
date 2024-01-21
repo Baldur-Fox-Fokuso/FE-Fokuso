@@ -15,6 +15,7 @@ import Session from "../screens/Session";
 import Music from "../screens/components/music";
 import Notification from "../screens/components/notification";
 import Profile from "../screens/components/profile";
+import TestOpenAI from "../screens/components/testOpenAi";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,7 +48,9 @@ export default function MainStack() {
             options={{ headerShown: false }}
           /> */}
 
-          <Stack.Screen name="Profile" component={Profile} />
+          {/* <Stack.Screen name="Profile" component={Profile} /> */}
+
+          <Stack.Screen name="TestOpenAI" component={TestOpenAI} />
 
           {/* <Stack.Screen name="Music" component={Music} options={""} /> */}
           {/* <Stack.Screen name="Notification" component={Music} options={""} /> */}

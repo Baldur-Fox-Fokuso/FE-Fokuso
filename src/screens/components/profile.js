@@ -9,8 +9,9 @@ import { View, Text, StyleSheet, Image, FlatList } from "react-native";
 // implement gravatar pakai md5 untuk photo profilenya
 import md5 from "md5";
 
-const email = "skyhawk57@gmail.com";
-// const email = "michaelgs1997@gmail.com";
+// const email = "affriyanr@mail.com";
+// const email = "skyhawk57@gmail.com";
+const email = "michaelgs1997@gmail.com";
 
 const gravatarUrl = `https://www.gravatar.com/avatar/${md5(email)}?d=identicon`;
 

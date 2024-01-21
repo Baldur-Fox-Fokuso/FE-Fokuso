@@ -66,11 +66,26 @@ export default function TestOpenAI() {
           "X-RapidAPI-Host": "chatgpt-ai-chat-bot.p.rapidapi.com",
         },
         data: {
-          query: inputText,
+          query: `buatkan saya todo list untuk ${inputText}, jadikan dalam bentuk array`,
         },
       };
       const response = await axios.request(options);
-      console.log(response.data, "aku berhasil");
+      //   console.log(response.data.response, "aku string");
+
+      const regex = /\[(.*?)\]/s;
+      const matches = response.data.response.match(regex);
+
+      // Check if there are matches and extract the content
+      const toDoListString = matches ? matches[1] : null;
+
+      // Parse the extracted string as JSON to get the array
+      const toDoList = toDoListString
+        ? JSON.parse(`[${toDoListString}]`)
+        : null;
+
+      console.log(toDoList, "aku array");
+
+      setOutputText(toDoList);
     } catch (error) {
       console.error("OpenAI API error:", error);
       //   if (error.response && error.response.status === 429) {

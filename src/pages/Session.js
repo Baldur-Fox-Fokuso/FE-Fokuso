@@ -13,8 +13,8 @@ import Timer from "../components/Timer";
 import Header from "../components/Header";
 
 export default function Session({ route }) {
-  const { name } = route.params;
-  console.log(name, "<<<<<<<<");
+  // const { name } = route.params;
+  // console.log(name, "<<<<<<<<");
   const options = ["Pomodoro", "Short Break", "Long Break"];
   const [isActive, setIsActive] = useState(false);
   const [isWorking, setIsWorking] = useState(true);
@@ -63,7 +63,7 @@ export default function Session({ route }) {
           }}
         >
           <View style={{ flex: 1 }}>
-            <Text style={{ color: "white", fontSize: 30 }}>{name}</Text>
+            <Text style={{ color: "white", fontSize: 30 }}>Nama</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Header

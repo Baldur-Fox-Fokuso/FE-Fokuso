@@ -3,9 +3,6 @@ import { View, Button } from "react-native";
 import * as Notifications from "expo-notifications";
 import { Asset } from "expo-asset";
 
-// pake file system untuk local sound notification
-import * as FileSystem from "expo-file-system";
-
 const Notification = () => {
   React.useEffect(() => {
     Notifications.setNotificationHandler({

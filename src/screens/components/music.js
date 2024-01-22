@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Button } from "react-native";
+import { View, Button, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Music = () => {
   const [sound, setSound] = useState();
@@ -43,9 +44,13 @@ const Music = () => {
   };
 
   return (
-    <View>
-      <Button title={isPlaying ? "Pause" : "Play"} onPress={togglePlayPause} />
-    </View>
+    <TouchableOpacity onPress={togglePlayPause}>
+      {isPlaying ? (
+        <MaterialIcons name="music-note" size={24} color="black" />
+      ) : (
+        <MaterialIcons name="music-off" size={24} color="black" />
+      )}
+    </TouchableOpacity>
   );
 };
 

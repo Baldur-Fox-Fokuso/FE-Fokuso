@@ -19,17 +19,28 @@ export default function Add({ navigation }) {
       const { data } = await axios({
         url: "/task",
         method: "POST",
-        data: formTask,
+        data: {
+          name,
+          description,
+          deadline,
+          subTasks: arrSub,
+        },
         headers: {
           Authorization: `Bearer ${await getValueFor("access_token")}`,
         },
       });
-      navigation.navigate("Home");
+      setName("");
+      setDescription("");
+      setDeadline("");
+      navigation.navigate("Home", { refetch: true });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [deadline, setDeadline] = useState("");
   const [formTask, setFormTask] = useState({
     name: "",
     description: "",
@@ -37,20 +48,18 @@ export default function Add({ navigation }) {
     deadline: "",
   });
 
-  console.log(formTask.subTasks);
+  // console.log(formTask.subTasks);
 
+  const [arrSub, setArrSub] = useState([]);
   const [subT, setSubTask] = useState("");
+  const [arrSubAI, setArrSubAI] = useState([]);
 
   const addSubTask = () => {
-    setFormTask({ ...formTask, subTasks: [...formTask.subTasks, subT] });
+    setArrSub([...arrSub, subT]);
     setSubTask("");
   };
 
-  console.log(formTask);
-
-  const onChangeText = (text, input) => {
-    setFormTask((formTask) => ({ ...formTask, [input]: text }));
-  };
+  // console.log(formTask);
 
   return (
     <View
@@ -62,15 +71,17 @@ export default function Add({ navigation }) {
     >
       {/* add task form */}
       <View
-        style={{
-          backgroundColor: "green",
-        }}
+        style={
+          {
+            // backgroundColor: "green",
+          }
+        }
       >
         <Text>Title</Text>
         <TextInput
           name="name"
           placeholder="Write a title"
-          onChangeText={(text) => onChangeText(text, "name")}
+          onChangeText={(text) => setName(text)}
           style={{
             height: screenSize.height / 15,
             margin: 12,
@@ -78,12 +89,13 @@ export default function Add({ navigation }) {
             padding: 10,
             borderRadius: 20,
           }}
+          value={name}
         />
         <Text>Description</Text>
         <TextInput
           name="description"
           placeholder="Write a description"
-          onChangeText={(text) => onChangeText(text, "description")}
+          onChangeText={(text) => setDescription(text)}
           multiline={true}
           numberOfLines={10}
           style={{
@@ -93,6 +105,7 @@ export default function Add({ navigation }) {
             margin: 12,
             borderRadius: 20,
           }}
+          value={description}
         />
         <Text>Sub-Task</Text>
         <View
@@ -125,7 +138,7 @@ export default function Add({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-        {formTask.subTasks.map((subT, index) => (
+        {arrSub.map((subT, index) => (
           <View
             key={index}
             style={{

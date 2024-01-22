@@ -31,7 +31,7 @@ const color = [
   "D2DE32",
   "5F0F40",
 ];
-export default function TaskCard({ task }) {
+export default function TaskCard({ navigation, task }) {
   // let [fontsLoaded] = useFonts({
   //   Rancho_400Regular,
   // });
@@ -40,6 +40,10 @@ export default function TaskCard({ task }) {
   // }
   return (
     <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("DetailTask", { task });
+        console.log("masuk taskcard");
+      }}
       style={[styles.item, { backgroundColor: generateColor() }]}
     >
       <Card.Title style={styles.itemText}>{task.name}</Card.Title>

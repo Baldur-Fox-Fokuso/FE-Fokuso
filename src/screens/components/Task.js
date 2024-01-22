@@ -17,47 +17,15 @@ import {
 import TaskCard from "./TaskCard";
 import RecentList from "./RecentList";
 import { Divider } from "@rneui/base";
-// import { Raleway_200ExtraLight } from "@expo-google-fonts/raleway";
-// import { Quicksand_300Light } from "@expo-google-fonts/quicksand";
-// import { useFonts } from "expo-font";
-// import { GrapeNuts_400Regular } from "@expo-google-fonts/grape-nuts";
 import { deleteItemAsync } from "expo-secure-store";
+import axios from "../../config/instance";
+import { getValueFor } from "../SecureStore";
 
-const taskList = [
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Ngoding",
-  },
-  {
-    name: "Membuat halaman profildqwdwqdqweqwr",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-
-  {
-    name: "Desain Web",
-  },
-];
-
-export default function Task({ navigation }) {
+export default function Task({ navigation, route }) {
   const height = Dimensions.get("screen").height;
-  const [task, setTask] = useState(taskList);
+  const [task, setTask] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [fetchCounter, setFetchCounter] = useState(0);
   // const [fontsLoaded] = useFonts({
   //   Raleway_200ExtraLight,
   //   Quicksand_300Light,
@@ -67,9 +35,33 @@ export default function Task({ navigation }) {
   //   return <Text>Loading....</Text>;
   // }
 
-  const addTask = () => {
-    setTask((task) => [...task, { name: newTask }]);
+  const fetchTask = async () => {
+    const userId = await getValueFor("userId");
+    const token = await getValueFor("access_token");
+    console.log(userId, "<<<<< userId di task");
+    try {
+      const { data } = await axios({
+        url: `/user/${userId}/task`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(data, "<<<<< ini data task");
+      setTask(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  const refetch = route?.params?.refetch;
+  // if (route?.params?.refetch) fetchTask();
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchTask();
+    }, 1000);
+  }, [fetchCounter]); // TODO: Refetching belum bisa
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "space-evenly" }}>
@@ -95,7 +87,7 @@ export default function Task({ navigation }) {
               horizontal={true}
               data={task}
               renderItem={({ item, index }) => (
-                <TaskCard key={index} task={item} />
+                <TaskCard key={index} task={item} navigation={navigation} />
               )}
             />
           </View>

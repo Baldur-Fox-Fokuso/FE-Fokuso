@@ -14,6 +14,12 @@ import {
   Dimensions,
 } from "react-native";
 import TaskCard from "./TaskCard";
+import RecentList from "./RecentList";
+import { Divider } from "@rneui/base";
+import { Raleway_200ExtraLight } from "@expo-google-fonts/raleway";
+import { Quicksand_300Light } from "@expo-google-fonts/quicksand";
+import { useFonts } from "expo-font";
+import { GrapeNuts_400Regular } from "@expo-google-fonts/grape-nuts";
 
 const taskList = [
   {
@@ -23,7 +29,26 @@ const taskList = [
     name: "Ngoding",
   },
   {
-    name: "Membuat halaman profil",
+    name: "Membuat halaman profildqwdwqdqweqwr",
+  },
+  {
+    name: "Desain Web",
+  },
+  {
+    name: "Desain Web",
+  },
+  {
+    name: "Desain Web",
+  },
+  {
+    name: "Desain Web",
+  },
+  {
+    name: "Desain Web",
+  },
+
+  {
+    name: "Desain Web",
   },
 ];
 
@@ -31,43 +56,69 @@ export default function Task({ navigation }) {
   const height = Dimensions.get("screen").height;
   const [task, setTask] = useState(taskList);
   const [newTask, setNewTask] = useState("");
-  console.log(newTask);
+  const [fontsLoaded] = useFonts({
+    Raleway_200ExtraLight,
+    Quicksand_300Light,
+    GrapeNuts_400Regular,
+  });
+  if (!fontsLoaded) {
+    return <Text>Loading....</Text>;
+  }
+
   const addTask = () => {
     setTask((task) => [...task, { name: newTask }]);
   };
-  console.log(task, ">>>>>>>> task");
 
-  // Tambah flatlist di card
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      {/* <ScrollView style={{ height: height }}> */}
+    <SafeAreaView style={{ flex: 1, justifyContent: "space-evenly" }}>
       <StatusBar />
+
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text
-            style={{ fontSize: screenSize.height / 55, fontWeight: "bold" }}
-          >
-            Halo, User!
-          </Text>
+          <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
         </View>
-
-        <View style={styles.task}>
-          <View style={{ width: "80%" }}>
+        <Text style={styles.quicksand}>Recent Task</Text>
+        <View
+          style={{
+            width: "40%",
+            paddingBottom: 4,
+          }}
+        >
+          <Divider width={3} color="#000000" />
+        </View>
+        <View style={[styles.task, { flexDirection: "row", flex: 1 }]}>
+          <View style={{ width: "100%" }}>
             <FlatList
+              horizontal={true}
               data={task}
               renderItem={({ item, index }) => (
                 <TaskCard key={index} task={item} />
               )}
             />
           </View>
-          <View style={styles.add}>
-            <TouchableOpacity style={styles.button} onPress={addTask}>
-              <Text>ADD TASK</Text>
-            </TouchableOpacity>
+        </View>
+        <Text style={styles.raleway}>Today Task</Text>
+        <View
+          style={{
+            width: "40%",
+            paddingBottom: 4,
+          }}
+        >
+          <Divider width={3} color="#000000" />
+        </View>
+
+        <View style={[styles.task, { paddingLeft: 15, flex: 2 }]}>
+          <View style={{ width: "100%" }}>
+            <FlatList
+              data={task}
+              horizontal={false}
+              renderItem={({ item, index }) => (
+                <RecentList key={index} task={item} />
+              )}
+            />
           </View>
         </View>
       </View>
-      {/* </ScrollView> */}
     </SafeAreaView>
   );
 }
@@ -79,24 +130,22 @@ const screenSize = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "green",
   },
   header: {
     justifyContent: "center",
-    padding: 20,
+    padding: 10,
     alignItems: "flex-start",
-    backgroundColor: "#ffffff",
-    height: screenSize.height / 15,
+
+    height: screenSize.height / 12.5,
   },
   task: {
-    flex: 1,
-    backgroundColor: "#ffffff",
+    alignContent: "center",
     justifyContent: "center",
     alignItems: "center",
   },
   taskHeader: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   add: {
@@ -111,7 +160,21 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   card: {
-    width: "80%",
+    width: 10,
     gap: 30,
+  },
+  raleway: {
+    fontSize: 20,
+    fontFamily: "Quicksand_300Light",
+    paddingLeft: 5,
+    paddingTop: 10,
+    paddingBottom: 5,
+  },
+  quicksand: {
+    fontSize: 20,
+    fontFamily: "Quicksand_300Light",
+    paddingLeft: 5,
+    paddingTop: 10,
+    paddingBottom: 5,
   },
 });

@@ -64,7 +64,7 @@ export default function Session({ route }) {
           }}
         >
           <View style={{ flex: 1 }}>
-            <Text style={{ color: "white", fontSize: 30 }}>{name}</Text>
+            <Text style={{ color: "white", fontSize: 30 }}>Nama</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Header

@@ -101,21 +101,24 @@ const Session1 = () => {
 
       <View style={styles.pickerContainer}>
         <Text style={styles.pickerLabel}>Select Mode:</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={selectedMode}
-          onValueChange={(itemValue) => changeModeRender(itemValue)}
-          //   onValueChange={(itemValue) => setSelectedMode(itemValue)}
-          mode="dropdown"
-        >
-          {modeOptions.map((mode) => (
-            <Picker.Item
-              key={mode.value}
-              label={mode.label}
-              value={mode.value}
-            />
-          ))}
-        </Picker>
+        <View style={{ borderWidth: 5, borderColor: "gray", borderRadius: 5 }}>
+          {/* overlap */}
+          <Picker
+            style={styles.picker}
+            selectedValue={selectedMode}
+            onValueChange={(itemValue) => changeModeRender(itemValue)}
+            //   onValueChange={(itemValue) => setSelectedMode(itemValue)}
+            mode="dropdown"
+          >
+            {modeOptions.map((mode) => (
+              <Picker.Item
+                key={mode.value}
+                label={mode.label}
+                value={mode.value}
+              />
+            ))}
+          </Picker>
+        </View>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -126,7 +129,9 @@ const Session1 = () => {
           ]}
           onPress={toggleTimer}
         >
-          <Text style={styles.buttonText}>{isActive ? "Pause" : "Start"}</Text>
+          <Text style={styles.startButtonText}>
+            {isActive ? "Pause" : "Start"}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={resetTimer}>
           <Text style={styles.buttonText}>Reset</Text>
@@ -141,11 +146,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "white",
   },
   timerText: {
     fontSize: 48,
-    color: "white",
+    color: "black",
   },
   pickerContainer: {
     flexDirection: "row",
@@ -154,14 +159,14 @@ const styles = StyleSheet.create({
   },
   pickerLabel: {
     fontSize: 18,
-    color: "white",
+    color: "black",
     marginRight: 10,
   },
   picker: {
-    backgroundColor: "white",
+    backgroundColor: "gray",
     height: 50,
     width: 200,
-    color: "black",
+    color: "white",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -173,7 +178,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: "black",
   },
   startButton: {
     backgroundColor: "green",
@@ -182,6 +187,9 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
   },
   buttonText: {
+    color: "black",
+  },
+  startButtonText: {
     color: "white",
   },
 });

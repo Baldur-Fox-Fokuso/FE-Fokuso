@@ -12,6 +12,7 @@ import Dashboard from "../screens/Home";
 import { AuthContext } from "../context/AuthContext";
 import { getValueFor } from "../screens/SecureStore";
 import Add from "../screens/Add";
+import MainTabs from "../tab/MainTab";
 
 const Stack = createNativeStackNavigator();
 

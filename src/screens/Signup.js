@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,40 @@ import {
   ImageBackground,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import axios from "../config/instance";
 const image = "https://wallpaper.dog/large/20515986.jpg";
+
 const SignUpScreen = ({ navigation }) => {
+  const [registerForm, setRegisterForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  console.log(registerForm);
+
+  const handleLogin = async () => {
+    try {
+      const { data } = await axios({
+        url: "/register",
+        method: "POST",
+        data: {
+          name: registerForm.name,
+          email: registerForm.email,
+          password: registerForm.password,
+        },
+      });
+      console.log(data);
+      navigation.navigate("Login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onChangeText = (text, input) => {
+    setRegisterForm((registerForm) => ({ ...registerForm, [input]: text }));
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -21,27 +53,28 @@ const SignUpScreen = ({ navigation }) => {
       <Text style={styles.title}>Register</Text>
       <TextInput
         style={styles.input}
-        placeholder="Name..."
+        placeholder="Your name"
         autoCapitalize="none"
-
+        name="name"
+        onChangeText={(text) => onChangeText(text, "name")}
       />
       <TextInput
         style={styles.input}
         placeholder="Example@mail.com"
         autoCapitalize="none"
-        placeholderTextColor=""
+        name="email"
+        onChangeText={(text) => onChangeText(text, "email")}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         autoCapitalize="none"
+        name="password"
+        onChangeText={(text) => onChangeText(text, "password")}
       />
       <TouchableOpacity style={styles.forgotPassword}></TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Home")}
-        style={styles.loginButton}
-      >
+      <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
         <Text style={styles.loginText}>Register</Text>
       </TouchableOpacity>
 
@@ -105,8 +138,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
- 
-  
+
   orContainer: {
     flexDirection: "row",
     alignItems: "center",

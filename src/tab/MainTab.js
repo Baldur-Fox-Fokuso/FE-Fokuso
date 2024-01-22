@@ -13,107 +13,109 @@ import {
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Dashboard from "../screens/Home"
 import Session from "../screens/Session";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRef } from "react";
 import plus from "../../assets/plus.png";
-import FormModalTask from "../modals/Add";
+import Add from "../screens/Add";
+import Task from "../screens/components/Task";
+import AddTaskStack from "../stacks/AddTaskStack";
 
 const Tab = createBottomTabNavigator();
 
 export default function MainTabs() {
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
   return (
-   
-      <Tab.Navigator
-        screenOptions={{
-          headerShown: false,
-          tabBarStyle: {
-            height: 60,
-            position: "absolute",
-            bottom: 16,
-            right: 16,
-            left: 16,
-            borderRadius: 16,
-            alignItems: "center",
-            justifyContent: "center",
-          },
-          tabBarShowLabel: false,
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          height: 60,
+          position: "absolute",
+          bottom: 16,
+          right: 16,
+          left: 16,
+          borderRadius: 16,
+          alignItems: "center",
+          justifyContent: "center",
+        },
+        tabBarShowLabel: false,
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Task}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                // centring Tab Button...
+                position: "absolute",
+                justifyContent: "center",
+              }}
+            >
+              <MaterialIcons
+                name="home-filled"
+                size={30}
+                color={focused ? "red" : "gray"}
+              ></MaterialIcons>
+            </View>
+          ),
         }}
-      >
-        <Tab.Screen
-          name="Task"
-          component={Dashboard}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <View
+      />
+      <Tab.Screen
+        name="AddTab"
+        component={AddTaskStack}
+        options={{
+          tabBarStyle: {
+            display: "none",
+          },
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                width: 55,
+                height: 55,
+                backgroundColor: "red",
+                borderRadius: 30,
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: Platform.OS == "android" ? 50 : 30,
+              }}
+            >
+              <Image
+                source={plus}
                 style={{
-                  // centring Tab Button...
-                  position: "absolute",
-                  justifyContent: "center",
+                  width: 22,
+                  height: 22,
+                  tintColor: "white",
                 }}
-              >
-                <MaterialIcons
-                  name="home-filled"
-                  size={30}
-                  color={focused ? "red" : "gray"}
-                ></MaterialIcons>
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Add"
-          component={FormModalTask}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <View
-                style={{
-                  width: 55,
-                  height: 55,
-                  backgroundColor: "red",
-                  borderRadius: 30,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginBottom: Platform.OS == "android" ? 50 : 30,
-                }}
-              >
-                <Image
-                  source={plus}
-                  style={{
-                    width: 22,
-                    height: 22,
-                    tintColor: "white",
-                  }}
-                ></Image>
-              </View>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Session"
-          component={Session}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <View
-                style={{
-                  // centring Tab Button...
-                  position: "absolute",
-                  justifyContent: "center",
-                }}
-              >
-                <MaterialIcons
-                  name="av-timer"
-                  size={30}
-                  color={focused ? "red" : "gray"}
-                ></MaterialIcons>
-              </View>
-            ),
-          }}
-        />
-      </Tab.Navigator>
- 
+              ></Image>
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="SessionTab"
+        component={Session}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                // centring Tab Button...
+                position: "absolute",
+                justifyContent: "center",
+              }}
+            >
+              <MaterialIcons
+                name="av-timer"
+                size={30}
+                color={focused ? "red" : "gray"}
+              ></MaterialIcons>
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 

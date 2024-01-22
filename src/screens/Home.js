@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import Task from "./components/Task";
+import MainTabs from "../tab/MainTab";
 
-const Dashboard = ({navigation}) => {
+const Dashboard = ({ navigation }) => {
   return (
     <>
-      <Task />
+      <MainTabs />
     </>
   );
 };

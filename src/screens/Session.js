@@ -9,7 +9,7 @@ import {
   StatusBar,
 } from "react-native";
 
-import Timer from "./components/Timer"
+import Timer from "./components/Timer";
 import Header from "./components/Header";
 
 export default function Session({ route }) {

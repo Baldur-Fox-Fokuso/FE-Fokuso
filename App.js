@@ -7,5 +7,5 @@ import MainTabs from "./src/tab/MainTab";
 // import client from './src/config/apollo';
 
 export default function App() {
-  return <MainTabs />;
+  return <MainStack />;
 }

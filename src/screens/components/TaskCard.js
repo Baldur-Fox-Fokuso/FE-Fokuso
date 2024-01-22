@@ -9,7 +9,7 @@ import {
 import { Text, Card } from "@rneui/themed";
 import { AntDesign } from "@expo/vector-icons";
 import ColorfulCard from "react-native-colorful-card";
-import { useFonts, Rancho_400Regular } from "@expo-google-fonts/rancho";
+// import { useFonts, Rancho_400Regular } from "@expo-google-fonts/rancho";
 
 const generateColor = () => {
   const randomColor = Math.floor(Math.random() * color.length);
@@ -32,12 +32,12 @@ const color = [
   "5F0F40",
 ];
 export default function TaskCard({ task }) {
-  let [fontsLoaded] = useFonts({
-    Rancho_400Regular,
-  });
-  if (!fontsLoaded) {
-    return <Text>Loading...</Text>;
-  }
+  // let [fontsLoaded] = useFonts({
+  //   Rancho_400Regular,
+  // });
+  // if (!fontsLoaded) {
+  //   return <Text>Loading...</Text>;
+  // }
   return (
     <TouchableOpacity
       style={[styles.item, { backgroundColor: generateColor() }]}
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   itemText: {
-    fontFamily: "Rancho_400Regular",
+    // fontFamily: "Rancho_400Regular",
     fontSize: 20,
     paddingVertical: 6,
   },

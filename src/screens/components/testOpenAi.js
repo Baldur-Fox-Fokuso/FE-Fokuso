@@ -3,18 +3,18 @@ import React, { useState } from "react";
 import OpenAI from "openai";
 import axios from "axios";
 
-import { OPENAI_API_KEY } from "@env";
+// import { OPENAI_API_KEY } from "@env";
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+// const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 const chatgptUrl = "https://api.openai.com/v1/chat/completions";
 
-const client = axios.create({
-  headers: {
-    Authorization: `Bearer ${OPENAI_API_KEY}`,
-    "Content-Type": "application/json",
-  },
-});
+// const client = axios.create({
+//   headers: {
+//     Authorization: `Bearer ${OPENAI_API_KEY}`,
+//     "Content-Type": "application/json",
+//   },
+// });
 
 export default function TestOpenAI() {
   const [inputText, setInputText] = useState("");

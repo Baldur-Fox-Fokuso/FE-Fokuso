@@ -12,14 +12,16 @@ import {
   ScrollView,
   FlatList,
   Dimensions,
+  Button,
 } from "react-native";
 import TaskCard from "./TaskCard";
 import RecentList from "./RecentList";
 import { Divider } from "@rneui/base";
-import { Raleway_200ExtraLight } from "@expo-google-fonts/raleway";
-import { Quicksand_300Light } from "@expo-google-fonts/quicksand";
-import { useFonts } from "expo-font";
-import { GrapeNuts_400Regular } from "@expo-google-fonts/grape-nuts";
+// import { Raleway_200ExtraLight } from "@expo-google-fonts/raleway";
+// import { Quicksand_300Light } from "@expo-google-fonts/quicksand";
+// import { useFonts } from "expo-font";
+// import { GrapeNuts_400Regular } from "@expo-google-fonts/grape-nuts";
+import { deleteItemAsync } from "expo-secure-store";
 
 const taskList = [
   {
@@ -56,14 +58,14 @@ export default function Task({ navigation }) {
   const height = Dimensions.get("screen").height;
   const [task, setTask] = useState(taskList);
   const [newTask, setNewTask] = useState("");
-  const [fontsLoaded] = useFonts({
-    Raleway_200ExtraLight,
-    Quicksand_300Light,
-    GrapeNuts_400Regular,
-  });
-  if (!fontsLoaded) {
-    return <Text>Loading....</Text>;
-  }
+  // const [fontsLoaded] = useFonts({
+  //   Raleway_200ExtraLight,
+  //   Quicksand_300Light,
+  //   GrapeNuts_400Regular,
+  // });
+  // if (!fontsLoaded) {
+  //   return <Text>Loading....</Text>;
+  // }
 
   const addTask = () => {
     setTask((task) => [...task, { name: newTask }]);
@@ -76,6 +78,7 @@ export default function Task({ navigation }) {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
+          <Button title="LOG" onPress={() => deleteItemAsync("access_token")} />
         </View>
         <Text style={styles.quicksand}>Recent Task</Text>
         <View
@@ -165,14 +168,14 @@ const styles = StyleSheet.create({
   },
   raleway: {
     fontSize: 20,
-    fontFamily: "Quicksand_300Light",
+    // fontFamily: "Quicksand_300Light",
     paddingLeft: 5,
     paddingTop: 10,
     paddingBottom: 5,
   },
   quicksand: {
     fontSize: 20,
-    fontFamily: "Quicksand_300Light",
+    // fontFamily: "Quicksand_300Light",
     paddingLeft: 5,
     paddingTop: 10,
     paddingBottom: 5,

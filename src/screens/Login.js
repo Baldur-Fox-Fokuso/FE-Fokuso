@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+// import { Ionicons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
 import { save, getValueFor } from "./SecureStore";
 import { AuthContext } from "../context/AuthContext";
@@ -51,7 +51,7 @@ const Login = ({ navigation }) => {
         style={styles.backButton}
         onPress={() => navigation.navigate("Welcome")}
       >
-        <Ionicons name="arrow-back" size={24} color="black" />
+        {/* <Ionicons name="arrow-back" size={24} color="black" /> */}
       </TouchableOpacity>
       <Text style={styles.title}>Fokuso</Text>
       <TextInput

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import Timer from "./components/Timer";
-import Header from "./components/Header";
+// import Header from "./screens/components/Header";
 import Music from "./components/music";
 
 export default function Session({ route }) {
@@ -67,12 +67,12 @@ export default function Session({ route }) {
             <Text style={{ color: "white", fontSize: 30 }}>Nama</Text>
           </View>
           <View style={{ flex: 1 }}>
-            <Header
+            {/* <Header
               currentTime={currentTime}
               setCurrentTime={setCurrentTime}
               setTime={setTime}
               options={options}
-            />
+            /> */}
           </View>
         </View>
         <View style={{ flex: 1, backgroundColor: "green" }}>

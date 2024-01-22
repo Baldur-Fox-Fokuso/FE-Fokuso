@@ -20,6 +20,7 @@ import plus from "../../assets/plus.png";
 import Add from "../screens/Add";
 import Task from "../screens/components/Task";
 import AddTaskStack from "../stacks/AddTaskStack";
+import Session1 from "../screens/session1";
 
 const Tab = createBottomTabNavigator();
 
@@ -96,7 +97,7 @@ export default function MainTabs() {
       />
       <Tab.Screen
         name="SessionTab"
-        component={Session}
+        component={Session1}
         options={{
           tabBarIcon: ({ focused }) => (
             <View

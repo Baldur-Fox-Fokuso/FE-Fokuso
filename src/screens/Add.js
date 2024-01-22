@@ -10,14 +10,19 @@ import { useState } from "react";
 import axios from "../config/instance";
 import { screenSize } from "../utils";
 import { AntDesign } from "@expo/vector-icons";
+import { getValueFor } from "./SecureStore";
 
 export default function Add({ navigation }) {
+  // console.loggetValueFor("access_token"));
   const handleAddTask = async () => {
     try {
       const { data } = await axios({
         url: "/task",
         method: "POST",
         data: formTask,
+        headers: {
+          Authorization: `Bearer ${await getValueFor("access_token")}`,
+        },
       });
       navigation.navigate("Home");
     } catch (error) {
@@ -26,19 +31,18 @@ export default function Add({ navigation }) {
   };
 
   const [formTask, setFormTask] = useState({
-    title: "",
+    name: "",
     description: "",
-    session: [],
-    subTask: [],
+    subTasks: [],
     deadline: "",
   });
 
-  console.log(formTask.subTask);
+  console.log(formTask.subTasks);
 
   const [subT, setSubTask] = useState("");
 
   const addSubTask = () => {
-    setFormTask({ ...formTask, subTask: [...formTask.subTask, subT] });
+    setFormTask({ ...formTask, subTasks: [...formTask.subTasks, subT] });
     setSubTask("");
   };
 
@@ -64,9 +68,9 @@ export default function Add({ navigation }) {
       >
         <Text>Title</Text>
         <TextInput
-          name="title"
+          name="name"
           placeholder="Write a title"
-          onChangeText={(text) => onChangeText(text, "title")}
+          onChangeText={(text) => onChangeText(text, "name")}
           style={{
             height: screenSize.height / 15,
             margin: 12,
@@ -102,7 +106,7 @@ export default function Add({ navigation }) {
         >
           <View>
             <TextInput
-              name="subTask"
+              name="subTasks"
               placeholder="Add Sub-Task"
               style={{
                 height: screenSize.height / 15,
@@ -121,7 +125,7 @@ export default function Add({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-        {formTask.subTask.map((subT, index) => (
+        {formTask.subTasks.map((subT, index) => (
           <View
             key={index}
             style={{

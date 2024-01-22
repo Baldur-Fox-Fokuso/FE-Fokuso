@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://10.20.49.115:3000";
+const baseURL = "https://b6db-103-165-209-194.ngrok-free.app";
 
 const intsance = axios.create({
   baseURL,

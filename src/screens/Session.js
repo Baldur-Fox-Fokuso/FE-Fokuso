@@ -11,9 +11,11 @@ import {
 
 import Timer from "./components/Timer";
 import Header from "./components/Header";
+import Music from "./components/music";
 
 export default function Session({ route }) {
-  // const { name } = route.params;
+  // console.log(route, "ini route");
+  const { name } = route;
   // console.log(name, "<<<<<<<<");
   const options = ["Pomodoro", "Short Break", "Long Break"];
   const [isActive, setIsActive] = useState(false);
@@ -49,7 +51,6 @@ export default function Session({ route }) {
     setIsActive((i) => !i);
   };
 
-  async function playSound() {}
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar />
@@ -85,6 +86,7 @@ export default function Session({ route }) {
             alignItems: "center",
           }}
         >
+          <Music />
           <TouchableOpacity style={styles.button} onPress={handleStartStop}>
             <Text>{isActive ? "STOP" : "START"}</Text>
           </TouchableOpacity>

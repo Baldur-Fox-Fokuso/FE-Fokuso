@@ -13,6 +13,13 @@ import { AuthContext } from "../context/AuthContext";
 import { getValueFor } from "../screens/SecureStore";
 import Add from "../screens/Add";
 import MainTabs from "../tab/MainTab";
+import Task from "../screens/components/Task";
+import Music from "../screens/components/music";
+import Notification from "../screens/components/notification";
+import Profile from "../screens/components/profile";
+import TestOpenAI from "../screens/components/testOpenAi";
+import TaskDetailScreen from "../screens/components/taskDetail";
+import Session1 from "../screens/session1";
 
 const Stack = createNativeStackNavigator();
 
@@ -46,10 +53,28 @@ export default function MainStack() {
                 component={Dashboard}
                 options={{ headerShown: false }}
               />
-              <Stack.Screen name="AddTask" component={Add} />
-            </>
-          ) : (
-            <>
+
+          {/* <Stack.Screen name="Profile" component={Profile} /> */}
+
+          {/* <Stack.Screen name="TestOpenAI" component={TestOpenAI} /> */}
+
+          {/* <Stack.Screen name="Music" component={Music} /> */}
+
+          {/* <Stack.Screen name="Notification" component={Music} options={""} /> */}
+
+          {/* <Stack.Screen
+            name="Session"
+            component={Session}
+            options={{ headerShown: false }}
+          /> */}
+          <Stack.Screen
+            name="Session"
+            component={Session1}
+            options={{ headerShown: false }}
+          />
+
+          {/* <Stack.Screen name="Task Detail" component={TaskDetailScreen} /> */}
+
               <Stack.Screen
                 name="Welcome"
                 component={LandingPage}

@@ -11,12 +11,12 @@ import SignUpScreen from "../screens/Signup";
 import Login from "../screens/Login";
 import Dashboard from "../screens/Home";
 import Task from "../screens/components/Task";
-import Session from "../screens/Session";
 import Music from "../screens/components/music";
 import Notification from "../screens/components/notification";
 import Profile from "../screens/components/profile";
 import TestOpenAI from "../screens/components/testOpenAi";
 import TaskDetailScreen from "../screens/components/taskDetail";
+import Session1 from "../screens/session1";
 
 const Stack = createNativeStackNavigator();
 
@@ -62,8 +62,13 @@ export default function MainStack() {
             component={Session}
             options={{ headerShown: false }}
           /> */}
+          <Stack.Screen
+            name="Session"
+            component={Session1}
+            options={{ headerShown: false }}
+          />
 
-          <Stack.Screen name="Task Detail" component={TaskDetailScreen} />
+          {/* <Stack.Screen name="Task Detail" component={TaskDetailScreen} /> */}
 
           {/* <Stack.Screen
             name="Welcome"

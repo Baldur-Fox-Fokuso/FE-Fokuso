@@ -1,11 +1,15 @@
+import React, {useState} from 'react';
+import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+
+
 const CreateTask = ({navigation}) => {
     return(
         <>
-         <View style={styles.add}>
-            <TouchableOpacity style={styles.button} onPress={addTask}>
-              <Text></Text>
-            </TouchableOpacity>
-          </View>
+        <Pressable
+        style={[styles.button, styles.buttonOpen]}
+        onPress={() => setModalVisible(true)}>
+    
+      </Pressable>
         </>
     )
 }

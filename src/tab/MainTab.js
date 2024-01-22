@@ -13,19 +13,19 @@ import {
 import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Task from "../pages/Task";
-import Session from "../pages/Session";
+import Dashboard from "../screens/Home"
+import Session from "../screens/Session";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRef } from "react";
 import plus from "../../assets/plus.png";
-import Add from "../pages/Add";
+import FormModalTask from "../modals/Add";
 
 const Tab = createBottomTabNavigator();
 
 export default function MainTabs() {
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
   return (
-    <NavigationContainer>
+   
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
@@ -44,7 +44,7 @@ export default function MainTabs() {
       >
         <Tab.Screen
           name="Task"
-          component={Task}
+          component={Dashboard}
           options={{
             tabBarIcon: ({ focused }) => (
               <View
@@ -65,7 +65,7 @@ export default function MainTabs() {
         />
         <Tab.Screen
           name="Add"
-          component={Add}
+          component={FormModalTask}
           options={{
             tabBarIcon: ({ focused }) => (
               <View
@@ -113,7 +113,7 @@ export default function MainTabs() {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+ 
   );
 }
 

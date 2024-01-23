@@ -29,11 +29,11 @@ const Session1 = ({ navigation }) => {
     navigation.goBack();
   };
 
-  const modeOptions = [
-    { label: "Pomodoro", value: "pomodoro" },
-    { label: "Short Break", value: "shortBreak" },
-    { label: "Long Break", value: "longBreak" },
-  ];
+  // const modeOptions = [
+  //   { label: "Pomodoro", value: "pomodoro" },
+  //   { label: "Short Break", value: "shortBreak" },
+  //   { label: "Long Break", value: "longBreak" },
+  // ];
 
   const changeModeRender = (argumen) => {
     // console.log(argumen, "hai");
@@ -171,11 +171,13 @@ const Session1 = ({ navigation }) => {
           <Music />
         </View>
         <View style={styles.container0}>
-          <Image
-            source={require("../../assets/7TaK4G8TA.gif")}
-            style={styles.image}
-            resizeMode="cover"
-          />
+          <View style={styles.imageWrapper}>
+            <Image
+              source={require("../../assets/study_lofi.gif")}
+              style={styles.image}
+              resizeMode="cover"
+            />
+          </View>
         </View>
         <View style={styles.container1}>
           {/* <View style={styles.pickerContainer}>
@@ -232,11 +234,12 @@ const Session1 = ({ navigation }) => {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.timerText}>{`${formatTime(minutes)}:${formatTime(
-            seconds
-          )}`}</Text>
+          <View style={styles.timerContainer}>
+            <Text style={styles.timerText}>{`${formatTime(
+              minutes
+            )}:${formatTime(seconds)}`}</Text>
 
-          {/* <View style={styles.buttonContainer}>
+            {/* <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={[
                 styles.button,
@@ -253,17 +256,18 @@ const Session1 = ({ navigation }) => {
             </TouchableOpacity>
           </View> */}
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={toggleTimer}>
-              <Icon
-                name={isActive ? "pause" : "play"}
-                size={30}
-                color="black"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={resetTimer}>
-              <Icon name="refresh" size={30} color="black" />
-            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button} onPress={toggleTimer}>
+                <Icon
+                  name={isActive ? "pause" : "play"}
+                  size={30}
+                  color="black"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={resetTimer}>
+                <Icon name="refresh" size={30} color="black" />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -278,7 +282,7 @@ const styles = StyleSheet.create({
   },
   // header
   containerHeader: {
-    flex: 0.1,
+    flex: 0.16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -300,20 +304,26 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   container0: {
-    flex: 0.5,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#B0A695",
+    // backgroundColor: "#B0A695",
     backgroundColor: "white",
   },
-  image: {
+  imageWrapper: {
     width: 300,
     height: 300,
-    borderRadius: 75,
+    borderRadius: 150,
+    overflow: "hidden",
+  },
+  image: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
   },
   container1: {
-    flex: 0.4,
-    justifyContent: "center",
+    flex: 1,
+    // justifyContent: "center",
     alignItems: "center",
     // backgroundColor: "#EBE3D5",
     backgroundColor: "white",
@@ -341,9 +351,13 @@ const styles = StyleSheet.create({
   // button mode (start)
   modeContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    paddingVertical: 30,
+    justifyContent: "space-between",
+    paddingVertical: 20,
+    marginVertical: 5,
+    // paddingTop: 50,
     backgroundColor: "white",
+    // backgroundColor: "gray",
+    gap: 7,
   },
   modeButton: {
     paddingHorizontal: 16,
@@ -360,6 +374,12 @@ const styles = StyleSheet.create({
   },
   // button mode (end)
 
+  timerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+  },
   timerText: {
     fontSize: 48,
     color: "black",

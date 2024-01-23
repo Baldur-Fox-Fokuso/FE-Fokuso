@@ -52,19 +52,16 @@ export default function MainStack() {
             options={{ headerShown: false }}
           /> */}
 
-          {/* <Stack.Screen name="Profile" component={Profile} /> */}
-
-          {/* <Stack.Screen name="TestOpenAI" component={TestOpenAI} /> */}
+          {/* <Stack.Screen
+            name="Profile"
+            component={Profile}
+            options={{ title: "Profile" }}
+          /> */}
 
           {/* <Stack.Screen name="Music" component={Music} /> */}
 
           {/* <Stack.Screen name="Notification" component={Music} options={""} /> */}
 
-          {/* <Stack.Screen
-            name="Session"
-            component={Session}
-            options={{ headerShown: false }}
-          /> */}
           <Stack.Screen
             name="Session"
             component={Session1}
@@ -73,7 +70,7 @@ export default function MainStack() {
 
           {/* <Stack.Screen name="Task Detail" component={TaskDetailScreen} /> */}
 
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Welcome"
             component={LandingPage}
             options={{ headerShown: false }}
@@ -88,7 +85,7 @@ export default function MainStack() {
             name="Login"
             component={Login}
             options={{ headerShown: false }}
-          />
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </>

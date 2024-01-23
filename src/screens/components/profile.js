@@ -8,6 +8,8 @@ import { View, Text, StyleSheet, Image, FlatList, Button } from "react-native";
 
 // implement gravatar pakai md5 untuk photo profilenya
 import md5 from "md5";
+import { deleteItemAsync } from "expo-secure-store";
+import { AuthContext } from "../../context/AuthContext";
 
 // const email = "affriyanr@mail.com";
 // const email = "skyhawk57@gmail.com";
@@ -86,17 +88,17 @@ export default function Profile() {
           with others, leading to a tendency to isolate herself.
         </Text>
         <Text style={styles.sectionTitle}>Sessions :</Text>
-        <FlatList
+        {/* <FlatList
           data={data}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           style={styles.sessionsList}
-        />
+        /> */}
         <Button
           title="LOG"
           onPress={() => {
             deleteItemAsync("access_token");
-            authContext.setIsSignedIn(false);
+            AuthContext.setIsSignedIn(false);
           }}
         />
       </View>

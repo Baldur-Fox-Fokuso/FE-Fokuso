@@ -30,15 +30,7 @@ export default function MainStack() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator
-        //   screenOptions={{
-        //     headerTitleAlign: "center",
-        //     headerStyle: {
-        //       backgroundColor: "black",
-        //     },
-        //     headerTintColor: "white",
-        //   }}
-        >
+        <Stack.Navigator>
           {authContext.isSignedIn ? (
             <>
               <Stack.Screen

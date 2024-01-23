@@ -57,7 +57,7 @@ export default function Task({ navigation, route }) {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "space-evenly" }}>
       <StatusBar />
-
+      {/* Recent */}
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
@@ -66,7 +66,7 @@ export default function Task({ navigation, route }) {
         <View
           style={{
             width: "40%",
-            paddingBottom: 4,
+            paddingBottom: 20,
           }}
         >
           <Divider width={3} color="#000000" />
@@ -82,7 +82,8 @@ export default function Task({ navigation, route }) {
             />
           </View>
         </View>
-        <Text style={styles.raleway}>Today Task</Text>
+        {/* Today */}
+        <Text style={styles.quicksand}>Today Task</Text>
         <View
           style={{
             width: "40%",
@@ -92,7 +93,7 @@ export default function Task({ navigation, route }) {
           <Divider width={3} color="#000000" />
         </View>
 
-        <View style={[styles.task, { paddingLeft: 15, flex: 2 }]}>
+        <View style={[styles.task, { paddingLeft: 25, flex: 3 }]}>
           <View style={{ width: "100%" }}>
             <FlatList
               data={task}
@@ -138,28 +139,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  button: {
-    backgroundColor: "red",
-    padding: 15,
-    borderRadius: 15,
-    marginTop: 15,
-  },
+
   card: {
     width: 10,
     gap: 30,
   },
-  raleway: {
+
+  quicksand: {
     fontSize: 20,
-    // fontFamily: "Quicksand_300Light",
     paddingLeft: 5,
     paddingTop: 10,
     paddingBottom: 5,
   },
-  quicksand: {
-    fontSize: 20,
-    // fontFamily: "Quicksand_300Light",
-    paddingLeft: 5,
-    paddingTop: 10,
-    paddingBottom: 5,
+  card: {
+    padding: 26,
+    marginVertical: 8,
+    height: 70,
+    borderRadius: 30,
+    backgroundColor: "#f0ffff",
   },
 });

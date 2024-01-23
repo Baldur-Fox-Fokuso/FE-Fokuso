@@ -13,9 +13,14 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Music from "./components/music";
 import { AntDesign } from "@expo/vector-icons";
 
+import * as Notifications from "expo-notifications";
+import { Asset } from "expo-asset";
+
 const Session1 = ({ navigation }) => {
   const [minutes, setMinutes] = useState(25);
+  // 0,, ngetest notif
   const [seconds, setSeconds] = useState(0);
+  // 1
   const [isActive, setIsActive] = useState(false);
   const [selectedMode, setSelectedMode] = useState("pomodoro");
 
@@ -44,16 +49,49 @@ const Session1 = ({ navigation }) => {
     }
   };
 
+  const scheduleNotification = async () => {
+    const localSoundFile = require("../../assets/file_example_MP3_700KB.mp3");
+
+    // const soundFileInfo = await FileSystem.getInfoAsync(localSoundFile);
+
+    const soundAsset = Asset.fromModule(localSoundFile);
+    await soundAsset.downloadAsync();
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Completed!",
+        body: "Task Completed",
+        // sound: soundFileInfo.uri,
+        // sound: soundAsset.localUri,
+        sound: {
+          sound: localSoundFile,
+          shouldPlay: true,
+        },
+      },
+      trigger: null,
+    });
+  };
+
   useEffect(() => {
+    // implement notification
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+      }),
+    });
+
     let interval;
 
     if (isActive) {
-      interval = setInterval(() => {
+      interval = setInterval(async () => {
         if (seconds === 0) {
           if (minutes === 0) {
             clearInterval(interval);
             setIsActive(false);
             // add logic notif disini kalo timer selesai
+            await scheduleNotification();
             switch (selectedMode) {
               case "pomodoro":
                 setMinutes(25);

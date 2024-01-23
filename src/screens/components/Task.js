@@ -99,7 +99,7 @@ export default function Task({ navigation, route }) {
               data={task}
               horizontal={false}
               renderItem={({ item, index }) => (
-                <RecentList key={index} task={item} />
+                <RecentList key={index} task={item} navigation={navigation}/>
               )}
             />
           </View>

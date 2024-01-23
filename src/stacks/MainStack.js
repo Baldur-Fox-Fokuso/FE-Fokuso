@@ -38,7 +38,6 @@ export default function MainStack() {
                 component={Dashboard}
                 options={{ headerShown: false }}
               />
-
               <Stack.Screen
                 name="Session"
                 component={Session1}
@@ -53,17 +52,18 @@ export default function MainStack() {
                 component={LandingPage}
                 options={{ headerShown: false }}
               />
-
-          <Stack.Screen
-            name="Signup"
-            component={SignUpScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          /> */}
+              <Stack.Screen
+                name="Signup"
+                component={SignUpScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+              />
+            </>
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </>

@@ -4,7 +4,17 @@
 // session card
 
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Image, FlatList, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+
+import { Ionicons } from "@expo/vector-icons";
 
 // implement gravatar pakai md5 untuk photo profilenya
 import md5 from "md5";
@@ -17,70 +27,23 @@ const email = "michaelgs1997@gmail.com";
 
 const gravatarUrl = `https://www.gravatar.com/avatar/${md5(email)}?d=identicon`;
 
-const data = [
-  {
-    id: "1",
-    sessionTitle: "Session 1",
-    sessionDetails: "Main Gitar",
-  },
-  {
-    id: "2",
-    sessionTitle: "Session 2",
-    sessionDetails: "Kessoku Band The Best",
-  },
-  {
-    id: "3",
-    sessionTitle: "Session 2",
-    sessionDetails: "Kessoku Band The Best",
-  },
-  {
-    id: "4",
-    sessionTitle: "Session 2",
-    sessionDetails: "Kessoku Band The Best",
-  },
-  {
-    id: "5",
-    sessionTitle: "Session 2",
-    sessionDetails: "Kessoku Band The Best",
-  },
-  {
-    id: "6",
-    sessionTitle: "Session 2",
-    sessionDetails: "Kessoku Band The Best",
-  },
-  {
-    id: "7",
-    sessionTitle: "Session 2",
-    sessionDetails: "Kessoku Band The Best",
-  },
-  {
-    id: "8",
-    sessionTitle: "Session 2",
-    sessionDetails: "Kessoku Band The Best",
-  },
-  {
-    id: "9",
-    sessionTitle: "Session 2",
-    sessionDetails: "Kessoku Band The Best",
-  },
-];
+export default function Profile({ navigation }) {
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
 
-export default function Profile() {
-  const authContext = useContext(AuthContext);
-  const renderItem = ({ item }) => (
-    <View style={styles.sessionCard}>
-      <Text style={styles.sessionTitle}>{item.sessionTitle}</Text>
-      <Text style={styles.sessionDetails}>{item.sessionDetails}</Text>
-    </View>
-  );
   return (
     <>
+      {/* <Image
+        source={{
+          uri: "https://tse2.mm.bing.net/th?id=OIP.H9PqvkRXtotHthFMf13DIAHaLG&pid=Api&P=0&w=300&h=300",
+        }}
+        style={styles.backgroundImage}
+      /> */}
+
       <View style={styles.container}>
         <Image source={{ uri: gravatarUrl }} style={styles.profileImage} />
-        {/* <Image
-          source={require("../../../assets/bocchi.jpg")}
-          style={styles.profileImage}
-        /> */}
+
         <Text style={styles.userName}>Bocchi</Text>
         <Text style={styles.userHandle}>@bocchi</Text>
         <Text style={styles.bio}>
@@ -88,13 +51,7 @@ export default function Profile() {
           friends. She is very timid and often finds it challenging to interact
           with others, leading to a tendency to isolate herself.
         </Text>
-        <Text style={styles.sectionTitle}>Sessions :</Text>
-        {/* <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          style={styles.sessionsList}
-        /> */}
+
         <Button
           title="LOG"
           onPress={() => {
@@ -103,20 +60,37 @@ export default function Profile() {
           }}
         />
       </View>
+
+      {/* logout button */}
+      <TouchableOpacity style={styles.logoutButton}>
+        <Text style={styles.logoutText}>Logout</Text>
+      </TouchableOpacity>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    opacity: 0.6,
+  },
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     padding: 16,
+    // backgroundColor: "white",
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 150,
+    height: 150,
+    borderWidth: 0.5,
+    borderColor: "black",
+    borderRadius: 75,
     marginBottom: 16,
   },
   userName: {
@@ -132,29 +106,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    // textAlign: "left",
-    marginBottom: 8,
-  },
-  sessionCard: {
-    backgroundColor: "#f0f0f0",
+  logoutButton: {
+    backgroundColor: "black",
     padding: 16,
-    marginBottom: 8,
-    borderRadius: 8,
+    alignItems: "center",
+    // borderTopStartRadius: 15,
+    // borderTopEndRadius: 15,
   },
-  sessionTitle: {
-    fontSize: 16,
+  logoutText: {
+    color: "white",
     fontWeight: "bold",
-  },
-  sessionDetails: {
-    color: "gray",
-  },
-  sessionsList: {
-    width: "100%",
-    backgroundColor: "#e0e0e0",
-    borderRadius: 8,
-    padding: 8,
   },
 });

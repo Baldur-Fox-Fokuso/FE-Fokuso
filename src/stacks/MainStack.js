@@ -54,18 +54,16 @@ export default function MainStack() {
                 options={{ headerShown: false }}
               />
 
-              <Stack.Screen
-                name="Signup"
-                component={SignUpScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{ headerShown: false }}
-              />
-            </>
-          )}
+          <Stack.Screen
+            name="Signup"
+            component={SignUpScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </>

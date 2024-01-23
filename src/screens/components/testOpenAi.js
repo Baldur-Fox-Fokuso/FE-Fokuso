@@ -4,9 +4,8 @@ import OpenAI from "openai";
 import axios from "axios";
 
 import { OPENAI_API_KEY } from "@env";
-import { RAPIDAPI_OPENAPI_KEY } from "@env";
 
-// const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
 // const chatgptUrl = "https://api.openai.com/v1/chat/completions";
 

@@ -8,7 +8,36 @@ import {
   View,
 } from "react-native";
 
+// import { useFonts } from "expo-font";
+// import { GrapeNuts_400Regular } from "@expo-google-fonts/grape-nuts";
+// import { Raleway_200ExtraLight } from "@expo-google-fonts/raleway";
+// import { Quicksand_300Light } from "@expo-google-fonts/quicksand";
+// import {
+//   Grandstander_700Bold_Italic,
+//   Grandstander_800ExtraBold_Italic,
+//   Grandstander_900Black_Italic,
+// } from "@expo-google-fonts/grandstander";
+
 export default function LandingPage({ navigation }) {
+  // let [fontsLoaded] = useFonts({
+  //   GrapeNuts_400Regular,
+  //   Raleway_200ExtraLight,
+  //   Quicksand_300Light,
+
+  //   Grandstander_700Bold_Italic,
+  //   Grandstander_800ExtraBold_Italic,
+  //   Grandstander_900Black_Italic,
+  // });
+
+  // console.log(fontsLoaded, "<<<<<<<<<< font google");
+
+  // let fontSize = 24;
+  // let paddingVertical = 6;
+
+  // if (!fontsLoaded) {
+  //   return <Text>Loading....</Text>;
+  // }
+
   return (
     <>
       <View style={styles.container}>
@@ -33,11 +62,12 @@ export default function LandingPage({ navigation }) {
         <View>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text
-              style={{
-                fontSize: 20,
-                color: "#000000",
-                textAlign: "center",
-              }}
+            // style={{
+            //   fontSize,
+            //   paddingVertical,
+            //   // Note the quoting of the value for `fontFamily` here; it expects a string!
+            //   fontFamily: "Grandstander_700Bold_Italic",
+            // }}
             >
               Get started!
             </Text>
@@ -60,9 +90,9 @@ const styles = StyleSheet.create({
     width: 150,
   },
   slogan: {
+    // fontFamily: "Grandstander_900Black_Italic",
     textAlign: "center",
     paddingTop: 30,
     fontSize: 20,
-    fontWeight: "bold",
   },
 });

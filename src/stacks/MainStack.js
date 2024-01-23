@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import { useContext, useEffect } from "react";
 // import { AuthContext } from "../src/context/AuthContext";
 // import { getValueFor } from "../src/helpers/secureStore";
@@ -10,6 +9,10 @@ import LandingPage from "../screens/Welcome";
 import SignUpScreen from "../screens/Signup";
 import Login from "../screens/Login";
 import Dashboard from "../screens/Home";
+import { AuthContext } from "../context/AuthContext";
+import { getValueFor } from "../screens/SecureStore";
+import Add from "../screens/Add";
+import MainTabs from "../tab/MainTab";
 import Task from "../screens/components/Task";
 import Music from "../screens/components/music";
 import Notification from "../screens/components/notification";
@@ -21,15 +24,15 @@ import Session1 from "../screens/session1";
 const Stack = createNativeStackNavigator();
 
 export default function MainStack() {
-  //   const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
-  //   useEffect(() => {
-  //     getValueFor("access_token").then((result) => {
-  //       if (result) {
-  //         authContext.setIsSignedIn(true);
-  //       }
-  //     });
-  //   }, []);
+  useEffect(() => {
+    getValueFor("access_token").then((result) => {
+      if (result) {
+        authContext.setIsSignedIn(true);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -57,17 +60,16 @@ export default function MainStack() {
 
           {/* <Stack.Screen name="Notification" component={Music} options={""} /> */}
 
+          {/* <Stack.Screen
+            name="Session"
+            component={Session}
+            options={{ headerShown: false }}
+          /> */}
           <Stack.Screen
             name="Session"
             component={Session1}
             options={{ headerShown: false }}
           />
-
-          {/* <Stack.Screen
-            name="Session"
-            component={StatusBarCheck}
-            options={{ headerShown: false }}
-          /> */}
 
           {/* <Stack.Screen name="Task Detail" component={TaskDetailScreen} /> */}
 
@@ -77,22 +79,18 @@ export default function MainStack() {
             options={{ headerShown: false }}
           />
 
-          <Stack.Screen
-            name="Signup"
-            component={SignUpScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          /> */}
-
-          {/* <Stack.Screen
-            name="Home"
-            component={Dashboard}
-            options={{ headerShown: false }}
-          /> */}
+              <Stack.Screen
+                name="Signup"
+                component={SignUpScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+              />
+            </>
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </>

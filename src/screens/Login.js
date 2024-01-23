@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   Text,
@@ -7,25 +7,70 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+// import { Ionicons } from "@expo/vector-icons";
+import * as SecureStore from "expo-secure-store";
+import { save, getValueFor } from "./SecureStore";
+import { AuthContext } from "../context/AuthContext";
+import axios from "../config/instance";
+
 const image = "https://wallpaper.dog/large/20515986.jpg";
+
 const Login = ({ navigation }) => {
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  console.log(loginForm);
+  const authContext = useContext(AuthContext);
+  const onChangeText = (text, input) => {
+    setLoginForm((loginForm) => ({ ...loginForm, [input]: text }));
+  };
+
+  const handleLogin = async () => {
+    try {
+      const { data } = await axios({
+        url: "/login",
+        method: "POST",
+        data: {
+          email: loginForm.email,
+          password: loginForm.password,
+        },
+      });
+      console.log(data);
+      save("access_token", data.access_token);
+      authContext.setIsSignedIn(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate("Welcome")}
       >
-        <Ionicons name="arrow-back" size={24} color="black" />
+        {/* <Ionicons name="arrow-back" size={24} color="black" /> */}
       </TouchableOpacity>
       <Text style={styles.title}>Fokuso</Text>
-      <TextInput style={styles.input} placeholder="Example@mail.com" autoCapitalize="none"/>
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry autoCapitalize="none"/>
+      <TextInput
+        name="email"
+        onChangeText={(text) => onChangeText(text, "email")}
+        style={styles.input}
+        placeholder="Example@mail.com"
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.input}
+        name="password"
+        onChangeText={(text) => onChangeText(text, "password")}
+        placeholder="Password"
+        secureTextEntry
+        autoCapitalize="none"
+      />
       <TouchableOpacity style={styles.forgotPassword}></TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Home")}
-        style={styles.loginButton}
-      >
+      <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
         <Text style={styles.loginText}>Log in</Text>
       </TouchableOpacity>
 

@@ -22,6 +22,10 @@ const TaskDetailScreen = ({ route, navigation }) => {
   const [subtasks, setSubtasks] = useState([]);
   const [user, setUser] = useState({});
 
+  // description logic
+  const [showMore, setShowMore] = useState(false);
+  const maxDescriptionLength = 100;
+
   const fetchUser = async () => {
     const token = await getValueFor("access_token");
     try {
@@ -57,17 +61,6 @@ const TaskDetailScreen = ({ route, navigation }) => {
     fetchDetail();
     fetchUser();
   }, []);
-
-  // description
-  const [showAllDescription, setShowAllDescription] = useState(false);
-  const taskDescription =
-    "Players control the Traveler, exploring a visually stunning open world, solving puzzles, and engaging in real-time combat against various enemies. The game incorporates a gacha system for obtaining new characters and weapons, and its elemental system encourages strategic use of character abilities. With regular updates introducing new content, Genshin Impact offers both a single-player experience and cooperative multiplayer gameplay, making it a popular and evolving title in the gaming community.";
-
-  const limitedDescription = taskDescription.substring(0, 200);
-
-  const toggleDescription = () => {
-    setShowAllDescription(!showAllDescription);
-  };
 
   useEffect(() => {
     setSubtasks(task?.subTasks);
@@ -130,17 +123,21 @@ const TaskDetailScreen = ({ route, navigation }) => {
         </TouchableOpacity>
       </View>
       <Text style={styles.labelDescription}>Description</Text>
-      <Text
-        numberOfLines={showAllDescription ? undefined : 2}
-        style={styles.taskDescription}
-      >
-        {showAllDescription ? task?.description : task?.description}
+
+      <Text>
+        {showMore
+          ? task?.description
+          : task?.description?.substring(0, maxDescriptionLength) +
+            (task?.description?.length > maxDescriptionLength ? "..." : "")}
       </Text>
-      <TouchableOpacity onPress={toggleDescription}>
-        <Text style={styles.seeMoreLink}>
-          {showAllDescription ? "See Less" : "See More"}
-        </Text>
-      </TouchableOpacity>
+
+      {task?.description?.length > maxDescriptionLength && (
+        <TouchableOpacity onPress={() => setShowMore(!showMore)}>
+          <Text style={styles.seeMoreLink}>
+            {showMore ? "See Less" : "See More"}
+          </Text>
+        </TouchableOpacity>
+      )}
       <Text style={styles.labelProgress}>Progress</Text>
       <View style={styles.progressBarContainer}>
         <ActivityIndicator

@@ -60,7 +60,7 @@ export default function MainTabs() {
               <MaterialIcons
                 name="home-filled"
                 size={30}
-                color={focused ? "red" : "gray"}
+                color={focused ? "#C6A969" : "#C6A969"}
               ></MaterialIcons>
             </View>
           ),
@@ -69,8 +69,9 @@ export default function MainTabs() {
       <Tab.Screen
         name="Create Task"
         component={Add}
-        options={{
+        options={({ navigation }) => ({
           headerShown: true,
+          headerTitleAlign: "center",
           tabBarStyle: {
             display: "none",
           },
@@ -79,7 +80,7 @@ export default function MainTabs() {
               style={{
                 width: 55,
                 height: 55,
-                backgroundColor: "red",
+                backgroundColor: "#F7EFE5",
                 borderRadius: 30,
                 justifyContent: "center",
                 alignItems: "center",
@@ -91,17 +92,25 @@ export default function MainTabs() {
                 style={{
                   width: 22,
                   height: 22,
-                  tintColor: "white",
+                  tintColor: "gray",
                 }}
               ></Image>
             </View>
           ),
-        }}
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 16 }}
+              onPress={() => navigation.goBack()}
+            >
+              <Ionicons name="arrow-back-outline" size={24} color="black" />
+            </TouchableOpacity>
+          ),
+        })}
       />
       <Tab.Screen
         name="Profile"
         component={Profile}
-        options={{
+        options={({ navigation }) => ({
           headerShown: true,
           headerTitleAlign: "center",
           // sembunyikan
@@ -119,7 +128,7 @@ export default function MainTabs() {
               <FontAwesome
                 name="user"
                 size={30}
-                color={focused ? "red" : "gray"}
+                color={focused ? "#C6A969" : "#C6A969"}
               ></FontAwesome>
             </View>
           ),
@@ -131,7 +140,7 @@ export default function MainTabs() {
               <Ionicons name="arrow-back-outline" size={24} color="black" />
             </TouchableOpacity>
           ),
-        }}
+        })}
       />
     </Tab.Navigator>
   );

@@ -43,7 +43,14 @@ export default function MainStack() {
                 component={Session1}
                 options={{ headerShown: false }}
               />
-              <Stack.Screen name="DetailTask" component={TaskDetailScreen} />
+              <Stack.Screen
+                name="DetailTask"
+                component={TaskDetailScreen}
+                options={{
+                  headerShown: true,
+                  headerTitleAlign: "center",
+                }}
+              />
             </>
           ) : (
             <>

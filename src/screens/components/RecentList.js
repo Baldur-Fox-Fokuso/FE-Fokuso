@@ -17,11 +17,13 @@ export default function RecentList({ task, navigation }) {
         </Pressable>
         <Text
           style={{
-            color: "gray",
+            // color: "gray",
+            color: "black",
+            // fontStyle: "italic",
             marginHorizontal: 7,
           }}
         >
-          {task.createdAt.slice(11,16)} | Sessions :  {task?.sessions.length}
+          {task.createdAt.slice(11, 16)} | Sessions : {task?.sessions.length}
         </Text>
       </View>
       <Pressable
@@ -47,18 +49,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal : 15,
-    margin: 4,
+    paddingHorizontal: 15,
+    margin: 5,
     borderWidth: 0.25,
-    borderColor: "#6495ed",
-    backgroundColor: "#f8f8ff",
+    // borderColor: "#6495ed",
+    // backgroundColor: "white",
+    // backgroundColor: "#f8f8ff",
     height: Dimensions.get("window").width / 4.5, // approximate a square
-    width: 350,
+    width: Dimensions.get("window").height / 2.25,
     borderRadius: 10,
   },
   itemText: {
     color: "#000000",
-    fontWeight: "900",
+    fontWeight: "bold",
+    fontSize: 20,
     paddingHorizontal: 7,
   },
 });

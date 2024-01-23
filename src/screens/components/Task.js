@@ -8,6 +8,7 @@ import {
   Text,
   FlatList,
   Dimensions,
+  Image,
 } from "react-native";
 import TaskCard from "./TaskCard";
 import RecentList from "./RecentList";
@@ -50,14 +51,19 @@ export default function Task({ navigation, route }) {
   }, [fetchCounter]); // TODO: Refetching belum bisa
 
   return (
-    <View style={{ flex: 1, justifyContent: "space-evenly", paddingLeft: 18 }}>
+    // <View style={{ flex: 1, justifyContent: "space-evenly", paddingLeft: 18 }}>
+    <>
+      <Image
+        source={require("../../../assets/nick-nice-gPm8h3DS1s4-unsplash.jpg")}
+        style={styles.backgroundImage}
+      />
       <StatusBar />
       {/* Recent */}
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
         </View>
-        <Text style={styles.quicksand}>Recent Task</Text>
+        <Text style={styles.quicksand}>Recent</Text>
         <View
           style={{
             width: "40%",
@@ -94,18 +100,20 @@ export default function Task({ navigation, route }) {
                 <Ionicons name="close-outline" size={40} color="black" />
               </View>
             ) : (
-              <FlatList
-                horizontal={true}
-                data={task}
-                renderItem={({ item, index }) => (
-                  <TaskCard key={index} task={item} navigation={navigation} />
-                )}
-              />
+              <View style={{}}>
+                <FlatList
+                  horizontal={true}
+                  data={task}
+                  renderItem={({ item, index }) => (
+                    <TaskCard key={index} task={item} navigation={navigation} />
+                  )}
+                />
+              </View>
             )}
           </View>
         </View>
         {/* Today */}
-        <Text style={styles.quicksand}>Today Task</Text>
+        <Text style={styles.quicksand}>Today</Text>
         <View
           style={{
             width: "40%",
@@ -148,7 +156,9 @@ export default function Task({ navigation, route }) {
           </View>
         </View>
       </View>
-    </View>
+      {/* kosongan buat pembatas */}
+      <View style={{ flex: 0.12 }}></View>
+    </>
   );
 }
 const screenSize = {
@@ -157,14 +167,23 @@ const screenSize = {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
     flex: 1,
+    resizeMode: "cover",
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    opacity: 0.5,
+  },
+  container: {
+    flex: 0.88,
+    // backgroundColor: "white",
+    paddingHorizontal: 10,
+    gap: 5,
   },
   header: {
     justifyContent: "center",
-
     alignItems: "flex-start",
-
     height: screenSize.height / 12.5,
   },
   task: {
@@ -189,7 +208,12 @@ const styles = StyleSheet.create({
   },
 
   quicksand: {
-    fontSize: 20,
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFF8E3",
+    textShadowColor: "black",
+    textShadowOffset: { width: 3, height: 3 },
+    textShadowRadius: 10,
   },
   card: {
     height: 70,

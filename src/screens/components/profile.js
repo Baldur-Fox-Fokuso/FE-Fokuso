@@ -22,11 +22,8 @@ const email = "michaelgs1997@gmail.com";
 
 const gravatarUrl = `https://www.gravatar.com/avatar/${md5(email)}?d=identicon`;
 
-export default function Profile({ navigation }) {
+export default function Profile() {
   const authContext = useContext(AuthContext);
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
 
   return (
     <>
@@ -104,7 +101,7 @@ const styles = StyleSheet.create({
   },
 
   logoutButton: {
-    backgroundColor: "black",
+    backgroundColor: "#B0A695",
     padding: 16,
     alignItems: "center",
     // borderTopStartRadius: 15,

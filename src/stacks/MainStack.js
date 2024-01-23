@@ -73,24 +73,22 @@ export default function MainStack() {
 
           {/* <Stack.Screen name="Task Detail" component={TaskDetailScreen} /> */}
 
-          {/* <Stack.Screen
+          <Stack.Screen
             name="Welcome"
             component={LandingPage}
             options={{ headerShown: false }}
           />
 
-              <Stack.Screen
-                name="Signup"
-                component={SignUpScreen}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{ headerShown: false }}
-              />
-            </>
-          )}
+          <Stack.Screen
+            name="Signup"
+            component={SignUpScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>

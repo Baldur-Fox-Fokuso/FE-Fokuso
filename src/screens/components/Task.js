@@ -66,7 +66,12 @@ export default function Task({ navigation, route }) {
           <Divider width={3} color="#000000" />
         </View>
 
-        <View style={[styles.task, { flexDirection: "row", flex: 1, marginTop : 10 }]}>
+        <View
+          style={[
+            styles.task,
+            { flexDirection: "row", flex: 1, marginTop: 10 },
+          ]}
+        >
           <View style={{ width: "100%" }}>
             {!task.length ? (
               <View
@@ -82,7 +87,6 @@ export default function Task({ navigation, route }) {
                   style={{
                     fontWeight: "500",
                     fontSize: 25,
-                  
                   }}
                 >
                   No Task
@@ -110,7 +114,7 @@ export default function Task({ navigation, route }) {
           <Divider width={3} color="#000000" />
         </View>
 
-        <View style={[styles.task, { flex: 3, marginTop : 10, }]}>
+        <View style={[styles.task, { flex: 3, marginTop: 10 }]}>
           <View style={{ width: "100%" }}>
             {!task.length ? (
               <View

@@ -21,6 +21,7 @@ import Add from "../screens/Add";
 import Task from "../screens/components/Task";
 import Profile from "../screens/components/profile";
 import { FontAwesome } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
@@ -102,9 +103,11 @@ export default function MainTabs() {
         component={Profile}
         options={{
           headerShown: true,
-          // tabBarStyle: {
-          //   display: "none",
-          // },
+          headerTitleAlign: "center",
+          // sembunyikan
+          tabBarStyle: {
+            display: "none",
+          },
           tabBarIcon: ({ focused }) => (
             <View
               style={{
@@ -119,6 +122,14 @@ export default function MainTabs() {
                 color={focused ? "red" : "gray"}
               ></FontAwesome>
             </View>
+          ),
+          headerLeft: () => (
+            <TouchableOpacity
+              style={{ marginLeft: 16 }}
+              onPress={() => navigation.goBack()}
+            >
+              <Ionicons name="arrow-back-outline" size={24} color="black" />
+            </TouchableOpacity>
           ),
         }}
       />

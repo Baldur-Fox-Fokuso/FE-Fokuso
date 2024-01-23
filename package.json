@@ -16,6 +16,7 @@
     "@expo-google-fonts/raleway": "^0.2.3",
     "@expo-google-fonts/rancho": "^0.2.3",
     "@expo/vector-icons": "^14.0.0",
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/datetimepicker": "7.6.1",
     "@react-native-picker/picker": "2.6.1",
     "@react-navigation/bottom-tabs": "^6.5.11",

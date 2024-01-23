@@ -1,8 +1,3 @@
-// nama
-// foto profile,,
-// task card
-// session card
-
 import React, { useContext } from "react";
 import {
   View,
@@ -28,6 +23,7 @@ const email = "michaelgs1997@gmail.com";
 const gravatarUrl = `https://www.gravatar.com/avatar/${md5(email)}?d=identicon`;
 
 export default function Profile({ navigation }) {
+  const authContext = useContext(AuthContext);
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -51,18 +47,19 @@ export default function Profile({ navigation }) {
           friends. She is very timid and often finds it challenging to interact
           with others, leading to a tendency to isolate herself.
         </Text>
-
-        <Button
-          title="LOG"
-          onPress={() => {
-            deleteItemAsync("access_token");
-            AuthContext.setIsSignedIn(false);
-          }}
-        />
       </View>
 
-      {/* logout button */}
-      <TouchableOpacity style={styles.logoutButton}>
+      <TouchableOpacity
+        style={styles.logoutButton}
+        onPress={async () => {
+          try {
+            await deleteItemAsync("access_token");
+            authContext.setIsSignedIn(false);
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+      >
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
     </>
@@ -83,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 16,
-    // backgroundColor: "white",
+    backgroundColor: "white",
   },
   profileImage: {
     width: 150,

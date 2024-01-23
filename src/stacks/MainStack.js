@@ -11,14 +11,7 @@ import Login from "../screens/Login";
 import Dashboard from "../screens/Home";
 import { AuthContext } from "../context/AuthContext";
 import { getValueFor } from "../screens/SecureStore";
-import Add from "../screens/Add";
-import MainTabs from "../tab/MainTab";
-import Task from "../screens/components/Task";
-import Music from "../screens/components/music";
-import Notification from "../screens/components/notification";
-import Profile from "../screens/components/profile";
-import TestOpenAI from "../screens/components/testOpenAi";
-import TaskDetailScreen from "../screens/components/taskDetail";
+
 import Session1 from "../screens/session1";
 
 const Stack = createNativeStackNavigator();
@@ -37,15 +30,7 @@ export default function MainStack() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator
-        //   screenOptions={{
-        //     headerTitleAlign: "center",
-        //     headerStyle: {
-        //       backgroundColor: "black",
-        //     },
-        //     headerTintColor: "white",
-        //   }}
-        >
+        <Stack.Navigator>
           {authContext.isSignedIn ? (
             <>
               <Stack.Screen

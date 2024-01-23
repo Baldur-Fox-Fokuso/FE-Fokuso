@@ -3,7 +3,7 @@
 // task card
 // session card
 
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, Image, FlatList, Button } from "react-native";
 
 // implement gravatar pakai md5 untuk photo profilenya
@@ -66,6 +66,7 @@ const data = [
 ];
 
 export default function Profile() {
+  const authContext = useContext(AuthContext);
   const renderItem = ({ item }) => (
     <View style={styles.sessionCard}>
       <Text style={styles.sessionTitle}>{item.sessionTitle}</Text>

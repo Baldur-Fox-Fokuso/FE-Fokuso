@@ -4,7 +4,7 @@
 // session card
 
 import React from "react";
-import { View, Text, StyleSheet, Image, FlatList } from "react-native";
+import { View, Text, StyleSheet, Image, FlatList, Button } from "react-native";
 
 // implement gravatar pakai md5 untuk photo profilenya
 import md5 from "md5";
@@ -91,6 +91,13 @@ export default function Profile() {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           style={styles.sessionsList}
+        />
+        <Button
+          title="LOG"
+          onPress={() => {
+            deleteItemAsync("access_token");
+            authContext.setIsSignedIn(false);
+          }}
         />
       </View>
     </>

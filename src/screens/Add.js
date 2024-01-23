@@ -5,51 +5,89 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableHighlight,
+  FlatList,
+  StyleSheet,
+  Button,
 } from "react-native";
 import { useState } from "react";
 import axios from "../config/instance";
 import { screenSize } from "../utils";
 import { AntDesign } from "@expo/vector-icons";
 import { getValueFor } from "./SecureStore";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function Add({ navigation }) {
-  // console.loggetValueFor("access_token"));
   const handleAddTask = async () => {
     try {
       const { data } = await axios({
         url: "/task",
         method: "POST",
-        data: formTask,
+        data: {
+          name,
+          description,
+          deadline,
+          subTasks: arrSub,
+        },
         headers: {
           Authorization: `Bearer ${await getValueFor("access_token")}`,
         },
       });
-      navigation.navigate("Home");
+      setName("");
+      setDescription("");
+      setDeadline(new Date());
+      setDateString("");
+      navigation.navigate("Home", { refetch: true });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const [formTask, setFormTask] = useState({
-    name: "",
-    description: "",
-    subTasks: [],
-    deadline: "",
-  });
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [deadline, setDeadline] = useState(new Date());
 
-  console.log(formTask.subTasks);
-
+  const [arrSub, setArrSub] = useState([]);
   const [subT, setSubTask] = useState("");
+  const [arrSubAI, setArrSubAI] = useState([]);
 
   const addSubTask = () => {
-    setFormTask({ ...formTask, subTasks: [...formTask.subTasks, subT] });
+    setArrSub([...arrSub, subT]);
     setSubTask("");
   };
 
-  console.log(formTask);
+  const renderSubTask = ({ item }) => (
+    <View
+      style={{
+        height: screenSize.height / 18,
+        borderWidth: 1,
+        padding: 10,
+        margin: 12,
+        borderRadius: 20,
+      }}
+    >
+      <Text>{item}</Text>
+    </View>
+  );
 
-  const onChangeText = (text, input) => {
-    setFormTask((formTask) => ({ ...formTask, [input]: text }));
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [dateString, setDateString] = useState("");
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(!isDatePickerVisible);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    // const splitDate =
+    // const newDate = date.split("T")[0];
+    setDateString(date.toDateString());
+    console.log(date.toDateString());
+    setDeadline(date);
+    console.warn("A date has been picked: ", date);
+    hideDatePicker();
   };
 
   return (
@@ -63,14 +101,21 @@ export default function Add({ navigation }) {
       {/* add task form */}
       <View
         style={{
-          backgroundColor: "green",
+          padding: 10,
         }}
       >
-        <Text>Title</Text>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          Title
+        </Text>
         <TextInput
           name="name"
           placeholder="Write a title"
-          onChangeText={(text) => onChangeText(text, "name")}
+          onChangeText={(text) => setName(text)}
           style={{
             height: screenSize.height / 15,
             margin: 12,
@@ -78,12 +123,20 @@ export default function Add({ navigation }) {
             padding: 10,
             borderRadius: 20,
           }}
+          value={name}
         />
-        <Text>Description</Text>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          Description
+        </Text>
         <TextInput
           name="description"
           placeholder="Write a description"
-          onChangeText={(text) => onChangeText(text, "description")}
+          onChangeText={(text) => setDescription(text)}
           multiline={true}
           numberOfLines={10}
           style={{
@@ -93,8 +146,59 @@ export default function Add({ navigation }) {
             margin: 12,
             borderRadius: 20,
           }}
+          value={description}
         />
-        <Text>Sub-Task</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
+          >
+            Deadline:" "
+          </Text>
+          <TouchableOpacity onPress={showDatePicker}>
+            <Text
+              style={{
+                flexDirection: "row",
+                width: screenSize.width / 2,
+                borderWidth: 1,
+                padding: 10,
+                margin: 12,
+                borderRadius: 20,
+              }}
+            >
+              {dateString ? dateString : ""}
+            </Text>
+          </TouchableOpacity>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            value={deadline}
+            date={deadline}
+            onChange={(event, selectedDate) => {
+              if (event?.type === "dismissed") {
+                setDeadline(deadline);
+              }
+              setDeadline(selectedDate);
+            }}
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
+        </View>
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+          }}
+        >
+          Sub-Task
+        </Text>
         <View
           style={{
             flexDirection: "row",
@@ -110,7 +214,7 @@ export default function Add({ navigation }) {
               placeholder="Add Sub-Task"
               style={{
                 height: screenSize.height / 15,
-                width: screenSize.width / 1.2,
+                width: screenSize.width / 1.3,
                 borderWidth: 1,
                 padding: 10,
                 borderRadius: 20,
@@ -119,13 +223,15 @@ export default function Add({ navigation }) {
               onChangeText={setSubTask}
             />
           </View>
+
           <TouchableOpacity onPress={addSubTask}>
             <View>
               <AntDesign name="pluscircleo" size={30} color="black" />
             </View>
           </TouchableOpacity>
         </View>
-        {formTask.subTasks.map((subT, index) => (
+
+        {/* {arrSub.map((subT, index) => (
           <View
             key={index}
             style={{
@@ -138,34 +244,43 @@ export default function Add({ navigation }) {
           >
             <Text>{subT}</Text>
           </View>
-        ))}
+        ))} */}
+        <View
+          style={{
+            height: screenSize.height / 3.1,
+          }}
+        >
+          <FlatList
+            data={arrSub}
+            renderItem={renderSubTask}
+            keyExtractor={(item, index) => item.index}
+            style={styles.subTaskList}
+          />
+        </View>
       </View>
       {/* create button */}
       <View
         style={{
-          marginBottom: 100,
+          backgroundColor: "grey",
           alignItems: "center",
+          justifyContent: "center",
+          height: screenSize.height / 8.5,
+          borderTopEndRadius: 15,
+          borderTopStartRadius: 15,
         }}
       >
-        <View
-          style={
-            {
-              // backgroundColor: "blue",
-            }
-          }
-        >
+        <View>
           <TouchableOpacity onPress={handleAddTask}>
             <View
               style={{
                 backgroundColor: "red",
                 height: screenSize.height / 12.5,
-                width: screenSize.width / 2,
+                width: screenSize.width / 1.25,
                 borderRadius: 20,
                 justifyContent: "center",
                 alignItems: "center",
                 marginHorizontal: 10,
               }}
-              onPre
             >
               <Text>Create Task</Text>
             </View>
@@ -175,3 +290,11 @@ export default function Add({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  subTaskList: {
+    width: "100%",
+    borderRadius: 8,
+    padding: 8,
+  },
+});

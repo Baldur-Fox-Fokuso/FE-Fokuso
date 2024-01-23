@@ -3,11 +3,11 @@ import { StyleSheet, View, Dimensions, Text, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function RecentList({ task }) {
+export default function RecentList({ task, navigation }) {
   return (
     <View style={[styles.item]}>
       <View>
-        <Pressable onLongPress={() => console.log("aku ke hit " + task.name)}>
+        <Pressable onLongPress={() => {navigation.navigate("DetailTask", {task})}}>
           <Text style={styles.itemText}>{task.name}</Text>
         </Pressable>
         <Text
@@ -19,7 +19,7 @@ export default function RecentList({ task }) {
           8.30 AM | "subtask"
         </Text>
       </View>
-      <Pressable onPress={() => console.log("hit")}>
+      <Pressable onPress={() =>{ navigation.navigate('Session', {task})}}>
         <View
           style={{
             paddingRight: 8,

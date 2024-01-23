@@ -25,7 +25,8 @@ const color = [
   "D2DE32",
   "5F0F40",
 ];
-export default function TaskCard({ task }) {
+export default function TaskCard({ task, navigation }) {
+  console.log(task, "<<<<");
   return (
     <TouchableOpacity
       onPress={() => {
@@ -35,22 +36,22 @@ export default function TaskCard({ task }) {
       style={[styles.item, { backgroundColor: generateColor() }]}
     >
       <Text style={styles.itemText}>{task.name}</Text>
-      <View style={{
-        flex : 1,
-        flexDirection : 'row',
-        paddingLeft : 10
-      }}>
-        <Fontisto
-          name="date"
-          size={19}
-          color="white"
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          paddingLeft: 10,
+        }}
+      >
+        <Fontisto name="date" size={19} color="white" style={{}} />
+        <Text
           style={{
-           
+            color: "white",
           }}
-        />
-        <Text style={{
-          color : 'white'
-        }}> 13 Aug 2024</Text>
+        >
+          {" "}
+          {task.createdAt.split("T", 1)}
+        </Text>
       </View>
     </TouchableOpacity>
   );

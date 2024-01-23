@@ -99,7 +99,7 @@ export default function Profile() {
           title="LOG"
           onPress={() => {
             deleteItemAsync("access_token");
-            authContext.setIsSignedIn(false);
+            AuthContext.setIsSignedIn(false);
           }}
         />
       </View>

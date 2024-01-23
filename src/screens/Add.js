@@ -15,6 +15,7 @@ import { screenSize } from "../utils";
 import { AntDesign } from "@expo/vector-icons";
 import { getValueFor } from "./SecureStore";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { handleAI } from "./components/testOpenAi";
 
 export default function Add({ navigation }) {
   const handleAddTask = async () => {
@@ -92,10 +93,12 @@ export default function Add({ navigation }) {
     <View
       style={{
         flex: 1,
+        backgroundColor: "pink",
         justifyContent: "space-between",
       }}
     >
       {/* add task form */}
+
       <View
         style={{
           padding: 10,
@@ -227,64 +230,57 @@ export default function Add({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-
-        {/* {arrSub.map((subT, index) => (
-          <View
-            key={index}
-            style={{
-              height: screenSize.height / 18,
-              borderWidth: 1,
-              padding: 10,
-              margin: 12,
-              borderRadius: 20,
-            }}
-          >
-            <Text>{subT}</Text>
-          </View>
-        ))} */}
-        <View
-          style={{
-            height: screenSize.height / 3.1,
+        <TouchableOpacity
+          onPress={async () => {
+            const res = await handleAI(name);
+            setArrSub([...arrSub, ...res]);
           }}
         >
-          <FlatList
-            data={arrSub}
-            renderItem={renderSubTask}
-            keyExtractor={(item, index) => item.index}
-            style={styles.subTaskList}
-          />
-        </View>
+          <View>
+            <Text>Generate Sub-Task with AI help</Text>
+          </View>
+        </TouchableOpacity>
+
+        <FlatList
+          data={arrSub}
+          renderItem={renderSubTask}
+          keyExtractor={(item, index) => item.index}
+          style={styles.subTaskList}
+        />
       </View>
+
       {/* create button */}
-      <View
-        style={{
-          backgroundColor: "grey",
-          alignItems: "center",
-          justifyContent: "center",
-          height: screenSize.height / 8.5,
-          borderTopEndRadius: 15,
-          borderTopStartRadius: 15,
-        }}
-      >
-        <View>
-          <TouchableOpacity onPress={handleAddTask}>
-            <View
-              style={{
-                backgroundColor: "red",
-                height: screenSize.height / 12.5,
-                width: screenSize.width / 1.25,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                marginHorizontal: 10,
-              }}
-            >
-              <Text>Create Task</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+
+      {/* <View
+          style={{
+            alignItems: "flex-end",
+            backgroundColor: "blue",
+            alignItems: "center",
+            justifyContent: "center",
+            height: screenSize.height / 8.5,
+            borderTopEndRadius: 15,
+            borderTopStartRadius: 15,
+          }}
+        > */}
+      <View>
+        <TouchableOpacity onPress={handleAddTask}>
+          <View
+            style={{
+              backgroundColor: "red",
+              height: screenSize.height / 12.5,
+              width: screenSize.width / 1.25,
+              borderRadius: 20,
+              justifyContent: "center",
+              alignItems: "center",
+              marginHorizontal: 20,
+            }}
+          >
+            <Text>Create Task</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
+    // </View>
   );
 }
 

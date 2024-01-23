@@ -34,7 +34,7 @@ export default function MainTabs() {
         tabBarStyle: {
           height: 60,
           position: "absolute",
-          bottom: 16,
+          bottom: 10,
           right: 16,
           left: 16,
           borderRadius: 16,

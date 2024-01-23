@@ -62,7 +62,7 @@ export default function Add({ navigation }) {
         borderWidth: 1,
         padding: 10,
         margin: 12,
-        borderRadius: 20,
+        borderRadius: 10,
       }}
     >
       <Text>{item}</Text>
@@ -81,12 +81,10 @@ export default function Add({ navigation }) {
   };
 
   const handleConfirm = (date) => {
-    // const splitDate =
-    // const newDate = date.split("T")[0];
     setDateString(date.toDateString());
-    console.log(date.toDateString());
+
     setDeadline(date);
-    console.warn("A date has been picked: ", date);
+
     hideDatePicker();
   };
 
@@ -95,7 +93,6 @@ export default function Add({ navigation }) {
       style={{
         flex: 1,
         justifyContent: "space-between",
-        backgroundColor: "pink",
       }}
     >
       {/* add task form */}
@@ -114,7 +111,7 @@ export default function Add({ navigation }) {
         </Text>
         <TextInput
           name="name"
-          placeholder="Write a title"
+          placeholder="Example : create website"
           onChangeText={(text) => setName(text)}
           style={{
             height: screenSize.height / 15,
@@ -138,13 +135,13 @@ export default function Add({ navigation }) {
           placeholder="Write a description"
           onChangeText={(text) => setDescription(text)}
           multiline={true}
-          numberOfLines={10}
+          numberOfLines={4}
           style={{
-            height: screenSize.height / 8,
+            height: screenSize.height / 12,
             borderWidth: 1,
             padding: 10,
             margin: 12,
-            borderRadius: 20,
+            borderRadius: 10,
           }}
           value={description}
         />
@@ -160,7 +157,7 @@ export default function Add({ navigation }) {
               fontWeight: "bold",
             }}
           >
-            Deadline:" "
+            Deadline:
           </Text>
           <TouchableOpacity onPress={showDatePicker}>
             <Text
@@ -170,7 +167,7 @@ export default function Add({ navigation }) {
                 borderWidth: 1,
                 padding: 10,
                 margin: 12,
-                borderRadius: 20,
+                borderRadius: 10,
               }}
             >
               {dateString ? dateString : ""}

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Text, Card } from "@rneui/themed";
-
+import { Ionicons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 
 const generateColor = () => {
@@ -28,6 +28,7 @@ const color = [
 export default function TaskCard({ task, navigation }) {
   console.log(task, "<<<<");
   return (
+    
     <TouchableOpacity
       onPress={() => {
         navigation.navigate("DetailTask", { task });
@@ -39,19 +40,47 @@ export default function TaskCard({ task, navigation }) {
       <View
         style={{
           flex: 1,
-          flexDirection: "row",
-          paddingLeft: 10,
+          paddingBottom: 1,
         }}
       >
-        <Fontisto name="date" size={19} color="white" style={{}} />
-        <Text
+        <View
           style={{
-            color: "white",
+            flex: 1,
+            flexDirection: "row",
+            paddingLeft: 10,
           }}
         >
-          {" "}
-          {task.createdAt.split("T", 1)}
-        </Text>
+          <Fontisto name="date" size={18} color="white" style={{}} />
+          <Text
+            style={{
+              flex: 1,
+              fontSize: 15,
+              paddingLeft: 7,
+              color: "#f5f5dc",
+            }}
+          >
+            {task.createdAt.split("T", 1)}
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 3,
+            flexDirection: "row",
+            paddingLeft: 10,
+          }}
+        >
+          <Ionicons name="list" size={18} color="f5f5dc" />
+          <Text
+            style={{
+              color: "#f5f5dc",
+              fontSize: 15,
+              flexDirection: "row",
+              paddingLeft: 7,
+            }}
+          >
+            Sub-Tasks : {task.subTasks.length}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -64,10 +93,13 @@ const styles = StyleSheet.create({
     margin: 3.5,
     height: Dimensions.get("window").width / 2.7, // approximate a square
     width: 150,
+    paddingTop: 10,
     borderRadius: 15,
+    paddingRight: 8,
   },
   itemText: {
     textAlign: "justify",
+    paddingBottom: 15,
     fontSize: 18,
     fontWeight: "700",
     paddingVertical: 6,

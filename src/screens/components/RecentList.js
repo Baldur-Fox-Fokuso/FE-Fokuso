@@ -4,10 +4,15 @@ import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function RecentList({ task, navigation }) {
+  // console.log(task?.subTasks[0]?.name, "<<<<<")
   return (
     <View style={[styles.item]}>
       <View>
-        <Pressable onLongPress={() => {navigation.navigate("DetailTask", {task})}}>
+        <Pressable
+          onLongPress={() => {
+            navigation.navigate("DetailTask", { task });
+          }}
+        >
           <Text style={styles.itemText}>{task.name}</Text>
         </Pressable>
         <Text
@@ -16,10 +21,14 @@ export default function RecentList({ task, navigation }) {
             marginHorizontal: 7,
           }}
         >
-          8.30 AM | "subtask"
+          {task.createdAt.slice(11,16)} | Sessions :  {task?.sessions.length}
         </Text>
       </View>
-      <Pressable onPress={() =>{ navigation.navigate('Session', {task})}}>
+      <Pressable
+        onPress={() => {
+          navigation.navigate("Session", { task });
+        }}
+      >
         <View
           style={{
             paddingRight: 8,
@@ -38,12 +47,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    paddingHorizontal : 15,
     margin: 4,
-    borderWidth: 0.5,
+    borderWidth: 0.25,
     borderColor: "#6495ed",
     backgroundColor: "#f8f8ff",
-    elevation: 10,
-    height: Dimensions.get("window").width / 6, // approximate a square
+    height: Dimensions.get("window").width / 4.5, // approximate a square
     width: 350,
     borderRadius: 10,
   },

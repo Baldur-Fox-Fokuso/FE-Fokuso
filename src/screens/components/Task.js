@@ -6,18 +6,13 @@ import {
   View,
   StyleSheet,
   Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
   FlatList,
   Dimensions,
-  Button,
 } from "react-native";
 import TaskCard from "./TaskCard";
 import RecentList from "./RecentList";
 import { Divider } from "@rneui/base";
-import { deleteItemAsync } from "expo-secure-store";
+import { Ionicons } from "@expo/vector-icons";
 import axios from "../../config/instance";
 import { getValueFor } from "../SecureStore";
 import { AuthContext } from "../../context/AuthContext";
@@ -41,7 +36,7 @@ export default function Task({ navigation, route }) {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(data, "<<<<< ini data task");
+
       setTask(data);
     } catch (error) {
       console.log(error);
@@ -55,7 +50,7 @@ export default function Task({ navigation, route }) {
   }, [fetchCounter]); // TODO: Refetching belum bisa
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "space-evenly" }}>
+    <View style={{ flex: 1, justifyContent: "space-evenly", paddingLeft: 18 }}>
       <StatusBar />
       {/* Recent */}
       <View style={styles.container}>
@@ -66,20 +61,43 @@ export default function Task({ navigation, route }) {
         <View
           style={{
             width: "40%",
-            paddingBottom: 20,
           }}
         >
           <Divider width={3} color="#000000" />
         </View>
-        <View style={[styles.task, { flexDirection: "row", flex: 1 }]}>
+
+        <View style={[styles.task, { flexDirection: "row", flex: 1, marginTop : 10 }]}>
           <View style={{ width: "100%" }}>
-            <FlatList
-              horizontal={true}
-              data={task}
-              renderItem={({ item, index }) => (
-                <TaskCard key={index} task={item} navigation={navigation} />
-              )}
-            />
+            {!task.length ? (
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons name="close-outline" size={40} color="black" />
+                <Text
+                  style={{
+                    fontWeight: "500",
+                    fontSize: 25,
+                  
+                  }}
+                >
+                  No Task
+                </Text>
+                <Ionicons name="close-outline" size={40} color="black" />
+              </View>
+            ) : (
+              <FlatList
+                horizontal={true}
+                data={task}
+                renderItem={({ item, index }) => (
+                  <TaskCard key={index} task={item} navigation={navigation} />
+                )}
+              />
+            )}
           </View>
         </View>
         {/* Today */}
@@ -87,25 +105,46 @@ export default function Task({ navigation, route }) {
         <View
           style={{
             width: "40%",
-            paddingBottom: 4,
           }}
         >
           <Divider width={3} color="#000000" />
         </View>
 
-        <View style={[styles.task, { paddingLeft: 25, flex: 3 }]}>
+        <View style={[styles.task, { flex: 3, marginTop : 10, }]}>
           <View style={{ width: "100%" }}>
-            <FlatList
-              data={task}
-              horizontal={false}
-              renderItem={({ item, index }) => (
-                <RecentList key={index} task={item} navigation={navigation}/>
-              )}
-            />
+            {!task.length ? (
+              <View
+                style={{
+                  // flex: 1,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons name="close-outline" size={40} color="black" />
+                <Text
+                  style={{
+                    fontWeight: "500",
+                    fontSize: 25,
+                  }}
+                >
+                  No Task
+                </Text>
+                <Ionicons name="close-outline" size={40} color="black" />
+              </View>
+            ) : (
+              <FlatList
+                data={task}
+                horizontal={false}
+                renderItem={({ item, index }) => (
+                  <RecentList key={index} task={item} navigation={navigation} />
+                )}
+              />
+            )}
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 const screenSize = {
@@ -119,7 +158,7 @@ const styles = StyleSheet.create({
   },
   header: {
     justifyContent: "center",
-    padding: 10,
+
     alignItems: "flex-start",
 
     height: screenSize.height / 12.5,
@@ -147,13 +186,8 @@ const styles = StyleSheet.create({
 
   quicksand: {
     fontSize: 20,
-    paddingLeft: 5,
-    paddingTop: 10,
-    paddingBottom: 5,
   },
   card: {
-    padding: 26,
-    marginVertical: 8,
     height: 70,
     borderRadius: 30,
     backgroundColor: "#f0ffff",

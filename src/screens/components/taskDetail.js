@@ -9,12 +9,54 @@ import {
 } from "react-native";
 
 // icon
+import axios from "../../config/instance";
 import { Fontisto } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Swipeable from "react-native-swipeable-row";
+import { getValueFor } from "../SecureStore";
 
-const TaskDetailScreen = ({ route }) => {
-  //   const { taskName, taskDescription, taskProgress, subtasks } = route.params;
+const TaskDetailScreen = ({ route, navigation }) => {
+  const { task } = route.params;
+  console.log(task, "<<<<<<<< task route");
+  const [detail, setDetail] = useState({});
+  const [subtasks, setSubtasks] = useState([]);
+  const [user, setUser] = useState({});
+
+  const fetchUser = async () => {
+    const token = await getValueFor("access_token");
+    try {
+      const { data } = await axios({
+        url: `/user/${task.userId}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchDetail = async () => {
+    const taskId = task._id;
+    const token = await getValueFor("access_token");
+    try {
+      const { data } = await axios({
+        url: `/task/${taskId}`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(data, "<<<<<< data di detail");
+      setDetail(data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchDetail();
+    fetchUser();
+  }, []);
 
   // description
   const [showAllDescription, setShowAllDescription] = useState(false);
@@ -27,45 +69,19 @@ const TaskDetailScreen = ({ route }) => {
     setShowAllDescription(!showAllDescription);
   };
 
-  const [subtasks, setSubtasks] = useState(data);
   useEffect(() => {
-    setSubtasks(data);
+    setSubtasks(task?.subTasks);
   }, []);
 
-  const data = [
-    {
-      id: "1",
-      title: "Daily",
-    },
-    {
-      id: "2",
-      title: "Habisin Resin",
-    },
-    {
-      id: "8",
-      title: "Habisin Resin",
-    },
-    {
-      id: "9",
-      title: "Habisin Resin",
-    },
-    {
-      id: "10",
-      title: "Hapus Aku",
-    },
-  ];
-
   const SubtaskCard = ({ subtask }) => {
-    // console.log(subtask, "ini isi subtask");
-    // console.log(subtask.id, "ini id subtask");
     return (
       <Swipeable
         rightButtons={rightButtons}
-        onRightButtonsOpenRelease={() => onDelete(subtask.id)}
+        // onRightButtonsOpenRelease={() => onDelete(subtask.id)}
         useNativeDriver={true}
       >
         <View style={styles.card}>
-          <Text style={styles.subtask}>{subtask.title}</Text>
+          <Text style={styles.subtask}>{subtask.name}</Text>
         </View>
       </Swipeable>
     );
@@ -87,7 +103,7 @@ const TaskDetailScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.taskName}>Main Genshin</Text>
+      <Text style={styles.taskName}>{detail.name}</Text>
       <View style={styles.rowContainer}>
         <View style={styles.rowSection}>
           <View style={styles.iconContainer}>
@@ -95,25 +111,30 @@ const TaskDetailScreen = ({ route }) => {
           </View>
           <View style={{ flexDirection: "column" }}>
             <Text style={styles.rowLabel}>Task Duration:</Text>
-            <Text style={styles.rowValue}>1 Jam BOss</Text>
+            <Text style={styles.rowValue}>{detail?.sessions?.length}</Text>
           </View>
         </View>
-        <View style={styles.rowSection}>
-          <View style={styles.iconContainer}>
-            <AntDesign name="user" size={24} color="black" />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Session", { task });
+          }}
+        >
+          <View style={styles.rowSection}>
+            <View style={styles.iconContainer}>
+              <AntDesign name="playcircleo" size={24} color="black" />
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={styles.rowLabel}>Start Session</Text>
+            </View>
           </View>
-          <View style={{ flexDirection: "column" }}>
-            <Text style={styles.rowLabel}>User:</Text>
-            <Text style={styles.rowValue}>Michael</Text>
-          </View>
-        </View>
+        </TouchableOpacity>
       </View>
       <Text style={styles.labelDescription}>Description</Text>
       <Text
         numberOfLines={showAllDescription ? undefined : 2}
         style={styles.taskDescription}
       >
-        {showAllDescription ? taskDescription : limitedDescription}
+        {showAllDescription ? task?.description : task?.description}
       </Text>
       <TouchableOpacity onPress={toggleDescription}>
         <Text style={styles.seeMoreLink}>
@@ -168,6 +189,8 @@ const styles = StyleSheet.create({
     padding: 16,
     marginRight: 15,
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   rowLabel: {
     fontSize: 14,

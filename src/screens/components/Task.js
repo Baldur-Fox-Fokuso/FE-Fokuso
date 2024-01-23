@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -17,57 +17,42 @@ import {
 import TaskCard from "./TaskCard";
 import RecentList from "./RecentList";
 import { Divider } from "@rneui/base";
-
 import { deleteItemAsync } from "expo-secure-store";
-import Swipeable from "react-native-swipeable-row";
+import axios from "../../config/instance";
+import { getValueFor } from "../SecureStore";
+import { AuthContext } from "../../context/AuthContext";
 
-import { LogBox } from "react-native";
-
-const taskList = [
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Ngoding",
-  },
-  {
-    name: "Membuat halaman profildqwdwqdqweqwr",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-
-  {
-    name: "Desain Web",
-  },
-];
-
-// swiping
-
-export default function Task({ navigation }) {
+export default function Task({ navigation, route }) {
   const height = Dimensions.get("screen").height;
-  const [task, setTask] = useState(taskList);
+  const [task, setTask] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [fetchCounter, setFetchCounter] = useState(0);
+  const authContext = useContext(AuthContext);
 
-  const addTask = () => {
-    setTask((task) => [...task, { name: newTask }]);
+  const fetchTask = async () => {
+    const userId = await getValueFor("userId");
+    const token = await getValueFor("access_token");
+    console.log(userId, "<<<<< userId di task");
+    try {
+      const { data } = await axios({
+        url: `/user/${userId}/task`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(data, "<<<<< ini data task");
+      setTask(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
-  }, []);
+    setTimeout(() => {
+      fetchTask();
+    }, 1000);
+  }, [fetchCounter]); // TODO: Refetching belum bisa
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "space-evenly" }}>
@@ -76,7 +61,6 @@ export default function Task({ navigation }) {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
-          <Button title="LOG" onPress={() => deleteItemAsync("access_token")} />
         </View>
         <Text style={styles.quicksand}>Recent Task</Text>
         <View
@@ -93,7 +77,7 @@ export default function Task({ navigation }) {
               horizontal={true}
               data={task}
               renderItem={({ item, index }) => (
-                <TaskCard key={index} task={item} />
+                <TaskCard key={index} task={item} navigation={navigation} />
               )}
             />
           </View>

@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import axios from "../config/instance";
+import { getValueFor } from "./SecureStore";
 
-const Session1 = () => {
-  const [minutes, setMinutes] = useState(25);
+const Session1 = ({ route }) => {
+  const { task } = route?.params;
+  const [minutes, setMinutes] = useState(1);
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [selectedMode, setSelectedMode] = useState("pomodoro");
+  const [isStarted, setIsStarted] = useState(false);
+  const [sessionId, setSessionId] = useState("");
 
   const modeOptions = [
     { label: "Pomodoro", value: "pomodoro" },
@@ -14,13 +19,46 @@ const Session1 = () => {
     { label: "Long Break", value: "longBreak" },
   ];
 
+  const startSession = async () => {
+    const token = await getValueFor("access_token");
+    try {
+      const { data } = await axios({
+        url: `/task/${task._id}/session`,
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("sukses start session");
+      console.log(data.message, "<<<<<<<<<< data session");
+      setSessionId(data.sessionId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const closeSession = async () => {
+    const token = await getValueFor("access_token");
+    try {
+      const { data } = await axios({
+        url: `/task/${task._id}/session/${sessionId}`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(data, "<<<<<<<<< session selesai");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const changeModeRender = (argumen) => {
     // console.log(argumen, "hai");
     setIsActive(false);
     setSeconds(0);
     setSelectedMode(argumen);
     if (argumen === "pomodoro") {
-      setMinutes(25);
+      setMinutes(1);
     } else if (argumen === "shortBreak") {
       setMinutes(5);
     } else if (argumen === "longBreak") {
@@ -38,9 +76,11 @@ const Session1 = () => {
             clearInterval(interval);
             setIsActive(false);
             // add logic notif disini kalo timer selesai
+            closeSession();
+
             switch (selectedMode) {
               case "pomodoro":
-                setMinutes(25);
+                setMinutes(1);
                 break;
               case "shortBreak":
                 setMinutes(5);
@@ -49,7 +89,7 @@ const Session1 = () => {
                 setMinutes(15);
                 break;
               default:
-                setMinutes(25);
+                setMinutes(1);
             }
             setSeconds(0);
           } else {
@@ -69,7 +109,10 @@ const Session1 = () => {
 
   const toggleTimer = () => {
     setIsActive(!isActive);
-    // setSelectedMode(selectedMode);
+    if (!isStarted && selectedMode === "pomodoro") {
+      setIsStarted(true);
+      startSession();
+    }
   };
 
   const resetTimer = () => {

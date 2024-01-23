@@ -28,6 +28,10 @@ const color = [
 export default function TaskCard({ task }) {
   return (
     <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("DetailTask", { task });
+        console.log("masuk taskcard");
+      }}
       style={[styles.item, { backgroundColor: generateColor() }]}
     >
       <Text style={styles.itemText}>{task.name}</Text>

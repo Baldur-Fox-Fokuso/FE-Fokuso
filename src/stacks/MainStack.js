@@ -11,8 +11,8 @@ import Login from "../screens/Login";
 import Dashboard from "../screens/Home";
 import { AuthContext } from "../context/AuthContext";
 import { getValueFor } from "../screens/SecureStore";
-
 import Session1 from "../screens/session1";
+import TaskDetailScreen from "../screens/components/taskDetail";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +44,7 @@ export default function MainStack() {
                 component={Session1}
                 options={{ headerShown: false }}
               />
+              <Stack.Screen name="DetailTask" component={TaskDetailScreen} />
             </>
           ) : (
             <>

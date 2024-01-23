@@ -66,7 +66,7 @@ export default function MainTabs() {
         }}
       />
       <Tab.Screen
-        name="AddTab"
+        name="Create Task"
         component={Add}
         options={{
           headerShown: true,

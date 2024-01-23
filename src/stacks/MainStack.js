@@ -57,16 +57,17 @@ export default function MainStack() {
 
           {/* <Stack.Screen name="Notification" component={Music} options={""} /> */}
 
-          {/* <Stack.Screen
-            name="Session"
-            component={Session}
-            options={{ headerShown: false }}
-          /> */}
           <Stack.Screen
             name="Session"
             component={Session1}
             options={{ headerShown: false }}
           />
+
+          {/* <Stack.Screen
+            name="Session"
+            component={StatusBarCheck}
+            options={{ headerShown: false }}
+          /> */}
 
           {/* <Stack.Screen name="Task Detail" component={TaskDetailScreen} /> */}
 

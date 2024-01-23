@@ -4,17 +4,18 @@ import OpenAI from "openai";
 import axios from "axios";
 
 import { OPENAI_API_KEY } from "@env";
+import { RAPIDAPI_OPENAPI_KEY } from "@env";
 
-const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
+// const openai = new OpenAI({ apiKey: OPENAI_API_KEY });
 
-const chatgptUrl = "https://api.openai.com/v1/chat/completions";
+// const chatgptUrl = "https://api.openai.com/v1/chat/completions";
 
-const client = axios.create({
-  headers: {
-    Authorization: `Bearer ${OPENAI_API_KEY}`,
-    "Content-Type": "application/json",
-  },
-});
+// const client = axios.create({
+//   headers: {
+//     Authorization: `Bearer ${OPENAI_API_KEY}`,
+//     "Content-Type": "application/json",
+//   },
+// });
 
 export default function TestOpenAI() {
   const [inputText, setInputText] = useState("");
@@ -61,14 +62,14 @@ export default function TestOpenAI() {
         url: "https://chatgpt-ai-chat-bot.p.rapidapi.com/ask",
         headers: {
           "content-type": "application/json",
-          "X-RapidAPI-Key":
-            "56277b83dbmsh60fbf4297a7846ep1e63e5jsn403ca9cc6f54",
+          "X-RapidAPI-Key": RAPIDAPI_OPENAPI_KEY,
           "X-RapidAPI-Host": "chatgpt-ai-chat-bot.p.rapidapi.com",
         },
         data: {
           query: `buatkan saya todo list untuk ${inputText}, jadikan dalam bentuk array`,
         },
       };
+
       const response = await axios.request(options);
       //   console.log(response.data.response, "aku string");
 

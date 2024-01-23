@@ -39,6 +39,7 @@ const Login = ({ navigation }) => {
       });
       console.log(data);
       save("access_token", data.access_token);
+      save("userId", data._id);
       authContext.setIsSignedIn(true);
     } catch (error) {
       console.log(error);

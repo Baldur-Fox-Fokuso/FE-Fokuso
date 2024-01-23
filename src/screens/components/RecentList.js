@@ -1,36 +1,55 @@
-import React from "react";
-import { StyleSheet, View, Dimensions } from "react-native";
-import { Text, Card } from "@rneui/themed";
+import React, { useState } from "react";
+import { StyleSheet, View, Dimensions, Text, Pressable } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-
-const generateColor = () => {
-    const randomColor = Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, '0');
-    return `#${randomColor}`;
-  };
-
-export default function RecentList({ task }) {
+export default function RecentList({ task, navigation }) {
   return (
-    <View style={[styles.item,]}>
-      <Card.Title style={styles.itemText}>{task.name}</Card.Title>
+    <View style={[styles.item]}>
+      <View>
+        <Pressable onLongPress={() => {navigation.navigate("DetailTask", {task})}}>
+          <Text style={styles.itemText}>{task.name}</Text>
+        </Pressable>
+        <Text
+          style={{
+            color: "gray",
+            marginHorizontal: 7,
+          }}
+        >
+          8.30 AM | "subtask"
+        </Text>
+      </View>
+      <Pressable onPress={() =>{ navigation.navigate('Session', {task})}}>
+        <View
+          style={{
+            paddingRight: 8,
+          }}
+        >
+          <AntDesign name="playcircleo" size={24} color="black" />
+        </View>
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   item: {
-   
-    alignItems: "center",
-    justifyContent: "center",
     flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     margin: 4,
-    borderWidth : 1,
+    borderWidth: 0.5,
+    borderColor: "#6495ed",
+    backgroundColor: "#f8f8ff",
+    elevation: 10,
     height: Dimensions.get("window").width / 6, // approximate a square
     width: 350,
     borderRadius: 10,
   },
   itemText: {
     color: "#000000",
+    fontWeight: "900",
+    paddingHorizontal: 7,
   },
 });

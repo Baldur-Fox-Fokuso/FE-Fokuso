@@ -9,6 +9,8 @@ import {
   Image,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import axios from "../config/instance";
+import { getValueFor } from "./SecureStore";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Music from "./components/music";
 import { AntDesign } from "@expo/vector-icons";
@@ -16,13 +18,16 @@ import { AntDesign } from "@expo/vector-icons";
 import * as Notifications from "expo-notifications";
 import { Asset } from "expo-asset";
 
-const Session1 = ({ navigation }) => {
-  const [minutes, setMinutes] = useState(25);
+const Session1 = ({ route, navigation }) => {
+  const { task } = route?.params;
+  const [minutes, setMinutes] = useState(1);
   // 0,, ngetest notif
   const [seconds, setSeconds] = useState(0);
   // 1
   const [isActive, setIsActive] = useState(false);
   const [selectedMode, setSelectedMode] = useState("pomodoro");
+  const [isStarted, setIsStarted] = useState(false);
+  const [sessionId, setSessionId] = useState("");
 
   // goBack
   const handleGoBack = () => {
@@ -35,13 +40,46 @@ const Session1 = ({ navigation }) => {
   //   { label: "Long Break", value: "longBreak" },
   // ];
 
+  const startSession = async () => {
+    const token = await getValueFor("access_token");
+    try {
+      const { data } = await axios({
+        url: `/task/${task._id}/session`,
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("sukses start session");
+      console.log(data.message, "<<<<<<<<<< data session");
+      setSessionId(data.sessionId);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const closeSession = async () => {
+    const token = await getValueFor("access_token");
+    try {
+      const { data } = await axios({
+        url: `/task/${task._id}/session/${sessionId}`,
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(data, "<<<<<<<<< session selesai");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const changeModeRender = (argumen) => {
     // console.log(argumen, "hai");
     setIsActive(false);
     setSeconds(0);
     setSelectedMode(argumen);
     if (argumen === "pomodoro") {
-      setMinutes(25);
+      setMinutes(1);
     } else if (argumen === "shortBreak") {
       setMinutes(5);
     } else if (argumen === "longBreak") {
@@ -91,10 +129,12 @@ const Session1 = ({ navigation }) => {
             clearInterval(interval);
             setIsActive(false);
             // add logic notif disini kalo timer selesai
+            closeSession();
+
             await scheduleNotification();
             switch (selectedMode) {
               case "pomodoro":
-                setMinutes(25);
+                setMinutes(1);
                 break;
               case "shortBreak":
                 setMinutes(5);
@@ -103,7 +143,7 @@ const Session1 = ({ navigation }) => {
                 setMinutes(15);
                 break;
               default:
-                setMinutes(25);
+                setMinutes(1);
             }
             setSeconds(0);
           } else {
@@ -123,6 +163,10 @@ const Session1 = ({ navigation }) => {
 
   const toggleTimer = () => {
     setIsActive(!isActive);
+    if (!isStarted && selectedMode === "pomodoro") {
+      setIsStarted(true);
+      startSession();
+    }
   };
 
   const resetTimer = () => {

@@ -7,17 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Text, Card } from "@rneui/themed";
-import { AntDesign } from "@expo/vector-icons";
-import ColorfulCard from "react-native-colorful-card";
-// import { useFonts, Rancho_400Regular } from "@expo-google-fonts/rancho";
+
+import { Fontisto } from "@expo/vector-icons";
 
 const generateColor = () => {
   const randomColor = Math.floor(Math.random() * color.length);
-
-  // .toString(16)
-  // .padStart(6, '0');
-
-  console.log(randomColor, "<<");
   return `#${color[randomColor]}`;
 };
 const color = [
@@ -31,34 +25,53 @@ const color = [
   "D2DE32",
   "5F0F40",
 ];
-export default function TaskCard({ task }) {
-  // let [fontsLoaded] = useFonts({
-  //   Rancho_400Regular,
-  // });
-  // if (!fontsLoaded) {
-  //   return <Text>Loading...</Text>;
-  // }
+export default function TaskCard({ task, navigation }) {
+  console.log(task, "<<<<");
   return (
     <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("DetailTask", { task });
+        console.log("masuk taskcard");
+      }}
       style={[styles.item, { backgroundColor: generateColor() }]}
     >
-      <Card.Title style={styles.itemText}>{task.name}</Card.Title>
+      <Text style={styles.itemText}>{task.name}</Text>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          paddingLeft: 10,
+        }}
+      >
+        <Fontisto name="date" size={19} color="white" style={{}} />
+        <Text
+          style={{
+            color: "white",
+          }}
+        >
+          {" "}
+          {task.createdAt.split("T", 1)}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   item: {
-    justifyContent: "center",
     flex: 1,
-    margin: 4,
-    height: Dimensions.get("window").width / 2.1, // approximate a square
-    width: 160,
-    borderRadius: 30,
+    justifyContent: "flex-start",
+    margin: 3.5,
+    height: Dimensions.get("window").width / 2.7, // approximate a square
+    width: 150,
+    borderRadius: 15,
   },
   itemText: {
-    // fontFamily: "Rancho_400Regular",
-    fontSize: 20,
+    textAlign: "justify",
+    fontSize: 18,
+    fontWeight: "700",
     paddingVertical: 6,
+    paddingLeft: 12,
+    color: "#ffffff",
   },
 });

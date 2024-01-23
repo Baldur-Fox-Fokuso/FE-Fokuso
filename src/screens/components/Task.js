@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -17,74 +17,56 @@ import {
 import TaskCard from "./TaskCard";
 import RecentList from "./RecentList";
 import { Divider } from "@rneui/base";
-// import { Raleway_200ExtraLight } from "@expo-google-fonts/raleway";
-// import { Quicksand_300Light } from "@expo-google-fonts/quicksand";
-// import { useFonts } from "expo-font";
-// import { GrapeNuts_400Regular } from "@expo-google-fonts/grape-nuts";
 import { deleteItemAsync } from "expo-secure-store";
+import axios from "../../config/instance";
+import { getValueFor } from "../SecureStore";
+import { AuthContext } from "../../context/AuthContext";
 
-const taskList = [
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Ngoding",
-  },
-  {
-    name: "Membuat halaman profildqwdwqdqweqwr",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-  {
-    name: "Desain Web",
-  },
-
-  {
-    name: "Desain Web",
-  },
-];
-
-export default function Task({ navigation }) {
+export default function Task({ navigation, route }) {
   const height = Dimensions.get("screen").height;
-  const [task, setTask] = useState(taskList);
+  const [task, setTask] = useState([]);
   const [newTask, setNewTask] = useState("");
-  // const [fontsLoaded] = useFonts({
-  //   Raleway_200ExtraLight,
-  //   Quicksand_300Light,
-  //   GrapeNuts_400Regular,
-  // });
-  // if (!fontsLoaded) {
-  //   return <Text>Loading....</Text>;
-  // }
+  const [fetchCounter, setFetchCounter] = useState(0);
+  const authContext = useContext(AuthContext);
 
-  const addTask = () => {
-    setTask((task) => [...task, { name: newTask }]);
+  const fetchTask = async () => {
+    const userId = await getValueFor("userId");
+    const token = await getValueFor("access_token");
+    console.log(userId, "<<<<< userId di task");
+    try {
+      const { data } = await axios({
+        url: `/user/${userId}/task`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(data, "<<<<< ini data task");
+      setTask(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchTask();
+    }, 1000);
+  }, [fetchCounter]); // TODO: Refetching belum bisa
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "space-evenly" }}>
       <StatusBar />
-
+      {/* Recent */}
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
-          <Button title="LOG" onPress={() => deleteItemAsync("access_token")} />
         </View>
         <Text style={styles.quicksand}>Recent Task</Text>
         <View
           style={{
             width: "40%",
-            paddingBottom: 4,
+            paddingBottom: 20,
           }}
         >
           <Divider width={3} color="#000000" />
@@ -95,12 +77,13 @@ export default function Task({ navigation }) {
               horizontal={true}
               data={task}
               renderItem={({ item, index }) => (
-                <TaskCard key={index} task={item} />
+                <TaskCard key={index} task={item} navigation={navigation} />
               )}
             />
           </View>
         </View>
-        <Text style={styles.raleway}>Today Task</Text>
+        {/* Today */}
+        <Text style={styles.quicksand}>Today Task</Text>
         <View
           style={{
             width: "40%",
@@ -110,13 +93,13 @@ export default function Task({ navigation }) {
           <Divider width={3} color="#000000" />
         </View>
 
-        <View style={[styles.task, { paddingLeft: 15, flex: 2 }]}>
+        <View style={[styles.task, { paddingLeft: 25, flex: 3 }]}>
           <View style={{ width: "100%" }}>
             <FlatList
               data={task}
               horizontal={false}
               renderItem={({ item, index }) => (
-                <RecentList key={index} task={item} />
+                <RecentList key={index} task={item} navigation={navigation}/>
               )}
             />
           </View>
@@ -156,28 +139,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  button: {
-    backgroundColor: "red",
-    padding: 15,
-    borderRadius: 15,
-    marginTop: 15,
-  },
+
   card: {
     width: 10,
     gap: 30,
   },
-  raleway: {
+
+  quicksand: {
     fontSize: 20,
-    // fontFamily: "Quicksand_300Light",
     paddingLeft: 5,
     paddingTop: 10,
     paddingBottom: 5,
   },
-  quicksand: {
-    fontSize: 20,
-    // fontFamily: "Quicksand_300Light",
-    paddingLeft: 5,
-    paddingTop: 10,
-    paddingBottom: 5,
+  card: {
+    padding: 26,
+    marginVertical: 8,
+    height: 70,
+    borderRadius: 30,
+    backgroundColor: "#f0ffff",
   },
 });

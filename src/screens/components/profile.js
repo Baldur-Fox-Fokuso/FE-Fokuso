@@ -3,13 +3,14 @@
 // task card
 // session card
 
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
   FlatList,
+  Button,
   TouchableOpacity,
 } from "react-native";
 
@@ -17,6 +18,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 // implement gravatar pakai md5 untuk photo profilenya
 import md5 from "md5";
+import { deleteItemAsync } from "expo-secure-store";
+import { AuthContext } from "../../context/AuthContext";
 
 // const email = "affriyanr@mail.com";
 // const email = "skyhawk57@gmail.com";
@@ -48,6 +51,14 @@ export default function Profile({ navigation }) {
           friends. She is very timid and often finds it challenging to interact
           with others, leading to a tendency to isolate herself.
         </Text>
+
+        <Button
+          title="LOG"
+          onPress={() => {
+            deleteItemAsync("access_token");
+            AuthContext.setIsSignedIn(false);
+          }}
+        />
       </View>
 
       {/* logout button */}

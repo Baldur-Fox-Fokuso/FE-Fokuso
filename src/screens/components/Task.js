@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -20,20 +20,14 @@ import { Divider } from "@rneui/base";
 import { deleteItemAsync } from "expo-secure-store";
 import axios from "../../config/instance";
 import { getValueFor } from "../SecureStore";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Task({ navigation, route }) {
   const height = Dimensions.get("screen").height;
   const [task, setTask] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [fetchCounter, setFetchCounter] = useState(0);
-  // const [fontsLoaded] = useFonts({
-  //   Raleway_200ExtraLight,
-  //   Quicksand_300Light,
-  //   GrapeNuts_400Regular,
-  // });
-  // if (!fontsLoaded) {
-  //   return <Text>Loading....</Text>;
-  // }
+  const authContext = useContext(AuthContext);
 
   const fetchTask = async () => {
     const userId = await getValueFor("userId");
@@ -54,9 +48,6 @@ export default function Task({ navigation, route }) {
     }
   };
 
-  const refetch = route?.params?.refetch;
-  // if (route?.params?.refetch) fetchTask();
-
   useEffect(() => {
     setTimeout(() => {
       fetchTask();
@@ -70,7 +61,6 @@ export default function Task({ navigation, route }) {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
-          <Button title="LOG" onPress={() => deleteItemAsync("access_token")} />
         </View>
         <Text style={styles.quicksand}>Recent Task</Text>
         <View

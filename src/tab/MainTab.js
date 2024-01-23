@@ -19,8 +19,8 @@ import { useRef } from "react";
 import plus from "../../assets/plus.png";
 import Add from "../screens/Add";
 import Task from "../screens/components/Task";
-import AddTaskStack from "../stacks/AddTaskStack";
-import Session1 from "../screens/session1";
+import Profile from "../screens/components/profile";
+import { FontAwesome } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,6 +28,7 @@ export default function MainTabs() {
   const tabOffsetValue = useRef(new Animated.Value(0)).current;
   return (
     <Tab.Navigator
+      backBehavior="firstRoute"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -66,8 +67,9 @@ export default function MainTabs() {
       />
       <Tab.Screen
         name="AddTab"
-        component={AddTaskStack}
+        component={Add}
         options={{
+          headerShown: true,
           tabBarStyle: {
             display: "none",
           },
@@ -96,9 +98,13 @@ export default function MainTabs() {
         }}
       />
       <Tab.Screen
-        name="SessionTab"
-        component={Session1}
+        name="Profile"
+        component={Profile}
         options={{
+          headerShown: true,
+          // tabBarStyle: {
+          //   display: "none",
+          // },
           tabBarIcon: ({ focused }) => (
             <View
               style={{
@@ -107,11 +113,11 @@ export default function MainTabs() {
                 justifyContent: "center",
               }}
             >
-              <MaterialIcons
-                name="av-timer"
+              <FontAwesome
+                name="user"
                 size={30}
                 color={focused ? "red" : "gray"}
-              ></MaterialIcons>
+              ></FontAwesome>
             </View>
           ),
         }}

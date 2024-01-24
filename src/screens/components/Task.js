@@ -53,10 +53,10 @@ export default function Task({ navigation, route }) {
   return (
     // <View style={{ flex: 1, justifyContent: "space-evenly", paddingLeft: 18 }}>
     <>
-      <Image
+      {/* <Image
         source={require("../../../assets/nick-nice-gPm8h3DS1s4-unsplash.jpg")}
         style={styles.backgroundImage}
-      />
+      /> */}
       <StatusBar />
       {/* Recent */}
       <View style={styles.container}>

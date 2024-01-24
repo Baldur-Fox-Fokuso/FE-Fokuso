@@ -106,7 +106,7 @@ export default function Add({ navigation }) {
           placeholder="ex : create website"
           onChangeText={(text) => setName(text)}
           style={{
-            height: screenSize.height / 20,
+            height: screenSize.height / 15,
             margin: 12,
             borderWidth: 1,
             padding: 10,
@@ -131,12 +131,14 @@ export default function Add({ navigation }) {
             multiline={true}
             numberOfLines={4}
             style={{
-              height: screenSize.height / 5,
+              height: screenSize.height / 8,
               borderWidth: 1,
-              padding: 10,
+              // padding: 10,
               margin: 12,
               borderRadius: 10,
-              paddingBottom: 120,
+              paddingHorizontal: 10,
+              paddingBottom: 60,
+              textAlign: "auto",
             }}
             value={description}
           />
@@ -179,14 +181,58 @@ export default function Add({ navigation }) {
           />
         </View>
         <View style={styles.subtaskContainer}>
-          <Text
+          <View
             style={{
-              fontSize: 20,
-              fontWeight: "bold",
+              backgroundColor: "red",
+              width: "100%",
+              flexDirection: "row",
+
+              // justifyContent: "space-evenly",
             }}
           >
-            Sub-Task
-          </Text>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "flex-start",
+                backgroundColor: "grey",
+              }}
+            >
+              <Text
+                style={{
+                  textAlign: "left",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                Sub-Task
+              </Text>
+              {/* <View></View> */}
+            </View>
+            <View
+              style={{
+                flex: 2.5,
+                backgroundColor: "pink",
+                // justifyContent: "flex-end",
+              }}
+            >
+              <TouchableOpacity
+                onPress={async () => {
+                  const res = await handleAI(name);
+                  setArrSub([...arrSub, ...res]);
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "left",
+                    fontSize: 15,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Generate
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           <View
             style={{
               flexDirection: "row",
@@ -202,7 +248,7 @@ export default function Add({ navigation }) {
                 name="subTasks"
                 placeholder="add sub-task"
                 style={{
-                  height: screenSize.height / 15,
+                  height: screenSize.height / 18,
                   width: screenSize.width / 1.3,
                   borderWidth: 1,
                   padding: 10,
@@ -219,20 +265,6 @@ export default function Add({ navigation }) {
           </View>
         </View>
 
-        {/* {arrSub.map((subT, index) => (
-          <View
-            key={index}
-            style={{
-              height: screenSize.height / 18,
-              borderWidth: 1,
-              padding: 10,
-              margin: 12,
-              borderRadius: 10,
-            }}
-          >
-            <Text>{subT}</Text>
-          </View>
-        ))} */}
         <View style={styles.flatListContainer}>
           <FlatList
             data={arrSub}

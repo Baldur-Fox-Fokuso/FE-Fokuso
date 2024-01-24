@@ -27,29 +27,29 @@ const generateColor = () => {
 // ];
 
 // !Black Color
-const color = [
-  "000000", // Black
-  "1A1A1A",
-  "333333",
-  "4D4D4D",
-  "666666",
-  "808080",
-  "999999",
-  "B3B3B3",
-  "CCCCCC",
-];
-
 // const color = [
-//   "FAD02E", // Yellow
-//   "F28D35", // Orange
-//   "FF7070", // Light Red
-//   "8AC926", // Light Green
-//   "7FDBDA", // Turquoise
-//   "B0B8B5", // Grayish Blue
-//   "C4E17F", // Light Greenish Yellow
-//   "AB83A1", // Light Purple
-//   "FFD700", // Gold
+//   "000000", // Black
+//   "1A1A1A",
+//   "333333",
+//   "4D4D4D",
+//   "666666",
+//   "808080",
+//   "999999",
+//   "B3B3B3",
+//   "CCCCCC",
 // ];
+
+const color = [
+  "FAD02E", // Yellow
+  "F28D35", // Orange
+  "FF7070", // Light Red
+  "8AC926", // Light Green
+  "7FDBDA", // Turquoise
+  "B0B8B5", // Grayish Blue
+  "C4E17F", // Light Greenish Yellow
+  "AB83A1", // Light Purple
+  "FFD700", // Gold
+];
 
 export default function TaskCard({ task, navigation }) {
   console.log(task, "<<<<");
@@ -63,7 +63,7 @@ export default function TaskCard({ task, navigation }) {
         style={[
           styles.item,
           {
-            // backgroundColor: generateColor(),
+            backgroundColor: generateColor(),
           },
         ]}
       >
@@ -93,7 +93,7 @@ const InfoRow = ({ icon, text }) => (
 const styles = StyleSheet.create({
   item: {
     margin: 3.5,
-    height: Dimensions.get("window").width / 3.5,
+    height: Dimensions.get("window").width / 3,
     width: Dimensions.get("window").height / 5,
     borderWidth: 0.25,
     borderRadius: 15,

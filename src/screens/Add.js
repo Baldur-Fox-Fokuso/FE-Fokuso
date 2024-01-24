@@ -15,6 +15,7 @@ import { screenSize } from "../utils";
 import { AntDesign } from "@expo/vector-icons";
 import { getValueFor } from "./SecureStore";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { handleAI } from "./components/testOpenAi";
 import moment from "moment";
 
 export default function Add({ navigation }) {

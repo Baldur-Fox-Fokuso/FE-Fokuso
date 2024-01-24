@@ -1,4 +1,4 @@
-// import "react-native-gesture-handler";
+import { registerRootComponent } from "expo";
 import MainStack from "./src/stacks/MainStack";
 import MainTabs from "./src/tab/MainTab";
 import AuthProvider from "./src/context/AuthContext";
@@ -12,3 +12,5 @@ export default function App() {
     </AuthProvider>
   );
 }
+
+registerRootComponent(App);

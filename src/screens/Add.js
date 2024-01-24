@@ -70,9 +70,7 @@ export default function Add({ navigation }) {
   };
 
   const renderSubTask = ({ item }) => {
-    const renderItemContent = (
-      <Text style={styles.deleteButtonText}>{item}</Text>
-    );
+    const renderItemContent = <Text style={{ color: "black" }}>{item}</Text>;
 
     const rightContent = (
       <View style={styles.deleteButtonContainer}>

@@ -1,13 +1,13 @@
 import {
   View,
   Text,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
   FlatList,
   StyleSheet,
-  Button,
+  Image,
+  Modal,
 } from "react-native";
 import { useState } from "react";
 import axios from "../config/instance";
@@ -16,9 +16,20 @@ import { AntDesign } from "@expo/vector-icons";
 import { getValueFor } from "./SecureStore";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { handleAI } from "./components/testOpenAi";
+
+// buat format date
 import moment from "moment";
 
+import Swipeable from "react-native-swipeable-row";
+
 export default function Add({ navigation }) {
+  //open ai styling handler
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const handleAddTask = async () => {
     try {
       const { data } = await axios({
@@ -58,19 +69,22 @@ export default function Add({ navigation }) {
     setSubTask("");
   };
 
-  const renderSubTask = ({ item }) => (
-    <View
-      style={{
-        height: screenSize.height / 18,
-        borderWidth: 1,
-        padding: 10,
-        margin: 12,
-        borderRadius: 10,
-      }}
-    >
-      <Text>{item}</Text>
-    </View>
-  );
+  const renderSubTask = ({ item }) => {
+    const renderItemContent = (
+      <Text style={styles.deleteButtonText}>{item}</Text>
+    );
+
+    const rightContent = (
+      <View style={styles.deleteButtonContainer}>
+        <Text style={styles.deleteButtonText}>Delete</Text>
+      </View>
+    );
+    return (
+      <Swipeable rightContent={rightContent} useNativeDriver={true}>
+        <View style={styles.subTaskContainer}>{renderItemContent}</View>
+      </Swipeable>
+    );
+  };
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateString, setDateString] = useState("");
@@ -183,18 +197,15 @@ export default function Add({ navigation }) {
         <View style={styles.subtaskContainer}>
           <View
             style={{
-              backgroundColor: "red",
+              // backgroundColor: "red",
               width: "100%",
               flexDirection: "row",
-
-              // justifyContent: "space-evenly",
             }}
           >
             <View
               style={{
-                flex: 1,
+                flex: 8,
                 justifyContent: "flex-start",
-                backgroundColor: "grey",
               }}
             >
               <Text
@@ -206,13 +217,13 @@ export default function Add({ navigation }) {
               >
                 Sub-Task
               </Text>
-              {/* <View></View> */}
             </View>
+            {/* open ai */}
             <View
               style={{
-                flex: 2.5,
-                backgroundColor: "pink",
-                // justifyContent: "flex-end",
+                flex: 2,
+                // backgroundColor: "pink",
+                alignItems: "center",
               }}
             >
               <TouchableOpacity
@@ -221,16 +232,48 @@ export default function Add({ navigation }) {
                   setArrSub([...arrSub, ...res]);
                 }}
               >
-                <Text
+                <TouchableWithoutFeedback onLongPress={toggleModal}>
+                  <Image
+                    source={require("../../assets/openai.png")}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      resizeMode: "contain",
+                      // backgroundColor: "white",
+                    }}
+                  />
+                </TouchableWithoutFeedback>
+              </TouchableOpacity>
+
+              <Modal
+                visible={isModalVisible}
+                animationType="slide"
+                transparent={true}
+                onRequestClose={toggleModal}
+              >
+                <View
                   style={{
-                    textAlign: "left",
-                    fontSize: 15,
-                    fontWeight: "bold",
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
-                  Generate
-                </Text>
-              </TouchableOpacity>
+                  <View
+                    style={{
+                      backgroundColor: "white",
+                      padding: 20,
+                      borderRadius: 10,
+                    }}
+                  >
+                    <Text>Generate Sub-Task with Open AI instead</Text>
+                    <TouchableWithoutFeedback onPress={toggleModal}>
+                      <Text style={{ color: "blue", marginTop: 10 }}>
+                        Close
+                      </Text>
+                    </TouchableWithoutFeedback>
+                  </View>
+                </View>
+              </Modal>
             </View>
           </View>
           <View
@@ -319,5 +362,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // marginHorizontal: 10,
+  },
+
+  // !DeleteSwipe
+  subTaskContainer: {
+    // height: screenSize.height / 18,
+    // width: screenSize.width / 1.2,
+    padding: 16,
+    marginVertical: 8,
+    borderRadius: 8,
+    // backgroundColor: "#E0E0E0",
+    borderWidth: 1,
+  },
+  deleteButtonContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    backgroundColor: "gray",
+    padding: 16,
+    borderRadius: 8,
+  },
+  deleteButtonText: {
+    color: "#FFFFFF",
   },
 });

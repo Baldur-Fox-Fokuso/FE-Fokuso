@@ -28,7 +28,6 @@ export default function Task({ navigation, route }) {
   const fetchTask = async () => {
     const userId = await getValueFor("userId");
     const token = await getValueFor("access_token");
-    console.log(userId, "<<<<< userId di task");
     try {
       const { data } = await axios({
         url: `/user/${userId}/task`,

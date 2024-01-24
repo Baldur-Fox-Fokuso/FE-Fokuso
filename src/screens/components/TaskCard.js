@@ -56,7 +56,7 @@ export default function TaskCard({ task, navigation }) {
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate("DetailTask", { task });
+        navigation?.navigate("DetailTask", { task });
       }}
     >
       <View
@@ -67,15 +67,15 @@ export default function TaskCard({ task, navigation }) {
           },
         ]}
       >
-        <Text style={styles.itemText}>{task.name}</Text>
+        <Text style={styles.itemText}>{task?.name}</Text>
         <View style={styles.infoContainer}>
           <InfoRow
             icon={<Fontisto name="date" size={18} color="white" />}
-            text={task.createdAt.split("T", 1)}
+            text={task?.createdAt.split("T", 1)}
           />
           <InfoRow
             icon={<Ionicons name="list" size={18} color="white" />}
-            text={`Sub-Tasks: ${task.subTasks.length}`}
+            text={`Sub-Tasks: ${task?.subTasks?.length}`}
           />
         </View>
       </View>

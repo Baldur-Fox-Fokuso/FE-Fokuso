@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 // implement gravatar pakai md5 untuk photo profilenya
 import md5 from "md5";
@@ -24,6 +25,23 @@ const gravatarUrl = `https://www.gravatar.com/avatar/${md5(email)}?d=identicon`;
 
 export default function Profile() {
   const authContext = useContext(AuthContext);
+
+  // card profile color
+  const generateColor = () => {
+    const randomColor = Math.floor(Math.random() * color.length);
+    return `#${color[randomColor]}`;
+  };
+  const color = [
+    "FAD02E", // Yellow
+    "F28D35", // Orange
+    "FF7070", // Light Red
+    "8AC926", // Light Green
+    "7FDBDA", // Turquoise
+    "B0B8B5", // Grayish Blue
+    "C4E17F", // Light Greenish Yellow
+    "AB83A1", // Light Purple
+    "FFD700", // Gold
+  ];
 
   return (
     <>
@@ -44,6 +62,40 @@ export default function Profile() {
           friends. She is very timid and often finds it challenging to interact
           with others, leading to a tendency to isolate herself.
         </Text>
+      </View>
+      <View style={styles.taskCardContainer}>
+        <View
+          style={[
+            styles.cardContainer,
+            {
+              backgroundColor: generateColor(),
+            },
+          ]}
+        >
+          <View style={styles.iconContainer}>
+            <FontAwesome5 name="tasks" size={24} color="black" />
+          </View>
+          <View style={{ flexDirection: "column" }}>
+            <Text style={styles.rowLabel}>Task Available:</Text>
+            <Text style={styles.rowValue}>20</Text>
+          </View>
+        </View>
+        <View
+          style={[
+            styles.cardContainer,
+            {
+              backgroundColor: generateColor(),
+            },
+          ]}
+        >
+          <View style={styles.iconContainer}>
+            <FontAwesome name="tasks" size={24} color="black" />
+          </View>
+          <View style={{ flexDirection: "column" }}>
+            <Text style={styles.rowLabel}>Session Available:</Text>
+            <Text style={styles.rowValue}>5</Text>
+          </View>
+        </View>
       </View>
 
       <TouchableOpacity
@@ -73,12 +125,53 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   container: {
-    flex: 1,
+    flex: 4,
     alignItems: "center",
     justifyContent: "center",
     padding: 16,
-    backgroundColor: "white",
+    // backgroundColor: "red",
+
+    // !start Card
   },
+  taskCardContainer: {
+    flex: 2,
+    flexDirection: "row",
+    // backgroundColor: "pink",
+    // alignItems: "center",
+    // justifyContent: "center",
+    // gap: 30,
+  },
+  cardContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 15,
+    marginVertical: 50,
+    padding: 16,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  rowLabel: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#000000",
+  },
+  iconContainer: {
+    marginRight: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  rowValue: {
+    fontSize: 14,
+    color: "#000000",
+  },
+  // !end Card
+
   profileImage: {
     width: 150,
     height: 150,

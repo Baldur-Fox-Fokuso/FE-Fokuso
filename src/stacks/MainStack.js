@@ -38,13 +38,19 @@ export default function MainStack() {
                 component={Dashboard}
                 options={{ headerShown: false }}
               />
-
               <Stack.Screen
                 name="Session"
                 component={Session1}
                 options={{ headerShown: false }}
               />
-              <Stack.Screen name="DetailTask" component={TaskDetailScreen} />
+              <Stack.Screen
+                name="DetailTask"
+                component={TaskDetailScreen}
+                options={{
+                  headerShown: true,
+                  headerTitleAlign: "center",
+                }}
+              />
             </>
           ) : (
             <>
@@ -53,7 +59,6 @@ export default function MainStack() {
                 component={LandingPage}
                 options={{ headerShown: false }}
               />
-
               <Stack.Screen
                 name="Signup"
                 component={SignUpScreen}

@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  Image,
 } from "react-native";
 
 // icon
@@ -21,6 +22,10 @@ const TaskDetailScreen = ({ route, navigation }) => {
   const [detail, setDetail] = useState({});
   const [subtasks, setSubtasks] = useState([]);
   const [user, setUser] = useState({});
+
+  // description logic
+  const [showMore, setShowMore] = useState(false);
+  const maxDescriptionLength = 50;
 
   const fetchUser = async () => {
     const token = await getValueFor("access_token");
@@ -58,17 +63,6 @@ const TaskDetailScreen = ({ route, navigation }) => {
     fetchUser();
   }, []);
 
-  // description
-  const [showAllDescription, setShowAllDescription] = useState(false);
-  const taskDescription =
-    "Players control the Traveler, exploring a visually stunning open world, solving puzzles, and engaging in real-time combat against various enemies. The game incorporates a gacha system for obtaining new characters and weapons, and its elemental system encourages strategic use of character abilities. With regular updates introducing new content, Genshin Impact offers both a single-player experience and cooperative multiplayer gameplay, making it a popular and evolving title in the gaming community.";
-
-  const limitedDescription = taskDescription.substring(0, 200);
-
-  const toggleDescription = () => {
-    setShowAllDescription(!showAllDescription);
-  };
-
   useEffect(() => {
     setSubtasks(task?.subTasks);
   }, []);
@@ -102,73 +96,96 @@ const TaskDetailScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.taskName}>{detail.name}</Text>
-      <View style={styles.rowContainer}>
-        <View style={styles.rowSection}>
-          <View style={styles.iconContainer}>
-            <Fontisto name="date" size={24} color="black" />
-          </View>
-          <View style={{ flexDirection: "column" }}>
-            <Text style={styles.rowLabel}>Task Duration:</Text>
-            <Text style={styles.rowValue}>{detail?.sessions?.length}</Text>
-          </View>
-        </View>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Session", { task });
-          }}
-        >
-          <View style={styles.rowSection}>
-            <View style={styles.iconContainer}>
-              <AntDesign name="playcircleo" size={24} color="black" />
-            </View>
-            <View style={{ flexDirection: "column" }}>
-              <Text style={styles.rowLabel}>Start Session</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.labelDescription}>Description</Text>
-      <Text
-        numberOfLines={showAllDescription ? undefined : 2}
-        style={styles.taskDescription}
-      >
-        {showAllDescription ? task?.description : task?.description}
-      </Text>
-      <TouchableOpacity onPress={toggleDescription}>
-        <Text style={styles.seeMoreLink}>
-          {showAllDescription ? "See Less" : "See More"}
-        </Text>
-      </TouchableOpacity>
-      <Text style={styles.labelProgress}>Progress</Text>
-      <View style={styles.progressBarContainer}>
-        <ActivityIndicator
-          size="large"
-          color="#000000"
-          style={[styles.progressBar, { width: `20%` }]}
-          animating={true}
-          useNativeDriver={true} // nativeDriver warning
+    <>
+      <View style={styles.imageContainer}>
+        <Image
+          source={require("../../../assets/texture-landscape-photography-1.jpg")}
+          style={styles.image}
+          resizeMode="cover"
         />
       </View>
+      <View style={styles.container}>
+        <Text style={styles.taskName}>{detail.name}</Text>
+        <View style={styles.rowContainer}>
+          <View style={styles.rowSection}>
+            <View style={styles.iconContainer}>
+              <Fontisto name="date" size={24} color="black" />
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={styles.rowLabel}>Task Duration:</Text>
+              <Text style={styles.rowValue}>{detail?.sessions?.length}</Text>
+            </View>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Session", { task });
+            }}
+          >
+            <View style={styles.rowSection}>
+              <View style={styles.iconContainer}>
+                <AntDesign name="playcircleo" size={24} color="black" />
+              </View>
+              <View style={{ flexDirection: "column" }}>
+                <Text style={styles.rowLabel}>Start Session</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.labelDescription}>Description</Text>
 
-      <View style={styles.divider} />
+        <Text>
+          {showMore
+            ? task?.description
+            : task?.description?.substring(0, maxDescriptionLength) +
+              (task?.description?.length > maxDescriptionLength ? "..." : "")}
+        </Text>
 
-      <Text style={styles.subtaskHeader}>Subtasks:</Text>
-      <FlatList
-        data={subtasks}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <SubtaskCard subtask={item} />}
-      />
-    </View>
+        {task?.description?.length > maxDescriptionLength && (
+          <TouchableOpacity onPress={() => setShowMore(!showMore)}>
+            <Text style={styles.seeMoreLink}>
+              {showMore ? "See Less" : "See More"}
+            </Text>
+          </TouchableOpacity>
+        )}
+
+        <View style={styles.outerProgressBar}>
+          <Text style={styles.labelProgress}>Progress</Text>
+          <View style={styles.progressBarContainer}>
+            <ActivityIndicator
+              size="large"
+              color="#000000"
+              style={[styles.progressBar, { width: `20%` }]}
+              animating={true}
+              useNativeDriver={true} // nativeDriver warning
+            />
+          </View>
+        </View>
+
+        {/* <View style={styles.divider} /> */}
+
+        <View style={{}}>
+          <Text style={styles.subtaskHeader}>Subtasks:</Text>
+          <FlatList
+            data={subtasks}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => <SubtaskCard subtask={item} />}
+          />
+        </View>
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  imageContainer: {
     flex: 1,
+    backgroundColor: "blue",
+  },
+  image: { width: "100%", height: "100%" },
+  container: {
+    flex: 2,
     padding: 16,
-    backgroundColor: "#FFFFFF",
+    // backgroundColor: "yellow",
   },
   taskName: {
     fontSize: 24,
@@ -184,8 +201,9 @@ const styles = StyleSheet.create({
   },
   rowSection: {
     flex: 1,
-    backgroundColor: "#E0E0E0",
+    // backgroundColor: "#E0E0E0",
     borderRadius: 8,
+    borderWidth: 1,
     padding: 16,
     marginRight: 15,
     flexDirection: "row",
@@ -224,6 +242,7 @@ const styles = StyleSheet.create({
   },
 
   //   progressbar
+  outerProgressBar: {},
   labelProgress: {
     fontSize: 18,
     fontWeight: "bold",
@@ -232,7 +251,9 @@ const styles = StyleSheet.create({
   },
   progressBarContainer: {
     height: 20,
-    backgroundColor: "#E0E0E0",
+    // backgroundColor: "red",
+    // backgroundColor: "#E0E0E0",
+    borderWidth: 1,
     borderRadius: 10,
     overflow: "hidden",
   },
@@ -254,25 +275,26 @@ const styles = StyleSheet.create({
     padding: 16,
     marginVertical: 8,
     borderRadius: 8,
-    backgroundColor: "#E0E0E0",
+    // backgroundColor: "#E0E0E0",
+    borderWidth: 1,
   },
   subtask: {
     fontSize: 14,
     color: "#000000",
   },
 
-  divider: {
-    height: 1,
-    backgroundColor: "gray",
-    marginVertical: 25,
-  },
+  // divider: {
+  //   height: 1,
+  //   backgroundColor: "gray",
+  //   marginVertical: 25,
+  // },
 
   //   delete swipe
   deleteButtonContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "flex-end",
-    backgroundColor: "#FF0000",
+    backgroundColor: "gray",
     padding: 16,
     borderRadius: 8,
   },

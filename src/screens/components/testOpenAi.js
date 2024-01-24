@@ -5,8 +5,7 @@ import axios from "axios";
 
 import { RAPIDAPI_OPENAPI_KEY } from "@env";
 
-// const RAPIDAPI_OPENAPI_KEY =
-//   "56277b83dbmsh60fbf4297a7846ep1e63e5jsn403ca9cc6f54";
+
 
 export const handleAI = async (input) => {
   try {

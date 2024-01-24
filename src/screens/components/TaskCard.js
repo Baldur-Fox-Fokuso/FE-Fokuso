@@ -48,7 +48,7 @@ const color = [
   "B0B8B5", // Grayish Blue
   "C4E17F", // Light Greenish Yellow
   "AB83A1", // Light Purple
-  "FFD700", // Gold
+  "FF5A00", // Gold
 ];
 
 export default function TaskCard({ task, navigation }) {

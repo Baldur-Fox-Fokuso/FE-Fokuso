@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.25,
     // borderColor: "#6495ed",
     // backgroundColor: "white",
-    // backgroundColor: "#f8f8ff",
+    backgroundColor: "#f8f8ff",
     height: Dimensions.get("window").width / 4.5, // approximate a square
     width: Dimensions.get("window").height / 2.25,
     borderRadius: 10,

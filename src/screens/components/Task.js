@@ -28,7 +28,7 @@ export default function Task({ navigation, route }) {
   const fetchTask = async () => {
     const userId = await getValueFor("userId");
     const token = await getValueFor("access_token");
-    console.log(userId, "<<<<< userId di task");
+
     try {
       const { data } = await axios({
         url: `/user/${userId}/task`,
@@ -51,14 +51,9 @@ export default function Task({ navigation, route }) {
   }, [fetchCounter]); // TODO: Refetching belum bisa
 
   return (
-    // <View style={{ flex: 1, justifyContent: "space-evenly", paddingLeft: 18 }}>
     <>
-      {/* <Image
-        source={require("../../../assets/nick-nice-gPm8h3DS1s4-unsplash.jpg")}
-        style={styles.backgroundImage}
-      /> */}
       <StatusBar />
-      {/* Recent */}
+
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
@@ -112,7 +107,7 @@ export default function Task({ navigation, route }) {
             )}
           </View>
         </View>
-        {/* Today */}
+
         <Text style={styles.quicksand}>Today</Text>
         <View
           style={{
@@ -122,12 +117,21 @@ export default function Task({ navigation, route }) {
           <Divider width={3} color="#000000" />
         </View>
 
-        <View style={[styles.task, { flex: 3, marginTop: 10 }]}>
+        <View
+          style={[
+            styles.task,
+            {
+              flex: 3,
+              marginTop: 10,
+              backgroundColor: "pink",
+              paddingRight: 10,
+            },
+          ]}
+        >
           <View style={{ width: "100%" }}>
             {!task.length ? (
               <View
                 style={{
-                  // flex: 1,
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
@@ -156,7 +160,7 @@ export default function Task({ navigation, route }) {
           </View>
         </View>
       </View>
-      {/* kosongan buat pembatas */}
+
       <View style={{ flex: 0.12 }}></View>
     </>
   );
@@ -188,6 +192,7 @@ const styles = StyleSheet.create({
   },
   task: {
     alignContent: "center",
+
     justifyContent: "center",
     alignItems: "center",
   },
@@ -212,8 +217,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFF8E3",
     textShadowColor: "black",
-    textShadowOffset: { width: 3, height: 3 },
-    textShadowRadius: 10,
   },
   card: {
     height: 70,

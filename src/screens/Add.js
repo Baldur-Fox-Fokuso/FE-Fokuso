@@ -278,7 +278,7 @@ export default function Add({ navigation }) {
         <View style={styles.createTaskButtonContainer}>
           <TouchableOpacity onPress={handleAddTask}>
             <View style={styles.createButton}>
-              <Text style={{ color: "white" }}>Create Task</Text>
+              <Text style={{ color: "white", fontSize : 20, fontWeight : '500' }}>Create Task</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "yellow",
   },
   createButton: {
-    backgroundColor: "black",
+    backgroundColor: "#4EBBE6",
     height: screenSize.height / 15,
     width: screenSize.width / 1.25,
     borderRadius: 15,

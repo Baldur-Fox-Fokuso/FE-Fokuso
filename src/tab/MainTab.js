@@ -57,11 +57,7 @@ export default function MainTabs() {
                 justifyContent: "center",
               }}
             >
-              <MaterialIcons
-                name="home-filled"
-                size={30}
-                color={focused ? "#C6A969" : "#C6A969"}
-              ></MaterialIcons>
+              <Ionicons name="home-sharp" size={30} color="#4EBBE6" />
             </View>
           ),
         }}
@@ -80,7 +76,7 @@ export default function MainTabs() {
               style={{
                 width: 55,
                 height: 55,
-                backgroundColor: "#F7EFE5",
+                backgroundColor: "#4EBBE6",
                 borderRadius: 30,
                 justifyContent: "center",
                 alignItems: "center",
@@ -92,7 +88,7 @@ export default function MainTabs() {
                 style={{
                   width: 22,
                   height: 22,
-                  tintColor: "gray",
+                  tintColor: "white",
                 }}
               ></Image>
             </View>
@@ -125,11 +121,7 @@ export default function MainTabs() {
                 justifyContent: "center",
               }}
             >
-              <FontAwesome
-                name="user"
-                size={30}
-                color={focused ? "#C6A969" : "#C6A969"}
-              ></FontAwesome>
+              <FontAwesome name="user" size={30} color="#4EBBE6"></FontAwesome>
             </View>
           ),
           headerLeft: () => (

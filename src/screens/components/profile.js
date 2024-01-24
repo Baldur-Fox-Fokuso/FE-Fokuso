@@ -7,6 +7,7 @@ import {
   FlatList,
   Button,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -62,41 +63,43 @@ export default function Profile() {
           friends. She is very timid and often finds it challenging to interact
           with others, leading to a tendency to isolate herself.
         </Text>
-      </View>
-      <View style={styles.taskCardContainer}>
-        <View
-          style={[
-            styles.cardContainer,
-            {
-              backgroundColor: generateColor(),
-            },
-          ]}
-        >
-          <View style={styles.iconContainer}>
-            <FontAwesome5 name="tasks" size={24} color="black" />
+        <View style={styles.taskCardContainer}>
+          <View
+            style={[
+              styles.cardContainer,
+              {
+                backgroundColor: generateColor(),
+              },
+            ]}
+          >
+            <View style={styles.iconContainer}>
+              <FontAwesome5 name="tasks" size={24} color="black" />
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={styles.rowLabel}>Task Available:</Text>
+              <Text style={styles.rowValue}>20</Text>
+            </View>
           </View>
-          <View style={{ flexDirection: "column" }}>
-            <Text style={styles.rowLabel}>Task Available:</Text>
-            <Text style={styles.rowValue}>20</Text>
+          <View
+            style={[
+              styles.cardContainer,
+              {
+                backgroundColor: generateColor(),
+              },
+            ]}
+          >
+            <View style={styles.iconContainer}>
+              <FontAwesome name="tasks" size={24} color="black" />
+            </View>
+            <View style={{ flexDirection: "column" }}>
+              <Text style={styles.rowLabel}>Session Available:</Text>
+              <Text style={styles.rowValue}>5</Text>
+            </View>
           </View>
         </View>
-        <View
-          style={[
-            styles.cardContainer,
-            {
-              backgroundColor: generateColor(),
-            },
-          ]}
-        >
-          <View style={styles.iconContainer}>
-            <FontAwesome name="tasks" size={24} color="black" />
-          </View>
-          <View style={{ flexDirection: "column" }}>
-            <Text style={styles.rowLabel}>Session Available:</Text>
-            <Text style={styles.rowValue}>5</Text>
-          </View>
-        </View>
       </View>
+
+      {/* <View style={styles.emptySpace}></View> */}
 
       <TouchableOpacity
         style={styles.logoutButton}
@@ -128,26 +131,33 @@ const styles = StyleSheet.create({
     flex: 4,
     alignItems: "center",
     justifyContent: "center",
-    padding: 16,
+    // justifyContent: "space-evenly",
+    paddingHorizontal: 16,
+    paddingVertical: 25,
     // backgroundColor: "red",
 
     // !start Card
   },
   taskCardContainer: {
-    flex: 2,
+    // flex: 2,
     flexDirection: "row",
     // backgroundColor: "pink",
     // alignItems: "center",
     // justifyContent: "center",
+    // alignContent: "flex-start",
     // gap: 30,
+  },
+  emptySpace: {
+    flex: 2,
   },
   cardContainer: {
     flex: 1,
+    height: Dimensions.get("window").width / 3.5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 15,
-    marginVertical: 50,
+    marginHorizontal: 10,
+    marginVertical: 20,
     padding: 16,
     borderRadius: 8,
     shadowColor: "#000",
@@ -158,16 +168,16 @@ const styles = StyleSheet.create({
   },
   rowLabel: {
     fontSize: 14,
-    fontWeight: "bold",
-    color: "#000000",
+    color: "black",
   },
   iconContainer: {
-    marginRight: 8,
     alignItems: "center",
     justifyContent: "center",
   },
   rowValue: {
-    fontSize: 14,
+    textAlign: "right",
+    fontSize: 30,
+    fontWeight: "bold",
     color: "#000000",
   },
   // !end Card

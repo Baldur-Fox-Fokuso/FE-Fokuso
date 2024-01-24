@@ -19,7 +19,6 @@ import { getValueFor } from "../SecureStore";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Task({ navigation, route }) {
-  const height = Dimensions.get("screen").height;
   const [task, setTask] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [fetchCounter, setFetchCounter] = useState(0);
@@ -48,22 +47,17 @@ export default function Task({ navigation, route }) {
     setTimeout(() => {
       fetchTask();
     }, 1000);
-  }, [fetchCounter]); // TODO: Refetching belum bisa
+  }, [fetchCounter]);
 
   return (
-    // <View style={{ flex: 1, justifyContent: "space-evenly", paddingLeft: 18 }}>
     <>
-      {/* <Image
-        source={require("../../../assets/nick-nice-gPm8h3DS1s4-unsplash.jpg")}
-        style={styles.backgroundImage}
-      /> */}
       <StatusBar />
       {/* Recent */}
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
         </View>
-        <Text style={styles.quicksand}>Recent</Text>
+        <Text style={styles.title}>Recent</Text>
         <View
           style={{
             width: "40%",
@@ -78,7 +72,7 @@ export default function Task({ navigation, route }) {
             { flexDirection: "row", flex: 1, marginTop: 10 },
           ]}
         >
-          <View style={{ width: "100%" }}>
+          <View style={{ width: "100%", height: "auto" }}>
             {!task.length ? (
               <View
                 style={{
@@ -100,7 +94,11 @@ export default function Task({ navigation, route }) {
                 <Ionicons name="close-outline" size={40} color="black" />
               </View>
             ) : (
-              <View style={{}}>
+              <View
+                style={{
+                  height: 160,
+                }}
+              >
                 <FlatList
                   horizontal={true}
                   data={task}
@@ -112,8 +110,14 @@ export default function Task({ navigation, route }) {
             )}
           </View>
         </View>
-        {/* Today */}
-        <Text style={styles.quicksand}>Today</Text>
+
+        <View
+          style={{
+            margin: 15,
+          }}
+        ></View>
+
+        <Text style={styles.title}>Today</Text>
         <View
           style={{
             width: "40%",
@@ -123,11 +127,10 @@ export default function Task({ navigation, route }) {
         </View>
 
         <View style={[styles.task, { flex: 3, marginTop: 10 }]}>
-          <View style={{ width: "100%" }}>
+          <View style={{ width: "auto" }}>
             {!task.length ? (
               <View
                 style={{
-                  // flex: 1,
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
@@ -156,8 +159,6 @@ export default function Task({ navigation, route }) {
           </View>
         </View>
       </View>
-      {/* kosongan buat pembatas */}
-      <View style={{ flex: 0.12 }}></View>
     </>
   );
 }
@@ -167,17 +168,8 @@ const screenSize = {
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    resizeMode: "cover",
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    opacity: 0.5,
-  },
   container: {
     flex: 0.88,
-    // backgroundColor: "white",
     paddingHorizontal: 10,
     gap: 5,
   },
@@ -188,8 +180,7 @@ const styles = StyleSheet.create({
   },
   task: {
     alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    paddingBottom: "auto",
   },
   taskHeader: {
     flex: 1,
@@ -202,22 +193,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  card: {
-    width: 10,
-    gap: 30,
-  },
-
-  quicksand: {
+  title: {
     fontSize: 25,
     fontWeight: "bold",
     color: "#FFF8E3",
     textShadowColor: "black",
     textShadowOffset: { width: 3, height: 3 },
     textShadowRadius: 10,
-  },
-  card: {
-    height: 70,
-    borderRadius: 30,
-    backgroundColor: "#f0ffff",
   },
 });

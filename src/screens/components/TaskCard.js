@@ -1,43 +1,19 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Dimensions, TouchableOpacity } from "react-native";
 import { Text, Card } from "@rneui/themed";
 import { Ionicons } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
+import {
+  MontserratAlternates_500Medium,
+  Montserrat_800ExtraBold,
+  Montserrat_600SemiBold,
+} from "@expo-google-fonts/dev";
+import { useFonts } from "expo-font";
 
 const generateColor = () => {
   const randomColor = Math.floor(Math.random() * color.length);
   return `#${color[randomColor]}`;
 };
-// const color = [
-//   "FE7A36",
-//   "5F8670",
-//   "FF9800",
-//   "40A2D8",
-//   "FF6868",
-//   "BE9FE1",
-//   "FE7A36",
-//   "D2DE32",
-//   "5F0F40",
-// ];
-
-// !Black Color
-// const color = [
-//   "000000", // Black
-//   "1A1A1A",
-//   "333333",
-//   "4D4D4D",
-//   "666666",
-//   "808080",
-//   "999999",
-//   "B3B3B3",
-//   "CCCCCC",
-// ];
 
 const color = [
   "FAD02E", // Yellow
@@ -52,34 +28,48 @@ const color = [
 ];
 
 export default function TaskCard({ task, navigation }) {
-  console.log(task, "<<<<");
+  const [fonstLoaded] = useFonts({
+    MontserratAlternates_500Medium,
+    Montserrat_800ExtraBold,
+    Montserrat_600SemiBold,
+  });
+
+  if (!fonstLoaded) {
+    return null;
+  }
   return (
-    <TouchableOpacity
-      onPress={() => {
-        navigation.navigate("DetailTask", { task });
+    <View
+      style={{
+        margin: 3,
       }}
     >
-      <View
-        style={[
-          styles.item,
-          {
-            backgroundColor: generateColor(),
-          },
-        ]}
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("DetailTask", { task });
+        }}
       >
-        <Text style={styles.itemText}>{task.name}</Text>
-        <View style={styles.infoContainer}>
-          <InfoRow
-            icon={<Fontisto name="date" size={18} color="white" />}
-            text={task.createdAt.split("T", 1)}
-          />
-          <InfoRow
-            icon={<Ionicons name="list" size={18} color="white" />}
-            text={`Sub-Tasks: ${task.subTasks.length}`}
-          />
+        <View
+          style={[
+            styles.item,
+            {
+              backgroundColor: generateColor(),
+            },
+          ]}
+        >
+          <Text style={styles.itemText}>{task.name}</Text>
+          <View style={styles.infoContainer}>
+            <InfoRow
+              icon={<Fontisto name="date" size={18} color="azure" />}
+              text={task.createdAt.split("T", 1)}
+            />
+            <InfoRow
+              icon={<Ionicons name="list" size={18} color="azure" />}
+              text={`Sub-Tasks: ${task.subTasks.length}`}
+            />
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -92,32 +82,28 @@ const InfoRow = ({ icon, text }) => (
 
 const styles = StyleSheet.create({
   item: {
-    margin: 3.5,
-    height: Dimensions.get("window").width / 3,
-    width: Dimensions.get("window").height / 5,
-    borderWidth: 0.25,
-    borderRadius: 15,
+    height: Dimensions.get("window").width / 2.5,
+    width: Dimensions.get("window").height / 5.5,
+    paddingTop: 10,
+    borderRadius: 10,
     paddingRight: 8,
   },
   itemText: {
-    flex: 2,
-    // backgroundColor: "pink",
-    textAlign: "center",
+    paddingBottom: 15,
+    fontSize: 13.5,
+    // paddingHorizontal: 6,
+    paddingVertical: 6,
+    fontFamily: "Montserrat_600SemiBold",
     justifyContent: "center",
     paddingBottom: 15,
-    fontSize: 14,
-    fontWeight: "700",
-    paddingVertical: 6,
+    color: "azure",
     paddingLeft: 12,
-    // color: "#ffffff",
-    color: "black",
   },
   infoContainer: {
-    flex: 3,
-    // backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 10,
+    flex: 3,
   },
   infoRow: {
     flexDirection: "row",
@@ -125,9 +111,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   infoText: {
+    fontFamily: "MontserratAlternates_500Medium",
     flex: 1,
-    fontSize: 15,
+    fontSize: 11,
     paddingLeft: 7,
-    color: "#f5f5dc",
+    color: "azure",
   },
 });

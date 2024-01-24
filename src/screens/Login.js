@@ -21,7 +21,7 @@ const Login = ({ navigation }) => {
     password: "",
   });
 
-  console.log(loginForm);
+
   const authContext = useContext(AuthContext);
   const onChangeText = (text, input) => {
     setLoginForm((loginForm) => ({ ...loginForm, [input]: text }));
@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
           password: loginForm.password,
         },
       });
-      console.log(data);
+
       save("access_token", data.access_token);
       save("userId", data._id);
       authContext.setIsSignedIn(true);
@@ -70,7 +70,6 @@ const Login = ({ navigation }) => {
         secureTextEntry
         autoCapitalize="none"
       />
-      <TouchableOpacity style={styles.forgotPassword}></TouchableOpacity>
       <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
         <Text style={styles.loginText}>Log in</Text>
       </TouchableOpacity>

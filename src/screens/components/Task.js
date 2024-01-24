@@ -107,7 +107,7 @@ export default function Task({ navigation, route }) {
             )}
           </View>
         </View>
-
+        {/* Today */}
         <Text style={styles.quicksand}>Today</Text>
         <View
           style={{
@@ -132,6 +132,7 @@ export default function Task({ navigation, route }) {
             {!task.length ? (
               <View
                 style={{
+                  // flex: 1,
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
@@ -160,7 +161,7 @@ export default function Task({ navigation, route }) {
           </View>
         </View>
       </View>
-
+      {/* kosongan buat pembatas */}
       <View style={{ flex: 0.12 }}></View>
     </>
   );
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  add: {
+  add: {  
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -217,6 +218,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFF8E3",
     textShadowColor: "black",
+    textShadowOffset: { width: 3, height: 3 },
+    textShadowRadius: 10,
   },
   card: {
     height: 70,

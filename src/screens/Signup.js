@@ -18,8 +18,6 @@ const SignUpScreen = ({ navigation }) => {
     password: "",
   });
 
-  console.log(registerForm);
-
   const handleLogin = async () => {
     try {
       const { data } = await axios({
@@ -31,7 +29,7 @@ const SignUpScreen = ({ navigation }) => {
           password: registerForm.password,
         },
       });
-      console.log(data);
+
       navigation.navigate("Login");
     } catch (error) {
       console.log(error);
@@ -50,7 +48,7 @@ const SignUpScreen = ({ navigation }) => {
       >
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
-      <Text style={styles.title}>Register</Text>
+      <Text style={styles.title}>Signup</Text>
       <TextInput
         style={styles.input}
         placeholder="Your name"
@@ -110,6 +108,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     alignSelf: "center",
+    color: "#0180FF",
   },
   input: {
     height: 40,
@@ -119,15 +118,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
   },
-  forgotPassword: {
-    alignSelf: "flex-end",
-  },
-  forgotPasswordText: {
-    color: "#0099FF",
-  },
+
   loginButton: {
     height: 50,
-    backgroundColor: "#000000",
+    backgroundColor: "#0180FF",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
@@ -159,7 +153,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   signUpText: {
-    color: "#0099FF",
+    color: "#0180FF",
   },
   footer: {
     color: "gray",

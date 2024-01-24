@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Button, TouchableOpacity } from "react-native";
 import { Audio } from "expo-av";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/core";
 
 const Music = () => {
   const [sound, setSound] = useState();

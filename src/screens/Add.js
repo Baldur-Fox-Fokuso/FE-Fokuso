@@ -9,7 +9,7 @@ import {
   Image,
   Modal,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../config/instance";
 import { screenSize } from "../utils";
 import { AntDesign } from "@expo/vector-icons";
@@ -175,7 +175,9 @@ export default function Add({ navigation }) {
               borderRadius: 10,
             }}
           >
-            <Text>{dateString ? formattedDate : ""}</Text>
+            <Text>
+              {dateString ? formattedDate : "Please Set Deadline Date"}
+            </Text>
           </TouchableOpacity>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
@@ -203,7 +205,9 @@ export default function Add({ navigation }) {
             <View
               style={{
                 flex: 8,
+                flexDirection: "row",
                 justifyContent: "flex-start",
+                gap: 5,
               }}
             >
               <Text
@@ -215,6 +219,9 @@ export default function Add({ navigation }) {
               >
                 Sub-Task
               </Text>
+              <TouchableWithoutFeedback onLongPress={toggleModal}>
+                <AntDesign name="questioncircleo" size={24} color="black" />
+              </TouchableWithoutFeedback>
             </View>
             {/* open ai */}
             <View
@@ -230,49 +237,47 @@ export default function Add({ navigation }) {
                   setArrSub([...arrSub, ...res]);
                 }}
               >
-                <TouchableWithoutFeedback onLongPress={toggleModal}>
-                  <Image
-                    source={require("../../assets/openai.png")}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      resizeMode: "contain",
-                      // backgroundColor: "white",
-                    }}
-                  />
-                </TouchableWithoutFeedback>
+                <Image
+                  source={require("../../assets/openai.png")}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    resizeMode: "contain",
+                    // backgroundColor: "white",
+                  }}
+                />
               </TouchableOpacity>
-
-              <Modal
-                visible={isModalVisible}
-                animationType="slide"
-                transparent={true}
-                onRequestClose={toggleModal}
+            </View>
+            <Modal
+              visible={isModalVisible}
+              animationType="slide"
+              transparent={true}
+              onRequestClose={toggleModal}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
               >
                 <View
                   style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
+                    backgroundColor: "white",
+                    padding: 20,
+                    borderRadius: 10,
                   }}
                 >
-                  <View
-                    style={{
-                      backgroundColor: "white",
-                      padding: 20,
-                      borderRadius: 10,
-                    }}
-                  >
-                    <Text>Generate Sub-Task with Open AI instead</Text>
-                    <TouchableWithoutFeedback onPress={toggleModal}>
-                      <Text style={{ color: "blue", marginTop: 10 }}>
-                        Close
-                      </Text>
-                    </TouchableWithoutFeedback>
-                  </View>
+                  <Text>
+                    You can generate Sub-Task by pressing OpenAi Button instead.
+                  </Text>
+                  <TouchableWithoutFeedback onPress={toggleModal}>
+                    <Text style={{ color: "blue", marginTop: 10 }}>Close</Text>
+                  </TouchableWithoutFeedback>
                 </View>
-              </Modal>
-            </View>
+              </View>
+            </Modal>
+            {/* end open ai section */}
           </View>
           <View
             style={{

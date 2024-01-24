@@ -148,7 +148,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
 
-        <View style={styles.outerProgressBar}>
+        {/* <View style={styles.outerProgressBar}>
           <Text style={styles.labelProgress}>Progress</Text>
           <View style={styles.progressBarContainer}>
             <ActivityIndicator
@@ -159,7 +159,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
               useNativeDriver={true} // nativeDriver warning
             />
           </View>
-        </View>
+        </View> */}
 
         {/* <View style={styles.divider} /> */}
 

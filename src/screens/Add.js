@@ -10,6 +10,7 @@ import {
   Image,
   Modal,
 } from "react-native";
+
 import { useEffect, useState } from "react";
 import axios from "../config/instance";
 import { screenSize } from "../utils";
@@ -30,7 +31,16 @@ export default function Add({ navigation }) {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
+  const onDelete = async (index) => {
+    try {
+      const updatedSubTasks = [...arrSub];
+      updatedSubTasks.splice(index, 1);
+      setArrSub(updatedSubTasks);
+      console.log("Subtask deleted successfully");
+    } catch (error) {
+      console.log(error, "error delete subtask");
+    }
+  };
   const handleAddTask = async () => {
     try {
       const { data } = await axios({
@@ -52,7 +62,7 @@ export default function Add({ navigation }) {
       setDateString("");
       navigation.replace("Dashboard");
     } catch (error) {
-      console.log(error, "dari add");
+      console.log(error);
     }
   };
 
@@ -70,18 +80,26 @@ export default function Add({ navigation }) {
     setSubTask("");
   };
 
-  const renderSubTask = ({ item }) => {
+  const renderSubTask = ({ item, index }) => {
+    console.log(index, "aku index");
     const renderItemContent = <Text style={{ color: "black" }}>{item}</Text>;
 
-    const rightContent = (
-      <View style={styles.deleteButtonContainer}>
-        <Text style={styles.deleteButtonText}>Delete</Text>
-      </View>
-    );
+    // const rightContent = (
+    //   <View style={styles.deleteButtonContainer}>
+    //     <Text style={styles.deleteButtonText}>Delete</Text>
+    //   </View>
+    // );
     return (
-      <Swipeable rightContent={rightContent} useNativeDriver={true}>
+      // <Swipeable
+      //   rightContent={rightContent}
+      //   onRightButtonsOpenRelease={() => onDelete()}
+      //   useNativeDriver={true}
+      // >
+      <TouchableOpacity onLongPress={() => onDelete(index)}>
         <View style={styles.subTaskContainer}>{renderItemContent}</View>
-      </Swipeable>
+      </TouchableOpacity>
+
+      // </Swipeable>
     );
   };
 
@@ -250,7 +268,6 @@ export default function Add({ navigation }) {
                     width: 40,
                     height: 40,
                     resizeMode: "contain",
-                    // backgroundColor: "white",
                   }}
                 />
               </TouchableOpacity>
@@ -344,20 +361,14 @@ export default function Add({ navigation }) {
         </View>
 
         {/* create button */}
-        <KeyboardAvoidingView
-        > 
-        
-        </KeyboardAvoidingView>
+        <KeyboardAvoidingView></KeyboardAvoidingView>
         <View style={styles.createTaskButtonContainer}>
-          
           <TouchableOpacity onPress={handleAddTask}>
             <View style={styles.createButton}>
               <Text style={{ color: "white", fontSize: 20 }}>Create Task</Text>
             </View>
           </TouchableOpacity>
         </View>
-       
-       
       </View>
     </>
   );
@@ -386,7 +397,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    
+
     // backgroundColor: "yellow",
   },
   createButton: {
@@ -397,7 +408,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // bottom : 0
-    
+
     // position : 'absolute'
     // marginHorizontal: 10,
   },

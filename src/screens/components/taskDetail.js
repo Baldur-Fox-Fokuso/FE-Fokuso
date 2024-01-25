@@ -136,7 +136,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
               <Fontisto name="date" size={24} color="black" />
             </View>
             <View style={{ flexDirection: "column" }}>
-              <Text style={styles.rowLabel}>Task Duration:</Text>
+              <Text style={styles.rowLabel}>Task Deadline:</Text>
               <Text style={styles.rowValue}>{formattedDate}</Text>
             </View>
           </View>

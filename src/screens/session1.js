@@ -79,7 +79,7 @@ const Session1 = ({ route, navigation }) => {
     if (argumen === "pomodoro") {
       setMinutes(25);
     } else if (argumen === "shortBreak") {
-      setMinutes(2);
+      setMinutes(5);
     } else if (argumen === "longBreak") {
       setMinutes(15);
     }

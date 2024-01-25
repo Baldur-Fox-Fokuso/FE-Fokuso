@@ -20,14 +20,14 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function Task({ navigation, route }) {
   const [task, setTask] = useState([]);
-  const [newTask, setNewTask] = useState("");
+  const [recentTask, setRecentTask] = useState([]);
   const [fetchCounter, setFetchCounter] = useState(0);
   const authContext = useContext(AuthContext);
+  const [user, setUser] = useState("");
 
   const fetchTask = async () => {
     const userId = await getValueFor("userId");
     const token = await getValueFor("access_token");
-    console.log(userId, "<<<<< userId di task");
     try {
       const { data } = await axios({
         url: `/user/${userId}/task`,
@@ -43,9 +43,38 @@ export default function Task({ navigation, route }) {
     }
   };
 
+  const fetchRecent = async () => {
+    const userId = await getValueFor("userId");
+    const token = await getValueFor("access_token");
+    try {
+      const { data } = await axios({
+        url: `/user/${userId}/task/recent`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setRecentTask(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getName = async () => {
+    try {
+      const val = await getValueFor("name");
+      setUser(val);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  console.log(user);
   useEffect(() => {
     setTimeout(() => {
       fetchTask();
+      getName();
+      fetchRecent();
     }, 1000);
   }, [fetchCounter]);
 
@@ -55,7 +84,9 @@ export default function Task({ navigation, route }) {
       {/* Recent */}
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={{ fontSize: 25, fontWeight: "bold" }}>Halo, User!</Text>
+          <Text style={{ fontSize: 25, fontWeight: "bold" }}>
+            Halo, {user}!
+          </Text>
         </View>
         <Text style={styles.title}>Recent</Text>
         <View
@@ -96,14 +127,15 @@ export default function Task({ navigation, route }) {
             ) : (
               <View
                 style={{
-                  height: 160,
+                  height: 180,
+                  // backgroundColor : 'pink'
                 }}
               >
                 <FlatList
                   horizontal={true}
-                  data={task}
+                  data={recentTask}
                   renderItem={({ item, index }) => (
-                    <TaskCard key={index} task={item} navigation={navigation} />
+                    <TaskCard key={index} recentTask={item} navigation={navigation} />
                   )}
                 />
               </View>
@@ -117,7 +149,7 @@ export default function Task({ navigation, route }) {
           }}
         ></View>
 
-        <Text style={styles.title}>Today</Text>
+        <Text style={styles.title}>My Task</Text>
         <View
           style={{
             width: "40%",
@@ -196,9 +228,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: "bold",
-    color: "#FFF8E3",
-    textShadowColor: "black",
+    color: "black",
+    // textShadowColor: "black",
     textShadowOffset: { width: 3, height: 3 },
-    textShadowRadius: 10,
+    // textShadowRadius: 10,
   },
 });

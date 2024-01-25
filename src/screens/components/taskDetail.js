@@ -89,7 +89,6 @@ const TaskDetailScreen = ({ route, navigation }) => {
   ];
 
   const onDelete = (id) => {
-    //   udah sampe dapet id
     console.log(id, "sharingan");
     const updatedSubtasks = subtasks?.filter((subtask) => subtask.id !== id);
     setSubtasks(updatedSubtasks);
@@ -148,7 +147,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
 
-        <View style={styles.outerProgressBar}>
+        {/* <View style={styles.outerProgressBar}>
           <Text style={styles.labelProgress}>Progress</Text>
           <View style={styles.progressBarContainer}>
             <ActivityIndicator
@@ -159,7 +158,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
               useNativeDriver={true} // nativeDriver warning
             />
           </View>
-        </View>
+        </View> */}
 
         {/* <View style={styles.divider} /> */}
 
@@ -179,18 +178,19 @@ const TaskDetailScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
-    backgroundColor: "blue",
+    // backgroundColor: "blue",
+    paddingBottom : 10
   },
   image: { width: "100%", height: "100%" },
   container: {
     flex: 2,
-    padding: 16,
+    margin: 20,
     // backgroundColor: "yellow",
   },
   taskName: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 8,
+    marginBottom: 20,
     color: "#000000",
   },
   //   below task name section
@@ -283,13 +283,6 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
 
-  // divider: {
-  //   height: 1,
-  //   backgroundColor: "gray",
-  //   marginVertical: 25,
-  // },
-
-  //   delete swipe
   deleteButtonContainer: {
     flex: 1,
     justifyContent: "center",

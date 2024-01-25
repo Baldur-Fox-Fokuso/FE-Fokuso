@@ -1,50 +1,126 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  FlatList,
-  Button,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
-// implement gravatar pakai md5 untuk photo profilenya
-import md5 from "md5";
 import { deleteItemAsync } from "expo-secure-store";
 import { AuthContext } from "../../context/AuthContext";
-
-// const email = "affriyanr@mail.com";
-// const email = "skyhawk57@gmail.com";
-const email = "michaelgs1997@gmail.com";
-
-const gravatarUrl = `https://www.gravatar.com/avatar/${md5(email)}?d=identicon`;
+import axios from "../../config/instance";
+import { getValueFor } from "../SecureStore";
 
 export default function Profile() {
   const authContext = useContext(AuthContext);
+  const [user, setUser] = useState({});
+  const [task, setTask] = useState([]);
+  const [numSession, setSession] = useState(0);
+
+  const fetchEmailUser = async () => {
+    try {
+      const userId = await getValueFor("userId");
+      const { data } = await axios({
+        url: `/user/${userId}`,
+        method: "GET",
+      });
+      console.log(data, "<<<<<< ini data user");
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchTask = async () => {
+    const userId = await getValueFor("userId");
+    const token = await getValueFor("access_token");
+    try {
+      const { data } = await axios({
+        url: `/user/${userId}/task`,
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(task, "<<<< ini task");
+      setTask(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  for (let i = 0; i < task.length; i++) {
+    let session = task[i].session;
+    for (let j = 0; j < session?.length; j++) {
+      if (session) {
+        setSession(numSession + 1);
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchEmailUser();
+    fetchTask();
+  }, []);
+  const gravatarUrl = `https://www.gravatar.com/avatar/${user.email}?d=identicon`;
+
+  const generateColor = () => {
+    const randomColor = Math.floor(Math.random() * color.length);
+    return `#${color[randomColor]}`;
+  };
+  const color = [
+    "FAD02E", // Yellow
+    "F28D35", // Orange
+    "FF7070", // Light Red
+    "8AC926", // Light Green
+    "7FDBDA", // Turquoise
+    "B0B8B5", // Grayish Blue
+    "C4E17F", // Light Greenish Yellow
+    "AB83A1", // Light Purple
+    "FFD700", // Gold
+  ];
 
   return (
     <>
-      {/* <Image
-        source={{
-          uri: "https://tse2.mm.bing.net/th?id=OIP.H9PqvkRXtotHthFMf13DIAHaLG&pid=Api&P=0&w=300&h=300",
-        }}
-        style={styles.backgroundImage}
-      /> */}
-
       <View style={styles.container}>
         <Image source={{ uri: gravatarUrl }} style={styles.profileImage} />
 
-        <Text style={styles.userName}>Bocchi</Text>
-        <Text style={styles.userHandle}>@bocchi</Text>
+        <Text style={styles.userName}>{user.name}</Text>
+        <Text style={styles.userHandle}>{user.email}</Text>
         <Text style={styles.bio}>
-          Bocchi is a shy and socially anxious girl who struggles with making
-          friends. She is very timid and often finds it challenging to interact
-          with others, leading to a tendency to isolate herself.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur.
         </Text>
+        <View style={styles.taskCardContainer}>
+          <View
+            style={[
+              styles.cardContainer,
+              {
+                backgroundColor: generateColor(),
+              },
+            ]}
+          >
+            {/* <View style={styles.iconContainer}>
+              <FontAwesome5 name="tasks" size={} color="black" />
+            </View> */}
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.rowLabel}>Total Task : </Text>
+              <Text style={styles.rowValue}>{task.length}</Text>
+            </View>
+          </View>
+        </View>
       </View>
+
+      {/* <View style={styles.emptySpace}></View> */}
 
       <TouchableOpacity
         style={styles.logoutButton}
@@ -73,12 +149,55 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   container: {
-    flex: 1,
+    flex: 4,
     alignItems: "center",
     justifyContent: "center",
-    padding: 16,
-    backgroundColor: "white",
+    // justifyContent: "space-evenly",
+    paddingHorizontal: 16,
+    paddingVertical: 25,
+    // backgroundColor: "red",
+
+    // !start Card
   },
+  taskCardContainer: {
+    // flex: 2,
+    flexDirection: "row",
+    // backgroundColor: "pink",
+    // alignItems: "center",
+    // justifyContent: "center",
+    // alignContent: "flex-start",
+    // gap: 30,
+  },
+  emptySpace: {
+    flex: 2,
+  },
+  cardContainer: {
+    flex: 1,
+    height: Dimensions.get("window").width / 3.5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10,
+    marginVertical: 20,
+    padding: 16,
+    borderRadius: 8,
+  },
+  rowLabel: {
+    fontSize: 14,
+    color: "black",
+  },
+  iconContainer: {
+    // alignItems: "center",
+    // justifyContent: "center",
+  },
+  rowValue: {
+    textAlign: "right",
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#000000",
+  },
+  // !end Card
+
   profileImage: {
     width: 150,
     height: 150,
@@ -104,8 +223,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#9E9FA5",
     padding: 16,
     alignItems: "center",
-    // borderTopStartRadius: 15,
-    // borderTopEndRadius: 15,
   },
   logoutText: {
     color: "white",

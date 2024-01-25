@@ -1,24 +1,35 @@
 import {
   View,
   Text,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
   FlatList,
   StyleSheet,
-  Button,
+  Image,
+  Modal,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../config/instance";
 import { screenSize } from "../utils";
 import { AntDesign } from "@expo/vector-icons";
 import { getValueFor } from "./SecureStore";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { handleAI } from "./components/testOpenAi";
+
+// buat format date
 import moment from "moment";
 
+import Swipeable from "react-native-swipeable-row";
+
 export default function Add({ navigation }) {
+  //open ai styling handler
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   const handleAddTask = async () => {
     try {
       const { data } = await axios({
@@ -38,7 +49,7 @@ export default function Add({ navigation }) {
       setDescription("");
       setDeadline(new Date());
       setDateString("");
-      navigation.navigate("Home", { refetch: true });
+      navigation.replace("Home");
     } catch (error) {
       console.log(error);
     }
@@ -58,19 +69,20 @@ export default function Add({ navigation }) {
     setSubTask("");
   };
 
-  const renderSubTask = ({ item }) => (
-    <View
-      style={{
-        height: screenSize.height / 18,
-        borderWidth: 1,
-        padding: 10,
-        margin: 12,
-        borderRadius: 10,
-      }}
-    >
-      <Text>{item}</Text>
-    </View>
-  );
+  const renderSubTask = ({ item }) => {
+    const renderItemContent = <Text style={{ color: "black" }}>{item}</Text>;
+
+    const rightContent = (
+      <View style={styles.deleteButtonContainer}>
+        <Text style={styles.deleteButtonText}>Delete</Text>
+      </View>
+    );
+    return (
+      <Swipeable rightContent={rightContent} useNativeDriver={true}>
+        <View style={styles.subTaskContainer}>{renderItemContent}</View>
+      </Swipeable>
+    );
+  };
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [dateString, setDateString] = useState("");
@@ -97,6 +109,7 @@ export default function Add({ navigation }) {
           style={{
             fontSize: 20,
             fontWeight: "bold",
+            paddingLeft: 13,
           }}
         >
           Title
@@ -120,6 +133,7 @@ export default function Add({ navigation }) {
             style={{
               fontSize: 20,
               fontWeight: "bold",
+              paddingLeft: 13,
             }}
           >
             Description
@@ -149,6 +163,7 @@ export default function Add({ navigation }) {
             style={{
               fontSize: 20,
               fontWeight: "bold",
+              paddingLeft: 13,
             }}
           >
             Deadline
@@ -163,7 +178,9 @@ export default function Add({ navigation }) {
               borderRadius: 10,
             }}
           >
-            <Text>{dateString ? formattedDate : ""}</Text>
+            <Text>
+              {dateString ? formattedDate : "Please Set Deadline Date"}
+            </Text>
           </TouchableOpacity>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
@@ -183,18 +200,17 @@ export default function Add({ navigation }) {
         <View style={styles.subtaskContainer}>
           <View
             style={{
-              backgroundColor: "red",
+              // backgroundColor: "red",
               width: "100%",
               flexDirection: "row",
-
-              // justifyContent: "space-evenly",
             }}
           >
             <View
               style={{
-                flex: 1,
+                flex: 8,
+                flexDirection: "row",
                 justifyContent: "flex-start",
-                backgroundColor: "grey",
+                gap: 5,
               }}
             >
               <Text
@@ -202,36 +218,72 @@ export default function Add({ navigation }) {
                   textAlign: "left",
                   fontSize: 20,
                   fontWeight: "bold",
+                  paddingLeft: 13,
                 }}
               >
                 Sub-Task
               </Text>
-              {/* <View></View> */}
+              <TouchableWithoutFeedback onLongPress={toggleModal}>
+                <AntDesign name="questioncircleo" size={24} color="black" />
+              </TouchableWithoutFeedback>
             </View>
+            {/* open ai */}
             <View
               style={{
-                flex: 2.5,
-                backgroundColor: "pink",
-                // justifyContent: "flex-end",
+                flex: 2,
+                // backgroundColor: "pink",
+                alignItems: "center",
               }}
             >
               <TouchableOpacity
                 onPress={async () => {
+                  setLoading(true);
                   const res = await handleAI(name);
                   setArrSub([...arrSub, ...res]);
+                  setLoading(false);
                 }}
               >
-                <Text
+                <Image
+                  source={require("../../assets/openai.png")}
                   style={{
-                    textAlign: "left",
-                    fontSize: 15,
-                    fontWeight: "bold",
+                    width: 40,
+                    height: 40,
+                    resizeMode: "contain",
+                    // backgroundColor: "white",
                   }}
-                >
-                  Generate
-                </Text>
+                />
               </TouchableOpacity>
             </View>
+            <Modal
+              visible={isModalVisible}
+              animationType="slide"
+              transparent={true}
+              onRequestClose={toggleModal}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    padding: 20,
+                    borderRadius: 10,
+                  }}
+                >
+                  <Text>
+                    You can generate Sub-Task by pressing OpenAi Button instead.
+                  </Text>
+                  <TouchableWithoutFeedback onPress={toggleModal}>
+                    <Text style={{ color: "blue", marginTop: 10 }}>Close</Text>
+                  </TouchableWithoutFeedback>
+                </View>
+              </View>
+            </Modal>
+            {/* end open ai section */}
           </View>
           <View
             style={{
@@ -264,6 +316,22 @@ export default function Add({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
+        {/* ini logo ai */}
+        {loading ? (
+          <View
+            style={{
+              alignItems: "center",
+            }}
+          >
+            <Image
+              style={{
+                height: 200,
+                width: 200,
+              }}
+              source={require("../../assets/1688662609917.gif")}
+            />
+          </View>
+        ) : null}
 
         <View style={styles.flatListContainer}>
           <FlatList
@@ -278,7 +346,7 @@ export default function Add({ navigation }) {
         <View style={styles.createTaskButtonContainer}>
           <TouchableOpacity onPress={handleAddTask}>
             <View style={styles.createButton}>
-              <Text style={{ color: "white" }}>Create Task</Text>
+              <Text style={{ color: "white", fontSize: 20 }}>Create Task</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -292,6 +360,7 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 8,
     padding: 10,
+    backgroundColor: "#F8F9F8",
   },
   descriptionContainer: {},
   deadlineContainer: {},
@@ -309,15 +378,38 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+
     // backgroundColor: "yellow",
   },
   createButton: {
-    backgroundColor: "black",
+    backgroundColor: "#3787EB",
     height: screenSize.height / 15,
     width: screenSize.width / 1.25,
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
     // marginHorizontal: 10,
+  },
+
+  // !DeleteSwipe
+  subTaskContainer: {
+    // height: screenSize.height / 18,
+    // width: screenSize.width / 1.2,
+    padding: 16,
+    marginVertical: 8,
+    borderRadius: 8,
+    // backgroundColor: "#E0E0E0",
+    borderWidth: 1,
+  },
+  deleteButtonContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    backgroundColor: "gray",
+    padding: 16,
+    borderRadius: 8,
+  },
+  deleteButtonText: {
+    color: "#FFFFFF",
   },
 });

@@ -27,7 +27,7 @@ const color = [
   "FFD700", // Gold
 ];
 
-export default function TaskCard({ task, navigation }) {
+export default function TaskCard({ recentTask, navigation }) {
   const [fonstLoaded] = useFonts({
     MontserratAlternates_500Medium,
     Montserrat_800ExtraBold,
@@ -56,15 +56,15 @@ export default function TaskCard({ task, navigation }) {
             },
           ]}
         >
-          <Text style={styles.itemText}>{task.name}</Text>
+          <Text style={styles.itemText}>{recentTask?.name}</Text>
           <View style={styles.infoContainer}>
             <InfoRow
               icon={<Fontisto name="date" size={18} color="azure" />}
-              text={task.createdAt.split("T", 1)}
+              text={recentTask?.createdAt.split("T", 1)}
             />
             <InfoRow
               icon={<Ionicons name="list" size={18} color="azure" />}
-              text={`Sub-Tasks: ${task.subTasks.length}`}
+              text={`Sub-Tasks: ${recentTask?.subTasks.length}`}
             />
           </View>
         </View>
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
   itemText: {
     paddingBottom: 15,
     fontSize: 13.5,
-    // paddingHorizontal: 6,
     paddingVertical: 6,
     fontFamily: "Montserrat_600SemiBold",
     justifyContent: "center",
@@ -102,7 +101,9 @@ const styles = StyleSheet.create({
   infoContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 10,
+    paddingRight: 8,
+    justifyContent: "flex-end",
+    paddingBottom: 20,
     flex: 3,
   },
   infoRow: {

@@ -1,44 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View, Dimensions, Text, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function RecentList({ task, navigation }) {
-  // console.log(task?.subTasks[0]?.name, "<<<<<")
   return (
-    <View style={[styles.item]}>
-      <View>
-        <Pressable
-          onLongPress={() => {
-            navigation.navigate("DetailTask", { task });
-          }}
-        >
-          <Text style={styles.itemText}>{task.name}</Text>
-        </Pressable>
-        <Text
-          style={{
-            // color: "gray",
-            color: "black",
-            // fontStyle: "italic",
-            marginHorizontal: 7,
-          }}
-        >
-          {task.createdAt.slice(11, 16)} | Sessions : {task?.sessions.length}
-        </Text>
-      </View>
-      <Pressable
-        onPress={() => {
-          navigation.navigate("Session", { task });
-        }}
-      >
+    <View
+      style={{
+        paddingBottom: 5,
+      }}
+    >
+      <View style={[styles.item, { gap: 100 }]}>
         <View
           style={{
-            paddingRight: 8,
+            flex: 1,
           }}
         >
-          <AntDesign name="playcircleo" size={24} color="black" />
+          <Pressable
+            onLongPress={() => {
+              navigation.navigate("DetailTask", { task });
+            }}
+          >
+            <Text style={styles.itemText}>{task.name}</Text>
+          </Pressable>
+          <Text
+            style={{
+              color: "black",
+              marginHorizontal: 7,
+            }}
+          >
+            {task.createdAt.slice(11, 16)} | Sessions : {task?.sessions.length}
+          </Text>
         </View>
-      </Pressable>
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Session", { task });
+          }}
+        >
+          <View
+            style={{
+              paddingRight: 8,
+            }}
+          >
+            <AntDesign name="playcircleo" size={24} color="black" />
+          </View>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -50,13 +56,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 15,
-    margin: 5,
-    borderWidth: 0.25,
-    // borderColor: "#6495ed",
-    // backgroundColor: "white",
-    // backgroundColor: "#f8f8ff",
+    backgroundColor: "azure",
     height: Dimensions.get("window").width / 4.5, // approximate a square
-    width: Dimensions.get("window").height / 2.25,
+    width: "auto",
     borderRadius: 10,
   },
   itemText: {
@@ -64,5 +66,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     paddingHorizontal: 7,
+    textAlign: "justify",
   },
 });

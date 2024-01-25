@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/dev": "^0.2.3",
     "@expo-google-fonts/grandstander": "^0.2.3",
     "@expo-google-fonts/grape-nuts": "^0.2.3",
     "@expo-google-fonts/inter": "^0.2.3",

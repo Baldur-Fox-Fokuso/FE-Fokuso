@@ -11,9 +11,9 @@ import {
   View,
 } from "react-native";
 import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Session from "../screens/Session";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import { useRef } from "react";
 import plus from "../../assets/plus.png";
@@ -57,11 +57,7 @@ export default function MainTabs() {
                 justifyContent: "center",
               }}
             >
-              <MaterialIcons
-                name="home-filled"
-                size={30}
-                color={focused ? "#C6A969" : "#C6A969"}
-              ></MaterialIcons>
+             <Ionicons name="home-sharp" size={24} color="#3787EB" />
             </View>
           ),
         }}
@@ -80,7 +76,7 @@ export default function MainTabs() {
               style={{
                 width: 55,
                 height: 55,
-                backgroundColor: "#F7EFE5",
+                backgroundColor: "#3787EB",
                 borderRadius: 30,
                 justifyContent: "center",
                 alignItems: "center",
@@ -92,7 +88,7 @@ export default function MainTabs() {
                 style={{
                   width: 22,
                   height: 22,
-                  tintColor: "gray",
+                  tintColor: "white",
                 }}
               ></Image>
             </View>
@@ -128,7 +124,7 @@ export default function MainTabs() {
               <FontAwesome
                 name="user"
                 size={30}
-                color={focused ? "#C6A969" : "#C6A969"}
+                color="#3787EB"
               ></FontAwesome>
             </View>
           ),

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "center",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "azure",
   },
   backButton: {
     position: "absolute",
@@ -117,15 +117,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
   },
-  forgotPassword: {
-    alignSelf: "flex-end",
-  },
-  forgotPasswordText: {
-    color: "#0099FF",
-  },
+
   loginButton: {
     height: 50,
-    backgroundColor: "#000000",
+    backgroundColor: "#3787EB",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
@@ -136,16 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  facebookButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20,
-  },
-  facebookText: {
-    color: "#1877F2",
-    fontSize: 16,
-  },
+
   orContainer: {
     flexDirection: "row",
     alignItems: "center",

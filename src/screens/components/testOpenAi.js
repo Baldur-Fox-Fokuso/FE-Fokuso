@@ -10,7 +10,7 @@ import { RAPIDAPI_OPENAPI_KEY } from "@env";
 
 export const handleAI = async (input) => {
   try {
-    console.log(RAPIDAPI_OPENAPI_KEY, "<<<<<<<<<<<<<<<<");
+ 
     const options = {
       method: "POST",
       url: "https://chatgpt-ai-chat-bot.p.rapidapi.com/ask",
@@ -36,7 +36,7 @@ export const handleAI = async (input) => {
     // Parse the extracted string as JSON to get the array
     const toDoList = toDoListString ? JSON.parse(`[${toDoListString}]`) : null;
 
-    console.log(toDoList, "aku array");
+
 
     return toDoList;
   } catch (error) {

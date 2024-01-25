@@ -23,13 +23,17 @@ const Music = () => {
     };
 
     loadSound();
+  }, []);
 
+  // harus buat use effect baru, karena jika memakai use effect yang sama, tidak ada soundnya, maka nilainya undefined
+  useEffect(() => {
     return () => {
       if (sound) {
+        // console.log(sound, "ini sound");
         sound.unloadAsync();
       }
     };
-  }, []);
+  }, [sound]);
 
   const togglePlayPause = async () => {
     if (sound) {

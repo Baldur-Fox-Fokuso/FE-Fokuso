@@ -31,7 +31,16 @@ export default function Add({ navigation }) {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
+  const onDelete = async (index) => {
+    try {
+      const updatedSubTasks = [...arrSub];
+      updatedSubTasks.splice(index, 1);
+      setArrSub(updatedSubTasks);
+      console.log("Subtask deleted successfully");
+    } catch (error) {
+      console.log(error, "error delete subtask");
+    }
+  };
   const handleAddTask = async () => {
     try {
       const { data } = await axios({
@@ -71,18 +80,26 @@ export default function Add({ navigation }) {
     setSubTask("");
   };
 
-  const renderSubTask = ({ item }) => {
+  const renderSubTask = ({ item, index }) => {
+    console.log(index, "aku index");
     const renderItemContent = <Text style={{ color: "black" }}>{item}</Text>;
 
-    const rightContent = (
-      <View style={styles.deleteButtonContainer}>
-        <Text style={styles.deleteButtonText}>Delete</Text>
-      </View>
-    );
+    // const rightContent = (
+    //   <View style={styles.deleteButtonContainer}>
+    //     <Text style={styles.deleteButtonText}>Delete</Text>
+    //   </View>
+    // );
     return (
-      <Swipeable rightContent={rightContent} useNativeDriver={true}>
+      // <Swipeable
+      //   rightContent={rightContent}
+      //   onRightButtonsOpenRelease={() => onDelete()}
+      //   useNativeDriver={true}
+      // >
+      <TouchableOpacity onLongPress={() => onDelete(index)}>
         <View style={styles.subTaskContainer}>{renderItemContent}</View>
-      </Swipeable>
+      </TouchableOpacity>
+
+      // </Swipeable>
     );
   };
 

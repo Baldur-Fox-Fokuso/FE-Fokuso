@@ -162,7 +162,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
 
         {/* <View style={styles.divider} /> */}
 
-        <View style={{}}>
+        <View>
           <Text style={styles.subtaskHeader}>Subtasks:</Text>
           <FlatList
             data={subtasks}

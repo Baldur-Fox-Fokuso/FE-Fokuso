@@ -134,8 +134,19 @@ export default function Task({ navigation, route }) {
                 <FlatList
                   horizontal={true}
                   data={recentTask}
+                  ItemSeparatorComponent={() => (
+                    <View
+                      style={{
+                        width: 14,
+                      }}
+                    />
+                  )}
                   renderItem={({ item, index }) => (
-                    <TaskCard key={index} recentTask={item} navigation={navigation} />
+                    <TaskCard
+                      key={index}
+                      recentTask={item}
+                      navigation={navigation}
+                    />
                   )}
                 />
               </View>
@@ -201,6 +212,7 @@ const screenSize = {
 
 const styles = StyleSheet.create({
   container: {
+    // backgroundColor: "#e0e0e0",
     flex: 0.88,
     paddingHorizontal: 10,
     gap: 5,
@@ -213,6 +225,7 @@ const styles = StyleSheet.create({
   task: {
     alignContent: "center",
     paddingBottom: "auto",
+    
   },
   taskHeader: {
     flex: 1,

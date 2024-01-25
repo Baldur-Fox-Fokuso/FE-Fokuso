@@ -21,8 +21,8 @@ const color = [
   "FF7070", // Light Red
   "8AC926", // Light Green
   "7FDBDA", // Turquoise
-  "B0B8B5", // Grayish Blue
-  "C4E17F", // Light Greenish Yellow
+  "6495ed", // Grayish Blue
+  "4b0082", // Light Greenish Yellow
   "AB83A1", // Light Purple
   "FFD700", // Gold
 ];
@@ -38,38 +38,32 @@ export default function TaskCard({ recentTask, navigation }) {
     return null;
   }
   return (
-    <View
-      style={{
-        margin: 3,
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("DetailTask", { recentTask });
       }}
     >
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate("DetailTask", { recentTask });
-        }}
+      <View
+        style={[
+          styles.item,
+          {
+            backgroundColor: generateColor(),
+          },
+        ]}
       >
-        <View
-          style={[
-            styles.item,
-            {
-              backgroundColor: generateColor(),
-            },
-          ]}
-        >
-          <Text style={styles.itemText}>{recentTask?.name}</Text>
-          <View style={styles.infoContainer}>
-            <InfoRow
-              icon={<Fontisto name="date" size={18} color="azure" />}
-              text={recentTask?.createdAt.split("T", 1)}
-            />
-            <InfoRow
-              icon={<Ionicons name="list" size={18} color="azure" />}
-              text={`Sub-Tasks: ${recentTask?.subTasks.length}`}
-            />
-          </View>
+        <Text style={styles.itemText}>{recentTask?.name}</Text>
+        <View style={styles.infoContainer}>
+          <InfoRow
+            icon={<Fontisto name="date" size={18} color="black" />}
+            text={recentTask?.createdAt.split("T", 1)}
+          />
+          <InfoRow
+            icon={<Ionicons name="list" size={18} color="black" />}
+            text={`Sub-Tasks: ${recentTask?.subTasks.length}`}
+          />
         </View>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 }
 
@@ -90,12 +84,12 @@ const styles = StyleSheet.create({
   },
   itemText: {
     paddingBottom: 15,
-    fontSize: 13.5,
+    fontSize: 18,
     paddingVertical: 6,
     fontFamily: "Montserrat_600SemiBold",
     justifyContent: "center",
     paddingBottom: 15,
-    color: "azure",
+    color: "white",
     paddingLeft: 12,
   },
   infoContainer: {
@@ -116,6 +110,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 11,
     paddingLeft: 7,
-    color: "azure",
+    color: "black",
   },
 });

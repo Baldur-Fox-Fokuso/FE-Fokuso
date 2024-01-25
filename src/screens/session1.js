@@ -53,7 +53,7 @@ const Session1 = ({ route, navigation }) => {
 
       setSessionId(data.sessionId);
     } catch (error) {
-      console.log(error);
+      console.log(error, "dari session");
     }
   };
 

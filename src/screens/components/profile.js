@@ -32,7 +32,7 @@ export default function Profile() {
       console.log(data, "<<<<<< ini data user");
       setUser(data);
     } catch (error) {
-      console.log(error);
+      console.log(error, "dari profile");
     }
   };
 
@@ -122,7 +122,7 @@ export default function Profile() {
             await deleteItemAsync("access_token");
             authContext.setIsSignedIn(false);
           } catch (error) {
-            console.log(error);
+            console.log(error, "bottom logout");
           }
         }}
       >

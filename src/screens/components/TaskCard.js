@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     paddingBottom: 15,
-    fontSize: 18,
+    fontSize: 16,
     paddingVertical: 6,
     fontFamily: "Montserrat_600SemiBold",
     justifyContent: "center",

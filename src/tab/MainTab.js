@@ -57,13 +57,12 @@ export default function MainTabs() {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="Dashboard"
         component={Task}
         options={{
           tabBarIcon: ({ focused }) => (
             <View
               style={{
-                // centring Tab Button...
                 position: "absolute",
                 justifyContent: "center",
               }}

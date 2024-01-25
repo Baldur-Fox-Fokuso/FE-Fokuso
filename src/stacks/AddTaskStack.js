@@ -17,6 +17,7 @@ export default function AddTaskStack({ navigation }) {
           headerTitle: "Create New Task",
         }}
       />
+    
     </Stack.Navigator>
   );
 }

@@ -3,11 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator,
   FlatList,
   TouchableOpacity,
   Image,
-  Button,
 } from "react-native";
 
 // icon
@@ -26,7 +24,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
   const [subtasks, setSubtasks] = useState([]);
   const [user, setUser] = useState({});
 
-  // description logic
+
   const [showMore, setShowMore] = useState(false);
   const maxDescriptionLength = 50;
 
@@ -42,9 +40,8 @@ const TaskDetailScreen = ({ route, navigation }) => {
         },
       });
       setUser(data);
-      console.log(user, "ini data user");
     } catch (error) {
-      console.log(error);
+      console.log(error, "ini dari fetch user");
     }
   };
   const fetchDetail = async () => {
@@ -58,7 +55,6 @@ const TaskDetailScreen = ({ route, navigation }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data, "<<<<<< data di detail");
 
       setDetail(data);
     } catch (error) {
@@ -69,10 +65,8 @@ const TaskDetailScreen = ({ route, navigation }) => {
   const onDelete = async (id) => {
     const token = await getValueFor("access_token");
 
-    // console.log(token, "ini token");
     try {
-      // console.log("sesuatu");
-      // console.log(id, "ini id boss");
+      console.log('aku ke hit')
       const { data } = await axios({
         url: `/task/${task._id}/subtask/${id}`,
         method: "DELETE",
@@ -80,13 +74,12 @@ const TaskDetailScreen = ({ route, navigation }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      navigation.refresh();
     } catch (error) {
       console.log(error, "error delete subtask");
     }
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     fetchDetail();
     fetchUser();
   }, []);
@@ -96,26 +89,35 @@ const TaskDetailScreen = ({ route, navigation }) => {
   }, []);
 
   const SubtaskCard = ({ subtask }) => {
-    // console.log(subtask, "ini subtask");
     return (
-      // <Swipeable
-      //   rightButtons={rightButtons}
-      //   onRightButtonsOpenRelease={() => onDelete(subtask?._id)}
-      //   useNativeDriver={true}
-      // >
-      <>
-        <View style={styles.card}>
-          <Text style={styles.subtask}>{subtask.name}</Text>
-        </View>
-        <Button title="hai" onPress={() => onDelete(subtask._id)}></Button>
-      </>
-      // </Swipeable>
+      <Swipeable
+        rightButtons={rightButtons}
+        onRightButtonsOpenRelease={() => onDelete(subtask?._id)}
+        useNativeDriver={true}
+      >
+        <>
+          <View style={styles.card}>
+            <Text style={styles.subtask}>{subtask.name}</Text>
+          </View>
+        </>
+      </Swipeable>
     );
   };
 
   // swiping
+  const rightButtons = [
+    <View style={styles.deleteButtonContainer}>
+      <Text style={styles.deleteButtonText}>Delete</Text>
+    </View>,
+  ];
 
   const formattedDate = moment(detail?.deadline).format("dddd, MMMM Do YYYY");
+
+  // const onDelete = (id) => {
+  //   console.log(id, "sharingan");
+  //   const updatedSubtasks = subtasks?.filter((subtask) => subtask.id !== id);
+  //   setSubtasks(updatedSubtasks);
+  // };
 
   return (
     <>
@@ -171,24 +173,10 @@ const TaskDetailScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
 
-        {/* <View style={styles.outerProgressBar}>
-          <Text style={styles.labelProgress}>Progress</Text>
-          <View style={styles.progressBarContainer}>
-            <ActivityIndicator
-              size="large"
-              color="#000000"
-              style={[styles.progressBar, { width: `20%` }]}
-              animating={true}
-              useNativeDriver={true} // nativeDriver warning
-            />
-          </View>
-        </View> */}
-
-        {/* <View style={styles.divider} /> */}
-
         <Text style={styles.subtaskHeader}>Subtasks:</Text>
         <FlatList
           data={subtasks}
+          extraData={detail}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => (
             <SubtaskCard subtask={item} index={index} />

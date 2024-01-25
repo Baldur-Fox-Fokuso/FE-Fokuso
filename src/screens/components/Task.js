@@ -40,7 +40,7 @@ export default function Task({ navigation, route }) {
 
       setTask(data);
     } catch (error) {
-      console.log(error);
+      console.log(error, "dari halaman task");
     }
   };
 

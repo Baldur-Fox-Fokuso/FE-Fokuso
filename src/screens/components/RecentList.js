@@ -16,7 +16,7 @@ const color = [
 ];
 
 export default function RecentList({ task, navigation, index }) {
-  console.log(task, "<<<<<<<");
+console.log(task, "MMMM")
   return (
     <View style={[styles.item, { gap: 100, backgroundColor: color[index] }]}>
       <View

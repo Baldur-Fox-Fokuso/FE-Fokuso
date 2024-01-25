@@ -80,38 +80,42 @@ const TaskDetailScreen = ({ route, navigation }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(data, "ini data");
 
-      navigation.replace("DetailTask");
+      await fetchDetail();
+
+      navigation.replace("DetailTask", { recentTask });
     } catch (error) {
       console.log(error, "error delete subtask");
     }
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     fetchDetail();
     fetchUser();
   }, []);
 
   useEffect(() => {
+    // setTimeout(() => {
+
+    // }, 300);
     setSubtasks(recentTask?.subTasks);
   }, []);
 
   const SubtaskCard = ({ subtask }) => {
     // console.log(subtask, "ini subtask");
     return (
-      // <Swipeable
-      //   rightButtons={rightButtons}
-      //   onRightButtonsOpenRelease={() => onDelete(subtask?._id)}
-      //   useNativeDriver={true}
-      // >
-      <>
-        <View style={styles.card}>
-          <Text style={styles.subtask}>{subtask.name}</Text>
-        </View>
-        <Button title="hai" onPress={() => onDelete(subtask._id)}></Button>
-      </>
-      // </Swipeable>
+      <Swipeable
+        rightButtons={rightButtons}
+        onRightButtonsOpenRelease={() => onDelete(subtask?._id)}
+        useNativeDriver={true}
+      >
+        <>
+          <View style={styles.card}>
+            <Text style={styles.subtask}>{subtask.name}</Text>
+          </View>
+          {/* <Button title="hai" onPress={() => onDelete(subtask._id)}></Button> */}
+        </>
+      </Swipeable>
     );
   };
 

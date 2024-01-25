@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  Image,
+  Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "../config/instance";
@@ -48,6 +50,18 @@ const SignUpScreen = ({ navigation }) => {
       >
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
+      <View style={styles.imageContainer}>
+        <Image
+          style={{
+            width: Dimensions.get("window").height / 5,
+            height: Dimensions.get("window").height / 5,
+            objectFit: "contain",
+          }}
+          source={{
+            uri: "https://cdn.discordapp.com/attachments/1196366041308205076/1199609311651954819/fokuso-high-resolution-logo-transparent_2_1.png?ex=65c32a3b&is=65b0b53b&hm=8b796d5e5897545dfdd3f974150811b0354276d823633b7c4ecfab1ef48f0171&",
+          }}
+        />
+      </View>
       <Text style={styles.title}>Sign Up</Text>
       <TextInput
         style={styles.input}
@@ -97,6 +111,11 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     backgroundColor: "#FFFFFF",
+  },
+  imageContainer: {
+    alignItems: "center",
+    // backgroundColor: "black",
+    paddingVertical: 20,
   },
   backButton: {
     position: "absolute",

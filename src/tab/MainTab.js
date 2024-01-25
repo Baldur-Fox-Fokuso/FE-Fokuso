@@ -32,15 +32,26 @@ export default function MainTabs() {
       backBehavior="firstRoute"
       screenOptions={{
         headerShown: false,
+
         tabBarStyle: {
+          elevation: 15,
           height: 60,
+          width: "70%",
           position: "absolute",
-          bottom: 10,
-          right: 16,
-          left: 16,
+          bottom: 30,
+          // right: 16,
+          left: 60,
           borderRadius: 16,
           alignItems: "center",
           justifyContent: "center",
+          shadowColor: "#000000",
+          shadowOffset: {
+            width: 0,
+            height: 6,
+          },
+          shadowOpacity: 0.2,
+          shadowRadius: 5.62,
+          elevation: 8,
         },
         tabBarShowLabel: false,
       }}
@@ -57,7 +68,7 @@ export default function MainTabs() {
                 justifyContent: "center",
               }}
             >
-             <Ionicons name="home-sharp" size={24} color="#3787EB" />
+              <Ionicons name="home-sharp" size={24} color="#3787EB" />
             </View>
           ),
         }}
@@ -121,11 +132,7 @@ export default function MainTabs() {
                 justifyContent: "center",
               }}
             >
-              <FontAwesome
-                name="user"
-                size={30}
-                color="#3787EB"
-              ></FontAwesome>
+              <FontAwesome name="user" size={30} color="#3787EB"></FontAwesome>
             </View>
           ),
           headerLeft: () => (
@@ -145,6 +152,7 @@ export default function MainTabs() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     justifyContent: "center",
     alignItems: "center",
   },

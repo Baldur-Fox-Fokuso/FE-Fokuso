@@ -10,6 +10,7 @@ import {
   Image,
   Modal,
 } from "react-native";
+
 import { useEffect, useState } from "react";
 import axios from "../config/instance";
 import { screenSize } from "../utils";
@@ -409,7 +410,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "flex-end",
-    backgroundColor: "red",
+    backgroundColor: "gray",
     padding: 16,
     borderRadius: 8,
   },

@@ -5,9 +5,9 @@ import MainTabs from "../tab/MainTab";
 
 const Dashboard = ({ navigation }) => {
   return (
-    <>
+  
       <MainTabs />
-    </>
+    
   );
 };
 

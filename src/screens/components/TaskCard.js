@@ -10,23 +10,6 @@ import {
 } from "@expo-google-fonts/dev";
 import { useFonts } from "expo-font";
 
-const generateColor = () => {
-  const randomColor = Math.floor(Math.random() * color.length);
-  return `#${color[randomColor]}`;
-};
-
-const color = [
-  "FAD02E", // Yellow
-  "F28D35", // Orange
-  "FF7070", // Light Red
-  "8AC926", // Light Green
-  "7FDBDA", // Turquoise
-  "6495ed", // Grayish Blue
-  "4b0082", // Light Greenish Yellow
-  "AB83A1", // Light Purple
-  "FFD700", // Gold
-];
-
 export default function TaskCard({ recentTask, navigation }) {
   const [fonstLoaded] = useFonts({
     MontserratAlternates_500Medium,
@@ -38,32 +21,39 @@ export default function TaskCard({ recentTask, navigation }) {
     return null;
   }
   return (
-    <TouchableOpacity
-      onPress={() => {
-        navigation.navigate("DetailTask", { recentTask });
-      }}
-    >
+    <>
       <View
-        style={[
-          styles.item,
-          {
-            backgroundColor: generateColor(),
+        style={{
+          height : 150,
+          backgroundColor: "white",
+          marginLeft: 3,
+          marginTop: 3,
+          borderRadius: 20,
+          shadowColor: "#000000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
           },
-        ]}
+          shadowOpacity: 0.17,
+          shadowRadius: 2.54,
+          elevation: 3,
+        }}
       >
-        <Text style={styles.itemText}>{recentTask?.name}</Text>
-        <View style={styles.infoContainer}>
-          <InfoRow
-            icon={<Fontisto name="date" size={18} color="black" />}
-            text={recentTask?.createdAt.split("T", 1)}
-          />
-          <InfoRow
-            icon={<Ionicons name="list" size={18} color="black" />}
-            text={`Sub-Tasks: ${recentTask?.subTasks.length}`}
-          />
+        <View style={styles.item}>
+          <Text style={styles.itemText}>{recentTask?.name}</Text>
+          <View style={styles.infoContainer}>
+            <InfoRow
+              icon={<Fontisto name="date" size={18} color="black" />}
+              text={recentTask?.createdAt.split("T", 1)}
+            />
+            <InfoRow
+              icon={<Ionicons name="list" size={18} color="black" />}
+              text={`Sub-Tasks: ${recentTask?.subTasks.length}`}
+            />
+          </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </>
   );
 }
 
@@ -79,7 +69,8 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").width / 2.5,
     width: Dimensions.get("window").height / 5.5,
     paddingTop: 10,
-    borderRadius: 10,
+    // backgroundColor : 'pink',
+    borderRadius: 30,
     paddingRight: 8,
   },
   itemText: {
@@ -89,7 +80,7 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_600SemiBold",
     justifyContent: "center",
     paddingBottom: 15,
-    color: "white",
+    color: "black",
     paddingLeft: 12,
   },
   infoContainer: {

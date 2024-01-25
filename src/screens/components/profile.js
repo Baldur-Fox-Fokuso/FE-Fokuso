@@ -60,7 +60,7 @@ export default function Profile() {
     fetchEmailUser();
     fetchTask();
   }, []);
-  const gravatarUrl = `https://www.gravatar.com/avatar/${user?.email}?d=identicon`;
+
 
   const generateColor = () => {
     const randomColor = Math.floor(Math.random() * color.length);
@@ -81,7 +81,7 @@ export default function Profile() {
   return (
     <>
       <View style={styles.container}>
-        <Image source={{ uri: gravatarUrl }} style={styles.profileImage} />
+        <Image source={require('../../../assets/foto_aku_tidur.png')} style={styles.profileImage} />
 
         <Text style={styles.userName}>{user?.name}</Text>
         <Text style={styles.userHandle}>{user?.email}</Text>

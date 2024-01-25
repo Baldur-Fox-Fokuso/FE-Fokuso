@@ -8,7 +8,7 @@ import {
   Platform,
   Image,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+// import { Picker } from "@react-native-picker/picker";
 import axios from "../config/instance";
 import { getValueFor } from "./SecureStore";
 import Icon from "react-native-vector-icons/FontAwesome";

@@ -10,6 +10,7 @@ import {
   Image,
   Modal,
 } from "react-native";
+
 import { useEffect, useState } from "react";
 import axios from "../config/instance";
 import { screenSize } from "../utils";

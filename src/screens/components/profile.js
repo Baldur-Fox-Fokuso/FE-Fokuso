@@ -54,8 +54,6 @@ export default function Profile() {
     }
   };
 
-  
-
   useEffect(() => {
     fetchEmailUser();
     fetchTask();
@@ -105,7 +103,13 @@ export default function Profile() {
             {/* <View style={styles.iconContainer}>
               <FontAwesome5 name="tasks" size={} color="black" />
             </View> */}
-            <View style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                // backgroundColor: "yellow",
+                alignItems: "center",
+              }}
+            >
               <Text style={styles.rowLabel}>Total Task : </Text>
               <Text style={styles.rowValue}>{task.length}</Text>
             </View>
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   rowLabel: {
-    fontSize: 14,
+    fontSize: 20,
     color: "black",
   },
   iconContainer: {
@@ -185,7 +189,7 @@ const styles = StyleSheet.create({
   },
   rowValue: {
     textAlign: "right",
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold",
     color: "#000000",
   },

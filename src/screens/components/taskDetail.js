@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  Button,
 } from "react-native";
 
 // icon
@@ -15,9 +16,11 @@ import { Fontisto } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Swipeable from "react-native-swipeable-row";
 import { getValueFor } from "../SecureStore";
+import moment from "moment";
 
 const TaskDetailScreen = ({ route, navigation }) => {
   const { recentTask } = route.params;
+  console.log(recentTask, "ini recent task bro");
 
   const [detail, setDetail] = useState({});
   const [subtasks, setSubtasks] = useState([]);
@@ -29,6 +32,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
 
   const fetchUser = async () => {
     const token = await getValueFor("access_token");
+    console.log("oioi");
     try {
       const { data } = await axios({
         url: `/user/${recentTask.userId}`,
@@ -38,6 +42,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
         },
       });
       setUser(data);
+      console.log(user, "ini data user");
     } catch (error) {
       console.log(error);
     }
@@ -54,8 +59,33 @@ const TaskDetailScreen = ({ route, navigation }) => {
         },
       });
       console.log(data, "<<<<<< data di detail");
+
       setDetail(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error, "error fetch detail");
+    }
+  };
+
+  const onDelete = async (id) => {
+    const token = await getValueFor("access_token");
+
+    // console.log(token, "ini token");
+    try {
+      // console.log("sesuatu");
+      // console.log(id, "ini id boss");
+      const { data } = await axios({
+        url: `/task/${recentTask._id}/subtask/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      // console.log(data, "ini data");
+
+      navigation.replace("DetailTask");
+    } catch (error) {
+      console.log(error, "error delete subtask");
+    }
   };
 
   useEffect(() => {
@@ -68,16 +98,20 @@ const TaskDetailScreen = ({ route, navigation }) => {
   }, []);
 
   const SubtaskCard = ({ subtask }) => {
+    // console.log(subtask, "ini subtask");
     return (
-      <Swipeable
-        rightButtons={rightButtons}
-        // onRightButtonsOpenRelease={() => onDelete(subtask.id)}
-        useNativeDriver={true}
-      >
+      // <Swipeable
+      //   rightButtons={rightButtons}
+      //   onRightButtonsOpenRelease={() => onDelete(subtask?._id)}
+      //   useNativeDriver={true}
+      // >
+      <>
         <View style={styles.card}>
           <Text style={styles.subtask}>{subtask.name}</Text>
         </View>
-      </Swipeable>
+        <Button title="hai" onPress={() => onDelete(subtask._id)}></Button>
+      </>
+      // </Swipeable>
     );
   };
 
@@ -88,11 +122,13 @@ const TaskDetailScreen = ({ route, navigation }) => {
     </View>,
   ];
 
-  const onDelete = (id) => {
-    console.log(id, "sharingan");
-    const updatedSubtasks = subtasks?.filter((subtask) => subtask.id !== id);
-    setSubtasks(updatedSubtasks);
-  };
+  const formattedDate = moment(detail?.deadline).format("dddd, MMMM Do YYYY");
+
+  // const onDelete = (id) => {
+  //   console.log(id, "sharingan");
+  //   const updatedSubtasks = subtasks?.filter((subtask) => subtask.id !== id);
+  //   setSubtasks(updatedSubtasks);
+  // };
 
   return (
     <>
@@ -112,7 +148,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
             </View>
             <View style={{ flexDirection: "column" }}>
               <Text style={styles.rowLabel}>Task Duration:</Text>
-              <Text style={styles.rowValue}>{detail?.sessions?.length}</Text>
+              <Text style={styles.rowValue}>{formattedDate}</Text>
             </View>
           </View>
           <TouchableOpacity
@@ -130,13 +166,16 @@ const TaskDetailScreen = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         </View>
+
         <Text style={styles.labelDescription}>Description</Text>
 
         <Text>
           {showMore
             ? recentTask?.description
             : recentTask?.description?.substring(0, maxDescriptionLength) +
-              (recentTask?.description?.length > maxDescriptionLength ? "..." : "")}
+              (recentTask?.description?.length > maxDescriptionLength
+                ? "..."
+                : "")}
         </Text>
 
         {recentTask?.description?.length > maxDescriptionLength && (
@@ -162,14 +201,14 @@ const TaskDetailScreen = ({ route, navigation }) => {
 
         {/* <View style={styles.divider} /> */}
 
-        <View style={{}}>
-          <Text style={styles.subtaskHeader}>Subtasks:</Text>
-          <FlatList
-            data={subtasks}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => <SubtaskCard subtask={item} />}
-          />
-        </View>
+        <Text style={styles.subtaskHeader}>Subtasks:</Text>
+        <FlatList
+          data={subtasks}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => (
+            <SubtaskCard subtask={item} index={index} />
+          )}
+        />
       </View>
     </>
   );
@@ -179,7 +218,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     // backgroundColor: "blue",
-    paddingBottom : 10
+    paddingBottom: 10,
   },
   image: { width: "100%", height: "100%" },
   container: {
@@ -193,10 +232,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#000000",
   },
+
   //   below task name section
   rowContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // backgroundColor: "red",
+    // alignItems: "cemter",
+    // justifyContent: "center",
+    gap: 20,
     marginBottom: 16,
   },
   rowSection: {
@@ -205,7 +248,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     padding: 16,
-    marginRight: 15,
+    // marginRight: 15,
+
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -272,11 +316,11 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   card: {
-    padding: 16,
-    marginVertical: 8,
+    padding: 5,
+    marginVertical: 5,
     borderRadius: 8,
-    // backgroundColor: "#E0E0E0",
-    borderWidth: 1,
+    backgroundColor: "#F5F5F5",
+    borderWidth: 0.25,
   },
   subtask: {
     fontSize: 14,
@@ -286,9 +330,9 @@ const styles = StyleSheet.create({
   deleteButtonContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "flex-end",
+    alignItems: "flex-start",
     backgroundColor: "gray",
-    padding: 16,
+    paddingLeft: 10,
     borderRadius: 8,
   },
   deleteButtonText: {

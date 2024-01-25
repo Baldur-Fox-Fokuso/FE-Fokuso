@@ -54,20 +54,13 @@ export default function Profile() {
     }
   };
 
-  for (let i = 0; i < task.length; i++) {
-    let session = task[i].session;
-    for (let j = 0; j < session?.length; j++) {
-      if (session) {
-        setSession(numSession + 1);
-      }
-    }
-  }
+  
 
   useEffect(() => {
     fetchEmailUser();
     fetchTask();
   }, []);
-  const gravatarUrl = `https://www.gravatar.com/avatar/${user.email}?d=identicon`;
+  const gravatarUrl = `https://www.gravatar.com/avatar/${user?.email}?d=identicon`;
 
   const generateColor = () => {
     const randomColor = Math.floor(Math.random() * color.length);
@@ -90,8 +83,8 @@ export default function Profile() {
       <View style={styles.container}>
         <Image source={{ uri: gravatarUrl }} style={styles.profileImage} />
 
-        <Text style={styles.userName}>{user.name}</Text>
-        <Text style={styles.userHandle}>{user.email}</Text>
+        <Text style={styles.userName}>{user?.name}</Text>
+        <Text style={styles.userHandle}>{user?.email}</Text>
         <Text style={styles.bio}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad

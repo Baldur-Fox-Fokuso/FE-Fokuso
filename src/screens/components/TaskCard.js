@@ -45,7 +45,7 @@ export default function TaskCard({ recentTask, navigation }) {
     >
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("DetailTask", { task });
+          navigation.navigate("DetailTask", { recentTask });
         }}
       >
         <View

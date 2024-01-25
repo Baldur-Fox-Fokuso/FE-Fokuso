@@ -75,7 +75,7 @@ export default function Task({ navigation, route }) {
       fetchTask();
       getName();
       fetchRecent();
-    }, 1000);
+    }, 300);
   }, [fetchCounter]);
 
   return (

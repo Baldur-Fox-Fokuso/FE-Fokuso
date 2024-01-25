@@ -17,8 +17,8 @@ import Swipeable from "react-native-swipeable-row";
 import { getValueFor } from "../SecureStore";
 
 const TaskDetailScreen = ({ route, navigation }) => {
-  const { task } = route.params;
-  console.log(task, "<<<<<<<< task route");
+  const { recentTask } = route.params;
+
   const [detail, setDetail] = useState({});
   const [subtasks, setSubtasks] = useState([]);
   const [user, setUser] = useState({});
@@ -31,7 +31,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
     const token = await getValueFor("access_token");
     try {
       const { data } = await axios({
-        url: `/user/${task.userId}`,
+        url: `/user/${recentTask.userId}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
     }
   };
   const fetchDetail = async () => {
-    const taskId = task._id;
+    const taskId = recentTask._id;
     const token = await getValueFor("access_token");
     try {
       const { data } = await axios({
@@ -53,7 +53,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(data, "<<<<<< data di detail");
+      console.log(data, "<<<<<< data di detail");
       setDetail(data);
     } catch (error) {}
   };
@@ -64,7 +64,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
   }, []);
 
   useEffect(() => {
-    setSubtasks(task?.subTasks);
+    setSubtasks(recentTask?.subTasks);
   }, []);
 
   const SubtaskCard = ({ subtask }) => {
@@ -117,7 +117,7 @@ const TaskDetailScreen = ({ route, navigation }) => {
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Session", { task });
+              navigation.navigate("Session", { recentTask });
             }}
           >
             <View style={styles.rowSection}>
@@ -134,12 +134,12 @@ const TaskDetailScreen = ({ route, navigation }) => {
 
         <Text>
           {showMore
-            ? task?.description
-            : task?.description?.substring(0, maxDescriptionLength) +
-              (task?.description?.length > maxDescriptionLength ? "..." : "")}
+            ? recentTask?.description
+            : recentTask?.description?.substring(0, maxDescriptionLength) +
+              (recentTask?.description?.length > maxDescriptionLength ? "..." : "")}
         </Text>
 
-        {task?.description?.length > maxDescriptionLength && (
+        {recentTask?.description?.length > maxDescriptionLength && (
           <TouchableOpacity onPress={() => setShowMore(!showMore)}>
             <Text style={styles.seeMoreLink}>
               {showMore ? "See Less" : "See More"}

@@ -4,6 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
   FlatList,
   StyleSheet,
   Image,
@@ -49,7 +50,7 @@ export default function Add({ navigation }) {
       setDescription("");
       setDeadline(new Date());
       setDateString("");
-      navigation.replace("Home");
+      navigation.replace("Dashboard");
     } catch (error) {
       console.log(error);
     }
@@ -249,7 +250,6 @@ export default function Add({ navigation }) {
                     width: 40,
                     height: 40,
                     resizeMode: "contain",
-                    // backgroundColor: "white",
                   }}
                 />
               </TouchableOpacity>
@@ -343,6 +343,7 @@ export default function Add({ navigation }) {
         </View>
 
         {/* create button */}
+        <KeyboardAvoidingView></KeyboardAvoidingView>
         <View style={styles.createTaskButtonContainer}>
           <TouchableOpacity onPress={handleAddTask}>
             <View style={styles.createButton}>
@@ -375,7 +376,7 @@ const styles = StyleSheet.create({
     height: screenSize.height / 3.1,
   },
   createTaskButtonContainer: {
-    flex: 1,
+    // flex: 1,
     alignItems: "center",
     justifyContent: "center",
 
@@ -388,6 +389,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
+    // bottom : 0
+
+    // position : 'absolute'
     // marginHorizontal: 10,
   },
 

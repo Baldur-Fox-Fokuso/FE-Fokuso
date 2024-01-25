@@ -15,19 +15,6 @@ export default function AddTaskStack({ navigation }) {
         options={{
           headerTitleAlign: "center",
           headerTitle: "Create New Task",
-          // headerLeft: () => (
-          //   <Button
-          //     onPress={() => navigation.goBack()}
-          //     title="Back"
-          //     icon={
-          //       <Ionicons
-          //         name="chevron-back-circle-outline"
-          //         size={24}
-          //         color="black"
-          //       />
-          //     }
-          //   />
-          // ),
         }}
       />
     </Stack.Navigator>

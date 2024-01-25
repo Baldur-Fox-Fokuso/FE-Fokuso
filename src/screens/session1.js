@@ -19,8 +19,8 @@ import * as Notifications from "expo-notifications";
 import { Asset } from "expo-asset";
 
 const Session1 = ({ route, navigation }) => {
-  const { task } = route?.params;
-  const [minutes, setMinutes] = useState(1);
+  const { recentTask } = route?.params;
+  const [minutes, setMinutes] = useState(25);
   // 0,, ngetest notif
   const [seconds, setSeconds] = useState(0);
   // 1
@@ -50,8 +50,7 @@ const Session1 = ({ route, navigation }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("sukses start session");
-      console.log(data.message, "<<<<<<<<<< data session");
+
       setSessionId(data.sessionId);
     } catch (error) {
       console.log(error);
@@ -68,7 +67,6 @@ const Session1 = ({ route, navigation }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data, "<<<<<<<<< session selesai");
     } catch (error) {
       console.log(error);
     }
@@ -79,9 +77,9 @@ const Session1 = ({ route, navigation }) => {
     setSeconds(0);
     setSelectedMode(argumen);
     if (argumen === "pomodoro") {
-      setMinutes(1);
+      setMinutes(25);
     } else if (argumen === "shortBreak") {
-      setMinutes(5);
+      setMinutes(2);
     } else if (argumen === "longBreak") {
       setMinutes(15);
     }
@@ -208,7 +206,7 @@ const Session1 = ({ route, navigation }) => {
 
           {/* Title */}
           <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>Task Name</Text>
+            <Text style={styles.titleText}>{recentTask?.name}</Text>
           </View>
 
           {/* End of Row */}

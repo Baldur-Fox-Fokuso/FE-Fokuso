@@ -13,6 +13,7 @@ import {
 import TaskCard from "./TaskCard";
 import RecentList from "./RecentList";
 import { Divider } from "@rneui/base";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "../../config/instance";
 import { getValueFor } from "../SecureStore";
@@ -39,7 +40,7 @@ export default function Task({ navigation, route }) {
 
       setTask(data);
     } catch (error) {
-      console.log(error);
+      console.log(error, "dari halaman task");
     }
   };
 
@@ -84,18 +85,43 @@ export default function Task({ navigation, route }) {
       {/* Recent */}
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-            Halo, {user}!
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignContent: "center",
+                gap: 8,
+              }}
+            >
+              <Image
+                source={require("../../../assets/foto_aku_tidur.png")}
+                style={styles.profileImage}
+              />
+              <View>
+                <Text style={{ fontSize: 18 }}>Hello,</Text>
+                <Text style={{ fontSize: 22, fontWeight: 600 }}>{user}!</Text>
+              </View>
+            </View>
+            <View
+              style={{
+                backgroundColor: "#F1F2F9",
+                padding: 10,
+                borderRadius: 100,
+                marginRight: 10,
+              }}
+            >
+              <FontAwesome5 name="bell" size={24} color="black" />
+            </View>
+          </View>
         </View>
         <Text style={styles.title}>Recent</Text>
-        <View
-          style={{
-            width: "40%",
-          }}
-        >
-          <Divider width={3} color="#000000" />
-        </View>
 
         <View
           style={[
@@ -128,14 +154,25 @@ export default function Task({ navigation, route }) {
               <View
                 style={{
                   height: 180,
-                  // backgroundColor : 'pink'
+                
                 }}
               >
                 <FlatList
                   horizontal={true}
-                  data={recentTask}
+                  data={task}
+                  ItemSeparatorComponent={() => (
+                    <View
+                      style={{
+                        width: 14,
+                      }}
+                    />
+                  )}
                   renderItem={({ item, index }) => (
-                    <TaskCard key={index} recentTask={item} navigation={navigation} />
+                    <TaskCard
+                      key={index}
+                      recentTask={item}
+                      navigation={navigation}
+                    />
                   )}
                 />
               </View>
@@ -143,20 +180,7 @@ export default function Task({ navigation, route }) {
           </View>
         </View>
 
-        <View
-          style={{
-            margin: 15,
-          }}
-        ></View>
-
         <Text style={styles.title}>My Task</Text>
-        <View
-          style={{
-            width: "40%",
-          }}
-        >
-          <Divider width={3} color="#000000" />
-        </View>
 
         <View style={[styles.task, { flex: 3, marginTop: 10 }]}>
           <View style={{ width: "auto" }}>
@@ -181,10 +205,22 @@ export default function Task({ navigation, route }) {
               </View>
             ) : (
               <FlatList
-                data={task}
+                data={recentTask}
                 horizontal={false}
+                ItemSeparatorComponent={() => (
+                  <View
+                    style={{
+                      height: 18,
+                    }}
+                  />
+                )}
                 renderItem={({ item, index }) => (
-                  <RecentList key={index} task={item} navigation={navigation} />
+                  <RecentList
+                    key={index}
+                    task={item}
+                    navigation={navigation}
+                    index={index}
+                  />
                 )}
               />
             )}
@@ -201,9 +237,16 @@ const screenSize = {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.88,
-    paddingHorizontal: 10,
+    backgroundColor: "#ffffff",
+    flex: 1,
+    paddingHorizontal: 20,
     gap: 5,
+    paddingTop: 20,
+  },
+  profileImage: {
+    width: 55,
+    height: 55,
+    borderRadius: 75,
   },
   header: {
     justifyContent: "center",
@@ -226,11 +269,9 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold",
-    color: "black",
-    // textShadowColor: "black",
-    textShadowOffset: { width: 3, height: 3 },
-    // textShadowRadius: 10,
+    color: "lightslategrey",
+    marginTop: 18,
   },
 });

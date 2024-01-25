@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  Image,
+  Dimensions,
 } from "react-native";
 // import { Ionicons } from "@expo/vector-icons";
 import * as SecureStore from "expo-secure-store";
@@ -49,13 +51,19 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.navigate("Welcome")}
-      >
-        {/* <Ionicons name="arrow-back" size={24} color="black" /> */}
-      </TouchableOpacity>
-      <Text style={styles.title}>Fokuso</Text>
+      <View style={styles.imageContainer}>
+        <Image
+          style={{
+            width: Dimensions.get("window").height / 5,
+            height: Dimensions.get("window").height / 5,
+            objectFit: "contain",
+          }}
+          source={{
+            uri: "https://cdn.discordapp.com/attachments/1196366041308205076/1199609311651954819/fokuso-high-resolution-logo-transparent_2_1.png?ex=65c32a3b&is=65b0b53b&hm=8b796d5e5897545dfdd3f974150811b0354276d823633b7c4ecfab1ef48f0171&",
+          }}
+        />
+      </View>
+
       <TextInput
         name="email"
         onChangeText={(text) => onChangeText(text, "email")}
@@ -97,6 +105,11 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
     backgroundColor: "azure",
+  },
+  imageContainer: {
+    alignItems: "center",
+    // backgroundColor: "black",
+    paddingVertical: 20,
   },
   backButton: {
     position: "absolute",

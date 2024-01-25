@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator,
   FlatList,
   TouchableOpacity,
   Image,
@@ -15,23 +14,26 @@ import { Fontisto } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import Swipeable from "react-native-swipeable-row";
 import { getValueFor } from "../SecureStore";
+import moment from "moment";
 
 const TaskDetailScreen = ({ route, navigation }) => {
-  const { recentTask } = route.params;
+  const { task } = route.params;
+  console.log(task, "ini recent task bro");
 
   const [detail, setDetail] = useState({});
   const [subtasks, setSubtasks] = useState([]);
   const [user, setUser] = useState({});
 
-  // description logic
+
   const [showMore, setShowMore] = useState(false);
   const maxDescriptionLength = 50;
 
   const fetchUser = async () => {
     const token = await getValueFor("access_token");
+
     try {
       const { data } = await axios({
-        url: `/user/${recentTask.userId}`,
+        url: `/user/${task.userId}`,
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -39,11 +41,11 @@ const TaskDetailScreen = ({ route, navigation }) => {
       });
       setUser(data);
     } catch (error) {
-      console.log(error);
+      console.log(error, "ini dari fetch user");
     }
   };
   const fetchDetail = async () => {
-    const taskId = recentTask._id;
+    const taskId = task._id;
     const token = await getValueFor("access_token");
     try {
       const { data } = await axios({
@@ -53,30 +55,51 @@ const TaskDetailScreen = ({ route, navigation }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data, "<<<<<< data di detail");
+
       setDetail(data);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error, "error fetch detail");
+    }
   };
 
-  useEffect(() => {
+  const onDelete = async (id) => {
+    const token = await getValueFor("access_token");
+
+    try {
+      console.log('aku ke hit')
+      const { data } = await axios({
+        url: `/task/${task._id}/subtask/${id}`,
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.log(error, "error delete subtask");
+    }
+  };
+
+  useEffect(async () => {
     fetchDetail();
     fetchUser();
   }, []);
 
   useEffect(() => {
-    setSubtasks(recentTask?.subTasks);
+    setSubtasks(task?.subTasks);
   }, []);
 
   const SubtaskCard = ({ subtask }) => {
     return (
       <Swipeable
         rightButtons={rightButtons}
-        // onRightButtonsOpenRelease={() => onDelete(subtask.id)}
+        onRightButtonsOpenRelease={() => onDelete(subtask?._id)}
         useNativeDriver={true}
       >
-        <View style={styles.card}>
-          <Text style={styles.subtask}>{subtask.name}</Text>
-        </View>
+        <>
+          <View style={styles.card}>
+            <Text style={styles.subtask}>{subtask.name}</Text>
+          </View>
+        </>
       </Swipeable>
     );
   };
@@ -88,11 +111,13 @@ const TaskDetailScreen = ({ route, navigation }) => {
     </View>,
   ];
 
-  const onDelete = (id) => {
-    console.log(id, "sharingan");
-    const updatedSubtasks = subtasks?.filter((subtask) => subtask.id !== id);
-    setSubtasks(updatedSubtasks);
-  };
+  const formattedDate = moment(detail?.deadline).format("dddd, MMMM Do YYYY");
+
+  // const onDelete = (id) => {
+  //   console.log(id, "sharingan");
+  //   const updatedSubtasks = subtasks?.filter((subtask) => subtask.id !== id);
+  //   setSubtasks(updatedSubtasks);
+  // };
 
   return (
     <>
@@ -111,13 +136,13 @@ const TaskDetailScreen = ({ route, navigation }) => {
               <Fontisto name="date" size={24} color="black" />
             </View>
             <View style={{ flexDirection: "column" }}>
-              <Text style={styles.rowLabel}>Task Duration:</Text>
-              <Text style={styles.rowValue}>{detail?.sessions?.length}</Text>
+              <Text style={styles.rowLabel}>Task Deadline:</Text>
+              <Text style={styles.rowValue}>{formattedDate}</Text>
             </View>
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("Session", { recentTask });
+              navigation.navigate("Session", { task });
             }}
           >
             <View style={styles.rowSection}>
@@ -130,16 +155,17 @@ const TaskDetailScreen = ({ route, navigation }) => {
             </View>
           </TouchableOpacity>
         </View>
+
         <Text style={styles.labelDescription}>Description</Text>
 
         <Text>
           {showMore
-            ? recentTask?.description
-            : recentTask?.description?.substring(0, maxDescriptionLength) +
-              (recentTask?.description?.length > maxDescriptionLength ? "..." : "")}
+            ? task?.description
+            : task?.description?.substring(0, maxDescriptionLength) +
+              (task?.description?.length > maxDescriptionLength ? "..." : "")}
         </Text>
 
-        {recentTask?.description?.length > maxDescriptionLength && (
+        {task?.description?.length > maxDescriptionLength && (
           <TouchableOpacity onPress={() => setShowMore(!showMore)}>
             <Text style={styles.seeMoreLink}>
               {showMore ? "See Less" : "See More"}
@@ -147,29 +173,15 @@ const TaskDetailScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         )}
 
-        {/* <View style={styles.outerProgressBar}>
-          <Text style={styles.labelProgress}>Progress</Text>
-          <View style={styles.progressBarContainer}>
-            <ActivityIndicator
-              size="large"
-              color="#000000"
-              style={[styles.progressBar, { width: `20%` }]}
-              animating={true}
-              useNativeDriver={true} // nativeDriver warning
-            />
-          </View>
-        </View> */}
-
-        {/* <View style={styles.divider} /> */}
-
-        <View style={{}}>
-          <Text style={styles.subtaskHeader}>Subtasks:</Text>
-          <FlatList
-            data={subtasks}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => <SubtaskCard subtask={item} />}
-          />
-        </View>
+        <Text style={styles.subtaskHeader}>Subtasks:</Text>
+        <FlatList
+          data={subtasks}
+          extraData={detail}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item, index }) => (
+            <SubtaskCard subtask={item} index={index} />
+          )}
+        />
       </View>
     </>
   );
@@ -179,7 +191,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     // backgroundColor: "blue",
-    paddingBottom : 10
+    paddingBottom: 10,
   },
   image: { width: "100%", height: "100%" },
   container: {
@@ -193,10 +205,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#000000",
   },
+
   //   below task name section
   rowContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // backgroundColor: "red",
+    // alignItems: "cemter",
+    // justifyContent: "center",
+    gap: 20,
     marginBottom: 16,
   },
   rowSection: {
@@ -205,7 +221,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     padding: 16,
-    marginRight: 15,
+    // marginRight: 15,
+
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -272,11 +289,11 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   card: {
-    padding: 16,
-    marginVertical: 8,
+    padding: 5,
+    marginVertical: 5,
     borderRadius: 8,
-    // backgroundColor: "#E0E0E0",
-    borderWidth: 1,
+    backgroundColor: "#F5F5F5",
+    borderWidth: 0.25,
   },
   subtask: {
     fontSize: 14,
@@ -286,9 +303,9 @@ const styles = StyleSheet.create({
   deleteButtonContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "flex-end",
+    alignItems: "flex-start",
     backgroundColor: "gray",
-    padding: 16,
+    paddingLeft: 10,
     borderRadius: 8,
   },
   deleteButtonText: {

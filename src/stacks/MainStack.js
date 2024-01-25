@@ -49,6 +49,7 @@ export default function MainStack() {
                 options={{
                   headerShown: true,
                   headerTitleAlign: "center",
+                  headerTitle : "Detail Task"
                 }}
               />
             </>
